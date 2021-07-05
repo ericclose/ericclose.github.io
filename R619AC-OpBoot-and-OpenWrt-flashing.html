@@ -1,0 +1,1777 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>竞斗云2.0 ( P&amp;W R619AC ) 刷机教程 ( 免拆机 / 免劫持 ) - Eric</title>
+  
+    <meta name="keywords" content="刷机,固件,竞斗云,R619AC,OpenWrt,OpBoot">
+  
+
+  
+    <meta name="description" content="
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 / 已恢复出厂 的竞斗云2.0
+请先给路由器通上电后用网线将电脑连接至路由器的 LAN 口
+下载好下列文件:
+">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/rss.xml" title="Eric" type="application/rss+xml">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name="google-site-verification" content="KHZIpNl0zlKroVHmAmy-KTT561sBQ1fIp1kC7SKtMCc" />
+    
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-16x16.png">
+  <link rel="manifest" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/site.webmanifest">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Eric's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div class='cover-bg' style='background-image:url(https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg)'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Eric's Blog</p>
+    
+    
+      <p class="subtitle">Never really desperate, only the lost of the soul</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-home fa-fw'></i><p>首页</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/friends/"
+              
+                rel="nofollow"
+              
+              
+                target="_self"
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 )
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/img/avatar.jpeg">
+    <p>Eric</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Router/">Router</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2019年11月23日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <blockquote>
+<p>目前竞斗云2.0 官方固件版本升级至 <strong>2.5.11.82</strong> 后可轻松刷入第三方固件，这简化了我们刷机的流程。</p>
+</blockquote>
+<p>事前准备:</p>
+<ul>
+<li>电脑、网线、<strong>全新</strong> / <strong>已恢复出厂</strong> 的竞斗云2.0</li>
+<li>请先给路由器通上电后用网线将电脑连接至路由器的 <strong>LAN 口</strong></li>
+<li>下载好下列文件:</li>
+</ul>
+<span id="more"></span>
+
+<p><strong>竞斗云2.0 刷机相关文件</strong></p>
+<overflow>
+
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="center">md5sum</th>
+<th align="center">描述</th>
+<th align="center">下载</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>openwrt-ipq40xx-R9.11.22-unlock-p2w_r619ac-squashfs-nand-factory.bin</code></td>
+<td align="center">d3e8d29d1a37872f37f9070fabb9a7a2</td>
+<td align="center">OpenWrt 过渡包，在竞斗云官方固件更新后刷入</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/1/openwrt-ipq40xx-R9.11.22-unlock-p2w_r619ac-squashfs-nand-factory.bin">链接</a></td>
+</tr>
+<tr>
+<td align="center"><code>opboot-p2w-r619ac-flash-v1.0.8.bin</code></td>
+<td align="center">c3c0efd25aa18ee505debb3a90d75fe3</td>
+<td align="center">OpBoot文件，刷入过渡包后刷入</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/2/opboot-p2w-r619ac-flash-v1.0.8.bin">链接</a></td>
+</tr>
+<tr>
+<td align="center"><code>openwrt-ipq40xx-R9.11.23-p2w_r619ac-squashfs-nand-sysupgrade.bin</code></td>
+<td align="center">856e7571263398a8c976cbf721ac821c</td>
+<td align="center">刷完OpBoot后，最后刷入的OpenWrt固件</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/3/openwrt-ipq40xx-R9.11.23-p2w_r619ac-squashfs-nand-sysupgrade.bin">链接</a></td>
+</tr>
+</tbody></table>
+</overflow>
+
+<ul>
+<li>MEGA 网盘下载链接: <a target="_blank" rel="noopener" href="https://mega.nz/#F!hVgXjACA!CISFW8tyoKLCWs6RbC23LQ">https://mega.nz/#F!hVgXjACA!CISFW8tyoKLCWs6RbC23LQ</a></li>
+</ul>
+<blockquote>
+<p><strong>推荐</strong> 使用梯子在 MEGA 网盘下载相关文件，当然您也可以直接点击表格中的链接下载。</p>
+</blockquote>
+<h2 id="官方固件更新并刷入-OpenWrt-过渡包"><a href="#官方固件更新并刷入-OpenWrt-过渡包" class="headerlink" title="官方固件更新并刷入 OpenWrt 过渡包"></a>官方固件更新并刷入 OpenWrt 过渡包</h2><ol>
+<li>浏览器访问 <strong>192.168.7.1</strong> ，进入官方固件的管理页面。</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/1.png"/></div></div>
+
+<ol start="2">
+<li><p>选择 「 <strong>自动获取（DHCP模式）</strong> 」 ，下一步</p>
+</li>
+<li><p>设置 WiFi 名称和密码，密码可为空，下一步</p>
+</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/2.png"/></div></div>
+
+<ol start="4">
+<li>输入设置的密码，「 <strong>登录</strong> 」（如果没设置密码直接点登录即可）</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/3.png"/></div></div>
+
+<ol start="5">
+<li>这就进入了主界面，我们点击 「 <strong>高级设置</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/4.png"/></div></div>
+
+<ol start="6">
+<li>点击 「 <strong>升级检查</strong> 」 -&gt; 「 <strong>检查升级</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/5.png"/></div></div>
+
+<ol start="7">
+<li><strong>升级提醒</strong> 处点击 「 <strong>确定</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/6.png"/></div></div>
+
+<ol start="8">
+<li>正在升级系统，请不要关闭电源…</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/7.png"/></div></div>
+
+<ol start="9">
+<li>升级完成后浏览器会重新进入路由器管理界面，重新输入设置过的密码登录即可。此时我们在主界面点击 「 <strong>高级设置</strong> 」 -&gt; 「 <strong>升级检查</strong> 」 ，这里已经可以看到在新版官方固件（版本号为 <strong>2.5.11.82</strong> ）多了上传固件更新系统的功能。如图：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/8.png"/></div></div>
+
+<ol start="10">
+<li> 点击 「 <strong>选择文件</strong> 」 ，选中过渡包(即 <em>openwrt-ipq40xx-R9.11.22-unlock-p2w_r619ac-squashfs-nand-factory.bin</em> )，无需保存配置，点击 「 <strong>开始刷入</strong> 」 即可。</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/9.png"/></div></div>
+
+<ol start="11">
+<li>正在升级系统，请不要关闭电源…</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/10.png"/></div></div>
+
+<ol start="12">
+<li>刷完固件后，原有的 <strong>192.168.7.1</strong> 已经无法访问了，OpenWrt 的默认管理地址是 <strong>192.168.1.1</strong> ，在浏览器的地址栏输入 <strong>192.168.1.1</strong> 即可。</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/11.png"/></div></div>
+
+<p>如果能访问 OpenWrt 登录界面即表示正常刷入固件（此处我们无需登录），如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/12.png"/></div></div>
+
+<p>到这里，如果您是 Windows 用户，建议看 Hyejeong 的针针小站一文 —— <a target="_blank" rel="noopener" href="https://hyejeong.cn/gdockflash">【Router】G-DOCK 竞斗云2.0 小白刷机教程</a> 。</p>
+<h2 id="电脑上安装-OpenSSH"><a href="#电脑上安装-OpenSSH" class="headerlink" title="电脑上安装 OpenSSH"></a>电脑上安装 OpenSSH</h2><blockquote>
+<p><strong>注意</strong>: 本人电脑使用的 Linux 发行版本是 Arch Linux，其默认的软件包管理器是 <em>pacman</em> 。请根据您使用的发行版本选择合适的包管理器安装 <strong>openssh</strong></p>
+</blockquote>
+<p>电脑上打开终端模拟器执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ sudo pacman -S openssh</span><br></pre></td></tr></table></figure>
+
+<h2 id="将电脑上的-OpBoot-文件-opboot-p2w-r619ac-flash-v1-0-8-bin-复制到路由器"><a href="#将电脑上的-OpBoot-文件-opboot-p2w-r619ac-flash-v1-0-8-bin-复制到路由器" class="headerlink" title="将电脑上的 OpBoot 文件 ( opboot-p2w-r619ac-flash-v1.0.8.bin ) 复制到路由器"></a>将电脑上的 OpBoot 文件 ( opboot-p2w-r619ac-flash-v1.0.8.bin ) 复制到路由器</h2><p>将文件从本地主机复制到远程主机，用法如下：</p>
+<p>scp <em>local_file_path</em> <em>username</em>@<em>host_ip</em>:<em>/remote/directory/</em></p>
+<h3 id="操作实例"><a href="#操作实例" class="headerlink" title="操作实例"></a>操作实例</h3><blockquote>
+<p><strong>注意</strong>: 默认密码是 <strong>password</strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ scp <span class="string">&#x27;/home/eric/OpBoot/opboot-p2w-r619ac-flash-v1.0.8.bin&#x27;</span> root@192.168.1.1:/tmp</span><br><span class="line">The authenticity of host <span class="string">&#x27;192.168.1.1 (192.168.1.1)&#x27;</span> can<span class="string">&#x27;t be established.</span></span><br><span class="line"><span class="string">RSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span></span><br><span class="line"><span class="string">Warning: Permanently added &#x27;</span>192.168.1.1<span class="string">&#x27; (RSA) to the list of known hosts.</span></span><br><span class="line"><span class="string">root@192.168.1.1&#x27;</span>s password: </span><br><span class="line">opboot-p2w-r619ac-flash-v1.0.8.bin                                                                                           100% 1472KB   3.6MB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<h2 id="SSH-登录到路由器"><a href="#SSH-登录到路由器" class="headerlink" title="SSH 登录到路由器"></a>SSH 登录到路由器</h2><p>ssh 登录到远程服务器，用法如下：</p>
+<blockquote>
+<p>ssh <em>username</em>@<em>server-address</em></p>
+</blockquote>
+<h3 id="操作实例-1"><a href="#操作实例-1" class="headerlink" title="操作实例"></a>操作实例</h3><blockquote>
+<p><strong>注意</strong>: 密码和前面输入的是同一个，即 <strong>password</strong></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ ssh root@192.168.1.1</span><br><span class="line">root@192.168.1.1<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">BusyBox v1.30.0 () built-in shell (ash)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  _______                     ________        __</span></span><br><span class="line"><span class="string"> |       |.-----.-----.-----.|  |  |  |.----.|  |_</span></span><br><span class="line"><span class="string"> |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|</span></span><br><span class="line"><span class="string"> |_______||   __|_____|__|__||________||__|  |____|</span></span><br><span class="line"><span class="string">          |__| W I R E L E S S   F R E E D O M</span></span><br><span class="line"><span class="string"> -----------------------------------------------------</span></span><br><span class="line"><span class="string"> OpenWrt SNAPSHOT, r1673-ea47656</span></span><br><span class="line"><span class="string"> -----------------------------------------------------</span></span><br><span class="line"><span class="string">root@OpenWrt:~# </span></span><br></pre></td></tr></table></figure>
+
+<h2 id="读取路由器的分区表"><a href="#读取路由器的分区表" class="headerlink" title="读取路由器的分区表"></a>读取路由器的分区表</h2><blockquote>
+<p>前面已经登录到路由器的 shell 了，所以命令是在路由器上执行的了。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@OpenWrt:~<span class="comment"># cat /proc/mtd</span></span><br><span class="line">dev:    size   erasesize  name</span><br><span class="line">mtd0: 04000000 00020000 <span class="string">&quot;rootfs&quot;</span></span><br><span class="line">mtd1: 04000000 00020000 <span class="string">&quot;unused1&quot;</span></span><br><span class="line">mtd2: 00170000 00010000 <span class="string">&quot;Bootloader&quot;</span></span><br><span class="line">mtd3: 00010000 00010000 <span class="string">&quot;ART&quot;</span></span><br><span class="line">mtd4: 00e80000 00010000 <span class="string">&quot;unused&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>只要查询到分区里含有 Bootloader ，就可以继续下面的刷写 Bootloader 的操作了。</p>
+<h2 id="校验路由器上的-OpBoot-文件"><a href="#校验路由器上的-OpBoot-文件" class="headerlink" title="校验路由器上的 OpBoot 文件"></a>校验路由器上的 OpBoot 文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@OpenWrt:~<span class="comment"># md5sum /tmp/opboot-p2w-r619ac-flash-v1.0.8.bin</span></span><br><span class="line">c3c0efd25aa18ee505debb3a90d75fe3  /tmp/opboot-p2w-r619ac-flash-v1.0.8.bin</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><em>opboot-p2w-r619ac-flash-v1.0.8.bin</em> 的 md5 值是:<br><em>c3c0efd25aa18ee505debb3a90d75fe3</em> ，如果对的上即可放心刷入。</p>
+</blockquote>
+<h2 id="刷写-OpBoot-到-Bootloader"><a href="#刷写-OpBoot-到-Bootloader" class="headerlink" title="刷写 OpBoot 到 Bootloader"></a>刷写 OpBoot 到 Bootloader</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">root@OpenWrt:~<span class="comment"># mtd -r write /tmp/opboot-p2w-r619ac-flash-v1.0.8.bin Bootloader</span></span><br><span class="line">Unlocking Bootloader ...</span><br><span class="line"></span><br><span class="line">Writing from /tmp/opboot-p2w-r619ac-flash-v1.0.8.bin to Bootloader ...     </span><br><span class="line">Rebooting ...</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>注意: 此处 <em>Rebooting…</em> 并不会自动退出，想要知道是否重启完，浏览器直接访问 <strong>192.168.1.1</strong> 如果能访问 OpenWrt 的登录界面则表示已经重启完成。此时你可以手动关闭电脑的终端模拟器了</p>
+</blockquote>
+<h2 id="进入-OpBoot"><a href="#进入-OpBoot" class="headerlink" title="进入 OpBoot"></a>进入 OpBoot</h2><p>先拔掉路由器的电源，长按路由器背面的 reset 按键（ <strong>不要松开</strong> ），然后重新插上电源，直到 <strong>跑马灯跑完</strong> （即 LAN的 指示灯4，3，2，1 依次闪过，最后LAN口的指示灯全亮，过后又熄灭），这时就可以松 reset 键了。然后浏览器直接访问 <strong>192.168.1.1</strong> ，这样就能进入 OpBoot 了。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/13.png"/></div></div>
+
+<h2 id="备份ART"><a href="#备份ART" class="headerlink" title="备份ART"></a>备份ART</h2><p>主界面下点击 「 <strong>高级功能</strong> 」 -&gt; 「 <strong>数据备份</strong> 」 -&gt; 「 <strong>执行</strong> 」 ，浏览器会将 <em>art.bin</em> 自动下载到你的电脑上。</p>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/14.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/15.png"></p>
+            </div>
+
+<h2 id="备份编程器固件"><a href="#备份编程器固件" class="headerlink" title="备份编程器固件"></a>备份编程器固件</h2><p>刷新下浏览器然后在 「 <strong>备份分区</strong> 」 处选择 <strong>编程器固件</strong> ，然后再点击 「 <strong>执行</strong> 」 ，浏览器会将 <em>all.bin</em> 自动下载到你的电脑上。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/16.png"/></div></div>
+
+<h2 id="更新-OpenWrt-固件"><a href="#更新-OpenWrt-固件" class="headerlink" title="更新 OpenWrt 固件"></a>更新 OpenWrt 固件</h2><blockquote>
+<p><strong>注意</strong>: 你可以在之前刷入的 OpenWrt 管理界面里更新固件，当然你也可以继续留在 OpBoot 更新固件。</p>
+</blockquote>
+<ol>
+<li>返回 OpBoot 主菜单</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/17.png"/></div></div>
+
+<ol start="2">
+<li>「 <strong>浏览文件</strong> 」 ，选中需要使用的 OpenWrt 固件 ( <em>openwrt-ipq40xx-R9.11.23-p2w_r619ac-squashfs-nand-sysupgrade.bin</em> ) ，然后点击更新即可。</li>
+</ol>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/18.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/19.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/20.png"></p>
+            </div>
+
+
+<ol start="3">
+<li>浏览器重新访问 <strong>192.168.1.1</strong> ，如果访问的是 OpenWrt 的登录界面即表示更新完成。</li>
+</ol>
+<blockquote>
+<p>注意: 密码默认是 <strong>password</strong></p>
+</blockquote>
+<ol start="4">
+<li>输入密码登录成后即可进入 OpenWrt 的主界面</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/21.png"/></div></div>
+
+<ol start="5">
+<li>建议执行一次重置。</li>
+</ol>
+<p>「 <strong>系统</strong> 」 -&gt; 「 <strong>备份/升级</strong> 」</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/22.png"/></div></div>
+
+<p>「 <strong>执行重置</strong> 」</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/23.png"/></div></div>
+
+<p>确认重置</p>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/24.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/25.png"></p>
+            </div>
+
+<p>重置完后浏览器会重新回到 OpenWrt 的登录界面。</p>
+<h2 id="美化-OpenWrt-的管理界面"><a href="#美化-OpenWrt-的管理界面" class="headerlink" title="美化 OpenWrt 的管理界面"></a>美化 OpenWrt 的管理界面</h2><p>默认的 OpenWrt 主题很是复古，这里我要介绍的是我很喜欢的一个主题，名字叫做 <em>luci-theme-argon</em></p>
+<h3 id="操作实例-2"><a href="#操作实例-2" class="headerlink" title="操作实例"></a>操作实例</h3><ol>
+<li><p><a target="_blank" rel="noopener" href="https://github.com/jerrykuku/luci-theme-argon/releases">点击此处</a>跳转到主题包release页面，下载最新版本的 <code>*.ipk</code> 文件即可</p>
+</li>
+<li><p>重新接受路由器的密钥</p>
+</li>
+</ol>
+<blockquote>
+<p><strong>注意</strong>: 因为路由器前面经过重置，所以路由器的密钥会发生改变，所以我们需要在电脑上执行 ssh-keygen -R <em>hostname_or_ip</em> 来移除原有属于路由器的密钥，当再次连接路由器时重新接受路由器的密钥即可。如果不执行此操作将无法建立连接。</p>
+</blockquote>
+<p>使用 <strong>man ssh-keygen</strong> 命令可以查看下ssh-keygen命令的详细用法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">名称</span><br><span class="line">     ssh-keygen - 生成、管理和转换认证密钥</span><br><span class="line">............................................................</span><br><span class="line">............................................................     </span><br><span class="line">     -R hostname</span><br><span class="line">             从 known_hosts 文件中删除所有属于 hostname 的密钥。</span><br><span class="line">             这个选项主要用于删除经过散列的主机(参见 -H 选项)的密钥</span><br><span class="line">...........................................................</span><br><span class="line">...........................................................</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ ssh-keygen -R 192.168.1.1</span><br><span class="line"><span class="comment"># Host 192.168.1.1 found: line 8</span></span><br><span class="line">/home/eric/.ssh/known_hosts updated.</span><br><span class="line">Original contents retained as /home/eric/.ssh/known_hosts.old</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>将主题包文件复制到路由器，电脑上打开终端模拟器，执行以下命令:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ scp <span class="string">&#x27;/home/eric/Downloads/luci-theme-argon_1.3-01-20191111_all.ipk&#x27;</span> root@192.168.1.1:/tmp</span><br><span class="line">The authenticity of host <span class="string">&#x27;192.168.1.1 (192.168.1.1)&#x27;</span> can<span class="string">&#x27;t be established.</span></span><br><span class="line"><span class="string">RSA key fingerprint is SHA256:xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no/[fingerprint])? yes</span></span><br><span class="line"><span class="string">Warning: Permanently added &#x27;</span>192.168.1.1<span class="string">&#x27; (RSA) to the list of known hosts.</span></span><br><span class="line"><span class="string">root@192.168.1.1&#x27;</span>s password: </span><br><span class="line">luci-theme-argon_1.3-01-20191111_all.ipk                                                                                     100% 1138KB   2.9MB/s   00:00</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>登录到路由器:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">[eric@arch ~]$ ssh root@192.168.1.1</span><br><span class="line">root@192.168.1.1<span class="string">&#x27;s password: </span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">BusyBox v1.30.0 () built-in shell (ash)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">  _______                     ________        __</span></span><br><span class="line"><span class="string"> |       |.-----.-----.-----.|  |  |  |.----.|  |_</span></span><br><span class="line"><span class="string"> |   -   ||  _  |  -__|     ||  |  |  ||   _||   _|</span></span><br><span class="line"><span class="string"> |_______||   __|_____|__|__||________||__|  |____|</span></span><br><span class="line"><span class="string">          |__| W I R E L E S S   F R E E D O M</span></span><br><span class="line"><span class="string"> -----------------------------------------------------</span></span><br><span class="line"><span class="string"> OpenWrt SNAPSHOT, r1673-ea47656</span></span><br><span class="line"><span class="string"> -----------------------------------------------------</span></span><br><span class="line"><span class="string">root@OpenWrt:~# </span></span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>使用 opkg 安装主题包 luci-theme-argon</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">root@OpenWrt:~<span class="comment"># opkg install /tmp/luci-theme-argon_1.3-01-20191111_all.ipk</span></span><br><span class="line">Installing luci-theme-argon (1.3-01-20191111) to root...</span><br><span class="line">Configuring luci-theme-argon.</span><br><span class="line">uci: Entry not found</span><br><span class="line">uci: Entry not found</span><br><span class="line">uci: Entry not found</span><br><span class="line">root@OpenWrt:~<span class="comment"># </span></span><br></pre></td></tr></table></figure>
+
+<p>这个时候再用浏览器访问 <strong>192.168.1.1</strong> ，就已经是应用了新主题啦。</p>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/26.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/cover.png"></p>
+            </div>
+
+<p>到这里教程也算是结束了，后续的配置就与本教程无关了。</p>
+<h2 id="后续更新（OpBoot-1-0-9-128-MB-OpenWrt）"><a href="#后续更新（OpBoot-1-0-9-128-MB-OpenWrt）" class="headerlink" title="后续更新（OpBoot 1.0.9 + 128 MB OpenWrt）"></a>后续更新（OpBoot 1.0.9 + 128 MB OpenWrt）</h2><overflow>
+
+<table>
+<thead>
+<tr>
+<th align="center">文件名</th>
+<th align="center">md5sum</th>
+<th align="center">描述</th>
+<th align="center">下载</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>opboot-p2w-r619ac-flash-v1.0.9.bin</code></td>
+<td align="center">c7d6d14b04d055bf27dad9d9c5d58c7d</td>
+<td align="center">OpBoot 文件，用命令刷入</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/128MB/opboot-p2w-r619ac-flash-v1.0.9.bin">链接</a></td>
+</tr>
+<tr>
+<td align="center"><code>opboot-p2w-r619ac-nor-v1.0.9.img</code></td>
+<td align="center">1eec34ed68043cc601b9a0225a1a3502</td>
+<td align="center">OpBoot 文件，在 OpBoot 里更新刷入</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/128MB/opboot-p2w-r619ac-nor-v1.0.9.img">链接</a></td>
+</tr>
+<tr>
+<td align="center"><code>openwrt-ipq40xx-p2w_r619ac-128MB-squashfs-nand-factory.ubi</code></td>
+<td align="center">0083bbf4b6a5eaf1beb896518f4d6057</td>
+<td align="center">OpenWrt 固件，在 OpBoot 里刷入</td>
+<td align="center"><a target="_blank" rel="noopener" href="https://github.com/ericclose/R619AC-OpBoot-and-OpenWrt-flashing/raw/master/128MB/openwrt-ipq40xx-p2w_r619ac-128MB-squashfs-nand-factory.ubi">链接</a></td>
+</tr>
+</tbody></table>
+</overflow>
+
+<ul>
+<li>MEGA 网盘下载链接: <a target="_blank" rel="noopener" href="https://mega.nz/#F!hVgXjACA!CISFW8tyoKLCWs6RbC23LQ">https://mega.nz/#F!hVgXjACA!CISFW8tyoKLCWs6RbC23LQ</a></li>
+</ul>
+<blockquote>
+<p><strong>推荐</strong> 使用梯子在 MEGA 网盘下载相关文件，当然您也可以直接点击表格中的链接下载。</p>
+</blockquote>
+<h3 id="OpBoot-升级说明"><a href="#OpBoot-升级说明" class="headerlink" title="OpBoot 升级说明"></a>OpBoot 升级说明</h3><p>竞斗云 2.0 的 NAND 闪存大小是 128 MB，但前期的 OpBoot 仅支持 64 MB 大小，相应的 OpenWrt 固件也是 64 MB 的，也就是说实际可用的空间仅 64 MB。自从 OpBoot 升级至 1.0.9 之后即可支持竞斗云 2.0 的 128 MB 的 NAND 闪存。</p>
+<blockquote>
+<p>注意: 切勿混刷 <strong>opboot-p2w-r619ac-flash-v1.0.9.bin</strong> 和 <strong>opboot-p2w-r619ac-nor-v1.0.9.img</strong>，xxxflashxxx.bin 那个仅通过命令刷入，xxxnorxxx.img 那个则通过 OpBoot 内置的更新功能刷入。自己选错刷入固件后果自负~</p>
+</blockquote>
+<p>下面是更新到 OpBoot 1.0.9 的步骤说明 (有 2 种方法) ：</p>
+<h4 id="方法-1"><a href="#方法-1" class="headerlink" title="方法 1"></a>方法 1</h4><p>使用前面通过 scp 命令将 OpBoot 1.0.9 固件 ( <strong>opboot-p2w-r619ac-flash-v1.0.9.bin</strong> ) 上传至路由器的 <em>/tmp</em> 目录下，ssh 登录到路由器的 shell 然后执行下面的命令刷入即可(事前 <strong>请先校验</strong> 文件的md5值是否匹配):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@OpenWrt:~<span class="comment"># mtd -r write /tmp/opboot-p2w-r619ac-flash-v1.0.9.bin Bootloader</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="方法-2"><a href="#方法-2" class="headerlink" title="方法 2"></a>方法 2</h4><p>您也可以通过 OpBoot 内置的更新功能刷入 <strong>opboot-p2w-r619ac-nor-v1.0.9.img</strong> 。通过如下操作刷入：</p>
+<p>首先让路由器进入 OpBoot (怎么进入就不多说了，自己翻一翻前面的描述)，然后点击 OpBoot 的右上角的 「 <strong>高级功能</strong> 」 -&gt; 「 <strong>更新OpBoot</strong> 」 ，找到 <strong>opboot-p2w-r619ac-nor-v1.0.9.img</strong> 更新即可。</p>
+<h3 id="OpenWrt-128-MB-分区固件刷入说明"><a href="#OpenWrt-128-MB-分区固件刷入说明" class="headerlink" title="OpenWrt 128 MB 分区固件刷入说明"></a>OpenWrt 128 MB 分区固件刷入说明</h3><p>经过前面刷入 OpBoot 1.0.9 之后，您就可以刷入 128 MB 分区的 OpenWrt 了。更新 128 MB 的固件后，你就可以使用之前 64 MB 分区的固件所无法利用的空间了，也就是说你可以用更多的空间装路由器的插件啦。</p>
+<p>因为需要重建 ubi 分区，所以更新过程需要通过 OpBoot 1.0.9 版本刷入 ubi 固件 ( 即 <strong>openwrt-ipq40xx-p2w_r619ac-128MB-squashfs-nand-factory.ubi</strong> )</p>
+<p>所以你只需要让路由器进入 OpBoot ，然后直接选择 128 MB 分区的 ubi 固件更新就完成了。</p>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/27.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/R619AC-OpBoot-and-OpenWrt-flashing/28.png"></p>
+            </div>
+
+<h2 id="鸣谢"><a href="#鸣谢" class="headerlink" title="鸣谢"></a>鸣谢</h2><p>最后，得在此感谢 <a target="_blank" rel="noopener" href="https://github.com/Mleaf">mleaf</a> 大佬提供的 <em>OpBoot</em> 和 <a target="_blank" rel="noopener" href="https://github.com/coolsnowwolf">lean</a> 大佬提供的 <em>OpenWrt</em> 固件，同时我还要感谢那些我参考的文章作者。如果没有他们的努力成果，也就没有这篇文章的诞生啦</p>
+<p>参考链接: </p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/Oru2HGJpQMu4k9vgsuZ-VA">竞斗云2.0（R619AC）OpBoot1.0.6刷机教程</a></li>
+<li><a target="_blank" rel="noopener" href="https://hyejeong.cn/gdockflash">【Router】G-DOCK 竞斗云2.0 小白刷机教程</a></li>
+</ol>
+
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html>https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%88%B7%E6%9C%BA/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>刷机</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E5%9B%BA%E4%BB%B6/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>固件</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%AB%9E%E6%96%97%E4%BA%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>竞斗云</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/R619AC/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>R619AC</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/OpenWrt/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>OpenWrt</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/OpBoot/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>OpBoot</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html&title=竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 ) - Eric&summary=
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 / 已恢复出厂 的竞斗云2.0
+请先给路由器通上电后用网线将电脑连接至路由器的 LAN 口
+下载好下列文件:
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html&title=竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 ) - Eric&summary=
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 / 已恢复出厂 的竞斗云2.0
+请先给路由器通上电后用网线将电脑连接至路由器的 LAN 口
+下载好下列文件:
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html&title=竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 ) - Eric&summary=
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 / 已恢复出厂 的竞斗云2.0
+请先给路由器通上电后用网线将电脑连接至路由器的 LAN 口
+下载好下列文件:
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html&text=竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 ) - Eric"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/active-Windows-10-with-digital-license.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>如何通过 HWIDGEN 以数字许可的方式激活 Windows 10</p>
+          <p class='content'>HWIDGEN 是一款由国外 Nsane 论坛会员 s1ave77 制作的 Windows 10 数字权利激活工具。这款 Windows 10 数字权利获取工具，可以自动获取 Windows 1...</p>
+        </a>
+      
+      
+        <a class='next' href='/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html'>
+          <p class='title'>在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+
+
+
+下载 Arch Linux 的镜像文件下载链接：htt...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="gitalk-container"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%98%E6%96%B9%E5%9B%BA%E4%BB%B6%E6%9B%B4%E6%96%B0%E5%B9%B6%E5%88%B7%E5%85%A5-OpenWrt-%E8%BF%87%E6%B8%A1%E5%8C%85"><span class="toc-text">官方固件更新并刷入 OpenWrt 过渡包</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%94%B5%E8%84%91%E4%B8%8A%E5%AE%89%E8%A3%85-OpenSSH"><span class="toc-text">电脑上安装 OpenSSH</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E7%94%B5%E8%84%91%E4%B8%8A%E7%9A%84-OpBoot-%E6%96%87%E4%BB%B6-opboot-p2w-r619ac-flash-v1-0-8-bin-%E5%A4%8D%E5%88%B6%E5%88%B0%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-text">将电脑上的 OpBoot 文件 ( opboot-p2w-r619ac-flash-v1.0.8.bin ) 复制到路由器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B"><span class="toc-text">操作实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#SSH-%E7%99%BB%E5%BD%95%E5%88%B0%E8%B7%AF%E7%94%B1%E5%99%A8"><span class="toc-text">SSH 登录到路由器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B-1"><span class="toc-text">操作实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AF%BB%E5%8F%96%E8%B7%AF%E7%94%B1%E5%99%A8%E7%9A%84%E5%88%86%E5%8C%BA%E8%A1%A8"><span class="toc-text">读取路由器的分区表</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E8%B7%AF%E7%94%B1%E5%99%A8%E4%B8%8A%E7%9A%84-OpBoot-%E6%96%87%E4%BB%B6"><span class="toc-text">校验路由器上的 OpBoot 文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%B7%E5%86%99-OpBoot-%E5%88%B0-Bootloader"><span class="toc-text">刷写 OpBoot 到 Bootloader</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%9B%E5%85%A5-OpBoot"><span class="toc-text">进入 OpBoot</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E4%BB%BDART"><span class="toc-text">备份ART</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%87%E4%BB%BD%E7%BC%96%E7%A8%8B%E5%99%A8%E5%9B%BA%E4%BB%B6"><span class="toc-text">备份编程器固件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0-OpenWrt-%E5%9B%BA%E4%BB%B6"><span class="toc-text">更新 OpenWrt 固件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%BE%8E%E5%8C%96-OpenWrt-%E7%9A%84%E7%AE%A1%E7%90%86%E7%95%8C%E9%9D%A2"><span class="toc-text">美化 OpenWrt 的管理界面</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E5%AE%9E%E4%BE%8B-2"><span class="toc-text">操作实例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E7%BB%AD%E6%9B%B4%E6%96%B0%EF%BC%88OpBoot-1-0-9-128-MB-OpenWrt%EF%BC%89"><span class="toc-text">后续更新（OpBoot 1.0.9 + 128 MB OpenWrt）</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#OpBoot-%E5%8D%87%E7%BA%A7%E8%AF%B4%E6%98%8E"><span class="toc-text">OpBoot 升级说明</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-1"><span class="toc-text">方法 1</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%96%B9%E6%B3%95-2"><span class="toc-text">方法 2</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OpenWrt-128-MB-%E5%88%86%E5%8C%BA%E5%9B%BA%E4%BB%B6%E5%88%B7%E5%85%A5%E8%AF%B4%E6%98%8E"><span class="toc-text">OpenWrt 128 MB 分区固件刷入说明</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%B8%A3%E8%B0%A2"><span class="toc-text">鸣谢</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="竞斗云2.0 ( P&amp;W R619AC ) 刷机教程 ( 免拆机 / 免劫持 )";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/rss.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:ZetaGo@protonmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/ericclose"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://t.me/Soul_Land"
+                class="social fab fa-telegram flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2018-2021 Eric</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+	volantis.pjax.push(pjax_initCopyCode)
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  function pjax_gitalk() {
+    if(!document.querySelectorAll("#gitalk-container")[0])return;
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    if (document.getElementById('gitalk-container') != null) {
+      var gitalk = new Gitalk(Object.assign({"clientID":"41b3f5366c50441cfe71","clientSecret":"884e7079c59b07a70d9236c334507ce89f9cd469","repo":"comments","owner":"ericclose","admin":["ericclose"],"path":null}, {
+	  id: path,
+	  distractionFreeMode: false  // Facebook-like distraction free mode
+    }));
+      gitalk.render('gitalk-container');
+    }
+  }
+  $(function () {
+    pjax_gitalk();
+  });
+  volantis.pjax.push(pjax_gitalk);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- https://github.com/volantis-x/hexo-theme-volantis/issues/63 -->
+<script>
+	setTimeout(function() {
+	  loadScript("https://www.googletagmanager.com/gtag/js?id=UA-127459865-1");
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-127459865-1');
+	}, 5000);
+	// 关于谷歌统计对 SPA 页面的处理：
+	// 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+	// https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+	volantis.pjax.push(()=>{
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('config', 'UA-127459865-1', {'page_path': document.location.pathname});
+	},'google_analytics')
+</script>
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/js/custom.js"></script>
+
+
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

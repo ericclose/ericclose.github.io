@@ -1,0 +1,1631 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>QQ 随意读取用户隐私文件？一文为您保驾护航 —— 使用 Sandboxie Plus 运行 QQ 桌面版（无需 QQProtect.exe） - Eric</title>
+  
+    <meta name="keywords" content="Sandboxie, Sandboxie Plus, QQ, 桌面版, 沙盒, 沙盘, 教程, 浏览器, 历史记录, Microsoft Store, 微软商店, QQProtect.exe, 隐私, v2ex, 看雪论坛">
+  
+
+  
+    <meta name="description" content="图片来源：Pixiv
+
+导语：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/Tim 会使用 MD5 比较历史记录中的搜索链接，链接包括淘宝、天猫、京东。搜索链接匹配之后，腾讯 QQ/Tim 还会使...">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/rss.xml" title="Eric" type="application/rss+xml">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name="google-site-verification" content="KHZIpNl0zlKroVHmAmy-KTT561sBQ1fIp1kC7SKtMCc" />
+    
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-16x16.png">
+  <link rel="manifest" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/site.webmanifest">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Eric's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div class='cover-bg' style='background-image:url(https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg)'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Eric's Blog</p>
+    
+    
+      <p class="subtitle">Never really desperate, only the lost of the soul</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-home fa-fw'></i><p>首页</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/friends/"
+              
+                rel="nofollow"
+              
+              
+                target="_self"
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        一文教您使用 Sandboxie Plus 运行 QQ 桌面版
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/img/avatar.jpeg">
+    <p>Eric</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Software/">Software</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年1月20日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/cover.png" alt="图片来源：<a target=_blank rel=noopener href=https://www.pixiv.net/en/artworks/87117133 data-pjax-state=>Pixiv</a>" style="height:250px;"/></div><span class="image-caption">图片来源：<a target=_blank rel=noopener href=https://www.pixiv.net/en/artworks/87117133 data-pjax-state=>Pixiv</a></span></div>
+
+<p><strong>导语</strong>：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/Tim 会使用 MD5 比较历史记录中的搜索链接，链接包括淘宝、天猫、京东。搜索链接匹配之后，腾讯 QQ/Tim 还会使用 MD5 比较搜索的关键字，如古着、融资、股票等。 众多网友进行一波分析谈论得了出上述结论，而腾讯的回应则是『<strong>读取浏览器数据是为了用户好</strong>』。本文将介绍如何使用 Sandboxie Plus 防范 QQ 读取个人隐私，希望能给您一些帮助。</p>
+<span id="more"></span>
+
+<h2 id="相关背景"><a href="#相关背景" class="headerlink" title="相关背景"></a>相关背景</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://www.v2ex.com/t/745030">QQ 正在尝试读取你的浏览记录 - V2EX</a> | <a target="_blank" rel="noopener" href="https://web.archive.org/web/20210114143043/https://www.v2ex.com/t/745030">📁归档</a></li>
+<li><a target="_blank" rel="noopener" href="https://bbs.pediy.com/thread-265359.htm">关于 QQ 读取 Chrome 历史记录的澄清 - 看雪论坛</a> | <a target="_blank" rel="noopener" href="https://web.archive.org/web/20210116220819/https://bbs.pediy.com/thread-265359.htm">📁归档</a></li>
+<li><a target="_blank" rel="noopener" href="https://telegra.ph/%E4%B9%9F%E8%AE%BA%E8%85%BE%E8%AE%AF%E5%AF%B9%E4%BD%A0%E7%9A%84%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E5%81%9A%E4%BA%86%E7%82%B9%E5%95%A5-01-17">也论腾讯拿你的历史记录做了点啥- Lion Yang &amp; Epics of Anticensorship</a> | <a target="_blank" rel="noopener" href="https://archive.is/U6VSs">📁归档</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.zhihu.com/question/439768601/answer/1683913941">如何看待 QQ 扫描读取所有浏览器的历史记录？ - 腾讯QQ的回答 - 知乎</a> | <a target="_blank" rel="noopener" href="https://web.archive.org/web/20210119143703/https://www.zhihu.com/question/439768601/answer/1683913941">📁归档</a></li>
+</ul>
+<details cyan><summary> 相关评论（点击以展开） </summary>
+              <div class='content'>
+              <blockquote><p>『<strong>判断用户是否恶意登录</strong>』还需要读取淘宝、天猫、京东搜索记录，看用户是否搜了<strong>炒股</strong>、<strong>股票</strong>、<strong>融资</strong>、<strong>融券</strong>、<strong>古着</strong>、<strong>VINTAGE</strong> 吗？判断用户登陆风险安全还要<strong>启动之后 10 分钟</strong>才扫描吗？你 TM 自己信吗？反正我是不信。 – from <a target="_blank" rel="noopener" href="https://t.me/anticensorship_epics/96">Epics of Anti-Censorship</a></p></blockquote><blockquote><p>我就想知道 —— 淘宝、天猫、京东的<strong>搜索链接匹配</strong>和官方说的<strong>拦截恶意程序</strong>有什么关系。</p><p>再问几个不懂的问题:</p><p>腾讯：<strong>读取浏览器历史用以判断用户登录安全风险的情况，读取的数据用于在PC QQ的本地客户端中判断是否恶意登录。</strong></p><p>①. 为什么要在登陆后十分钟进行检测？判断是否为恶意登录不应该在登录时进行吗？</p><p>②. 检测的关键字为什么是电商地址、股票、融资这几个关键词？你怎么通过这几个关键词来判断是不是恶意登录？</p><p>③. 知乎的热搜为什么直接被撤了？</p><p>④. QQ这篇回答的评论为什么还要审核？</p><p>–from <a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/KLy8VC4I1ZBG1ArUxeilag">火绒安全实验室公众号文章<strong>评论区</strong></a></p></blockquote>
+              </div>
+            </details>
+
+<hr>
+<h2 id="操作流程"><a href="#操作流程" class="headerlink" title="操作流程"></a>操作流程</h2><h3 id="操作视频"><a href="#操作视频" class="headerlink" title="操作视频"></a>操作视频</h3><iframe width="560" height="315" src="https://odysee.com/$/embed/run-QQ-with-SandboxiePlus/05c31719ef1626df4af0f5c892cc43c4a7dfafe0?r=9dqbAP46xNQpfpSCTmkeuz5SRiaZz5Tb" allowfullscreen></iframe>
+
+<ul>
+<li>⚠ <strong>视频没有任何配音和字幕，建议直接对照文章进行操作。</strong></li>
+</ul>
+<h3 id="图文教程"><a href="#图文教程" class="headerlink" title="图文教程"></a>图文教程</h3><h4 id="准备相关文件"><a href="#准备相关文件" class="headerlink" title="准备相关文件"></a>准备相关文件</h4><ul>
+<li><strong>Sandboxie Plus 安装包</strong>（<code>Sandboxie-Plus*.exe</code>）</li>
+</ul>
+<blockquote>
+<p>前往「<a target="_blank" rel="noopener" href="https://github.com/sandboxie-plus/Sandboxie/releases/latest"><em>Sandboxie Plus</em> 的下载页</a>」，根据您<strong>操作系统位数</strong>（x86 为 32 位，x64 为 64 位）进行选择下载。</p>
+</blockquote>
+<ul>
+<li><strong>QQ 桌面版 Appx 包</strong>（<code>*.appx</code>）</li>
+</ul>
+<blockquote>
+<p>将「<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/p/qq/9NHLGF0ZWC5S">QQ 桌面版（Microsoft Store）</a>」的链接复制到「<a target="_blank" rel="noopener" href="https://store.rg-adguard.net/">Online link generator for Microsoft Store</a>」的输入框，渠道选择「<strong>Retail</strong> 零售」。确认，等待页面载入后，选择最大的文件进行下载。</p>
+</blockquote>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/1.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/2.png"></p>
+            </div>
+
+<ul>
+<li><strong>QQ PC 版安装包</strong>（<code>QQ*.exe</code>）</li>
+</ul>
+<blockquote>
+<p>直接前往「<a target="_blank" rel="noopener" href="https://im.qq.com/pcqq/">QQ PC 版</a>」页面下载。</p>
+</blockquote>
+<h4 id="操作要点"><a href="#操作要点" class="headerlink" title="操作要点"></a>操作要点</h4><blockquote>
+<p><strong>说明</strong>：要在沙盒运行<strong>微软商店版的 QQ</strong>（无 <code>qqprotect.exe</code>）之前得先在沙盒里安装一次 <strong>QQ PC 版</strong>（安装启动一次之后就可以卸载），否则无法启动，就是这么玄学 🤣。</p>
+</blockquote>
+<ol>
+<li><strong>安装 Sandboxie Plus</strong></li>
+</ol>
+<blockquote>
+<p><strong>安装路径</strong>，选择你想要的路径就行，如我选择 <code>G:\Program Files\Sandboxie-Plus</code>。其他选项默认</p>
+</blockquote>
+<ol start="2">
+<li>启用 <strong>Windows 10 Core UI</strong> 兼容选项</li>
+</ol>
+<blockquote>
+<p>⚠ <strong>如果不对此进行操作，将会导致沙盒里的应用无法使用系统内置的输入法输入中文。</strong></p>
+<p>Sandboxie Plus 菜单栏「<strong>Options</strong>」 -&gt; 「<strong>Global Settings</strong>」  -&gt; 「<strong>Software Compatibility</strong>」 -&gt; 启用「<strong>Windows 10 Core UI</strong>」，点击「<strong>Apply</strong>」。</p>
+</blockquote>
+<ol start="3">
+<li><strong>Sandboxie Plus 文件系统根目录的设置</strong></li>
+</ol>
+<blockquote>
+<p>⚠ <strong>如果不对此进行操作，沙盒里的文件将会默认存储到系统盘。</strong></p>
+<p>可以通过 Sandboxie Plus 菜单栏「<strong>Options</strong>」 -&gt; 「<strong>Global Settings</strong>」  -&gt; 「<strong>Advanced Options</strong>」-&gt; 「<strong>Sandbox file system root</strong>」修改路径，如我修改成 <code>G:\Sandboxie\%SANDBOX%</code>，最后点击「Apply」。</p>
+</blockquote>
+<ol start="4">
+<li><strong>移除默认的沙盒「DefaultBox」</strong></li>
+</ol>
+<blockquote>
+<p>默认的沙盒我们不需要，留着没用，不如删了。</p>
+<p>鼠标右键选中，选择「<strong>Remove Sandbox</strong>」。</p>
+</blockquote>
+<div class="gallery ">
+              <div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/3.png" style="height:300px;"/></div></div>
+            </div>
+
+<ol start="5">
+<li><strong>新建沙盒</strong></li>
+</ol>
+<blockquote>
+<p>Sandboxie Plus 菜单栏「<strong>Sandbox</strong>」 -&gt; 「<strong>Create New Box</strong>」，输入名字，其余选项默认即可。</p>
+</blockquote>
+<ol start="6">
+<li><strong>设置沙盒的资源访问权限</strong></li>
+</ol>
+<blockquote>
+<p>⚠ 目前 Sandboxie Plus 暂不支持<a target="_blank" rel="noopener" href="https://github.com/sandboxie-plus/Sandboxie/issues/194"><strong>资源访问的白名单模式</strong></a>，所以编写规则略显麻烦，不过据 Sandboxie Plus 项目成员 <a target="_blank" rel="noopener" href="https://github.com/DavidXanatos">DavidXanatos</a> 的回复说<a target="_blank" rel="noopener" href="https://github.com/sandboxie-plus/Sandboxie/issues/194#issuecomment-732149941">在计划中</a>了，那么就让我们拭目以待吧。</p>
+</blockquote>
+<blockquote>
+<p>鼠标右键选中<strong>您新建的沙盒</strong>，「<strong>Sandbox Options</strong>」，左栏「<strong>Resource Access</strong>」，「<strong>Add File/Folder</strong>」，可根据您的需求，<strong>借鉴</strong>以下内容填写。</p>
+</blockquote>
+<ul>
+<li><strong>Closed</strong>：拒绝对资源的所有访问（包括读写），例如对包含敏感数据的文件或文件夹的访问。</li>
+</ul>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/4.png"></p>
+            </div>
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">%UserProfile%\AppData\Local\Google          # Chrome 浏览器数据</span><br><span class="line">%UserProfile%\AppData\Local\Microsoft       # Edge 浏览器数据</span><br><span class="line">%UserProfile%\.ssh                          # SSH 数据</span><br><span class="line">%UserProfile%\.gnupg                        # GPG 数据</span><br><span class="line">%UserProfile%\.config                       # Clash 数据</span><br><span class="line">%AppData%\clash_win                         # Clash 数据</span><br><span class="line">%UserProfile%\.bash_history                 # Git Bash 历史记录</span><br><span class="line">%UserProfile%\.gitconfig                    # Git 配置文件</span><br><span class="line">D:\                                         # D 盘</span><br><span class="line">E:\                                         # E 盘</span><br><span class="line">F:\                                         # F 盘</span><br></pre></td></tr></table></figure>
+
+<ol start="7">
+<li><strong>解压 QQ 桌面版 Appx 包（<code>*.appx</code>）</strong></li>
+</ol>
+<blockquote>
+<p>使用解压缩软件（如 <em>7-zip</em>）解压 <strong>QQ 桌面版 Appx 包</strong>（<code>*.appx</code>），找到 <code>QQ</code> 文件夹，再用解压缩软件将 QQ 文件夹打包成 <strong>zip 格式</strong>，命名为 <code>QQ.zip</code>。</p>
+</blockquote>
+<ol start="8">
+<li><strong>移动相关文件到合适的位置</strong></li>
+</ol>
+<blockquote>
+<p>因为我这边下载的文件默认路径在 <code>F:\Downloads</code>，而 <code>F</code> 盘已经被我设为拒绝访问，故需要将文件放置到<strong>拒绝资源访问权限规则之外的位置</strong>。如将 <code>QQ.zip</code> 和 <strong>QQ PC 版安装包</strong>（<code>QQ*.exe</code>）移动至 <code>G:\</code>。</p>
+</blockquote>
+<ol start="9">
+<li><strong>安装 QQ PC 版到沙盒</strong></li>
+</ol>
+<blockquote>
+<p>直接鼠标右键选中 <code>QQ*.exe</code>，选择「<strong>Run Sandboxed</strong>」，然后流程如往常安装软件一样，自定义安装，选择<strong>安装路径</strong>和<strong>个人文件夹保存位置</strong>（当然和前面一样，必须是<strong>拒绝资源访问权限规则之外的位置</strong>），如分别为 <code>G:\Program Files</code> 和 <code>G:\Documents</code>，安装完成后启动过一次再退出就可以了。</p>
+</blockquote>
+<div class="gallery ">
+              <div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/5.png" style="height:400px;"/></div></div>
+            </div>
+
+<ol start="10">
+<li><strong>卸载 QQ PC 版</strong></li>
+</ol>
+<blockquote>
+<p><strong>Sandboxie Plus 主界面</strong>鼠标右键选中您创建过的沙盒，「<strong>Run</strong>」 -&gt; 「<strong>Run Explorer</strong>」，这样也就是在沙盒里打开资源管理器了。找到安装路径下的 <code>QQUninst.exe</code>，具体路径如 <code>G:\Program Files\Tencent\QQ\QQUninst.exe</code>，<strong>双击</strong>，完成卸载后再将 <code>G:\Program Files\Tencent</code> <strong>整个文件夹删除</strong>。</p>
+</blockquote>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/6.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/7.png"></p>
+            </div>
+
+<ol start="11">
+<li> <strong>在沙盒打开的资源管理器中将 <code>QQ.zip</code> 解压</strong></li>
+</ol>
+<blockquote>
+<p>鼠标右键选中文件，「<strong>Open with</strong> 打开方式」 -&gt; 「<strong>Windows Explorer</strong> 资源管理器」，然后将 <code>QQ</code> 文件夹复制到合适的位置，如 <code>G:\</code></p>
+</blockquote>
+<div class="gallery ">
+              <div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/8.png" style="height:400px;"/></div></div>
+            </div>
+
+<ol start="12">
+<li><strong>启动 QQ 并创建快捷方式</strong></li>
+</ol>
+<blockquote>
+<p>在 <strong>Sandboxie Plus 主界面</strong>，找到 <strong>QQ 的主进程</strong>，鼠标右键选中，「<strong>Create Shortcut</strong> 创建快捷方式」放到桌面就可以了，下次想要在沙盒运行 QQ 只需要直接双击桌面上的快捷方式咯</p>
+</blockquote>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/run-QQ-with-Sandboxie-Plus/9.png"></p>
+            </div>
+
+  
+  
+    
+    <div class='footer'>
+      
+        <div class='references'>
+          <section class='header'>
+            
+              <i class="fas fa-quote-left fa-fw" aria-hidden="true"></i>
+            
+            <span>参考资料</span>
+          </section>
+          <section class='body'>
+            <ul>
+              
+                <li>
+                  <a href="https://sandboxie-plus.com/sandboxie/resourceaccesssettings/" rel="external nofollow noopener noreferrer" target="_blank">
+                  Resource Access Settings - Sandboxie Plus
+                  </a>
+                </li>
+              
+            </ul>
+          </section>
+        </div>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html>https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Sandboxie-Plus/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Sandboxie Plus</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/QQ/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>QQ</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E6%B2%99%E7%9B%92/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>沙盒</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html&title=QQ 随意读取用户隐私文件？一文为您保驾护航 —— 使用 Sandboxie Plus 运行 QQ 桌面版（无需 QQProtect.exe） - Eric&summary=图片来源：Pixiv
+
+导语：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/Tim 会使用 MD5 比较历史记录中的搜索链接，链接包括淘宝、天猫、京东。搜索链接匹配之后，腾讯 QQ/Tim 还会使用 MD5 比较搜索的关键字，如古着、融资、股票等。 众多网友进行一波分析谈论得了出上述结论，而腾讯的回应则是『读取浏览器数据是为了用户好』。本文将介绍如何使用 Sandboxie Plus 防范 QQ 读取个人隐私，希望能给您一些帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html&title=QQ 随意读取用户隐私文件？一文为您保驾护航 —— 使用 Sandboxie Plus 运行 QQ 桌面版（无需 QQProtect.exe） - Eric&summary=图片来源：Pixiv
+
+导语：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/Tim 会使用 MD5 比较历史记录中的搜索链接，链接包括淘宝、天猫、京东。搜索链接匹配之后，腾讯 QQ/Tim 还会使用 MD5 比较搜索的关键字，如古着、融资、股票等。 众多网友进行一波分析谈论得了出上述结论，而腾讯的回应则是『读取浏览器数据是为了用户好』。本文将介绍如何使用 Sandboxie Plus 防范 QQ 读取个人隐私，希望能给您一些帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html&title=QQ 随意读取用户隐私文件？一文为您保驾护航 —— 使用 Sandboxie Plus 运行 QQ 桌面版（无需 QQProtect.exe） - Eric&summary=图片来源：Pixiv
+
+导语：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/Tim 会使用 MD5 比较历史记录中的搜索链接，链接包括淘宝、天猫、京东。搜索链接匹配之后，腾讯 QQ/Tim 还会使用 MD5 比较搜索的关键字，如古着、融资、股票等。 众多网友进行一波分析谈论得了出上述结论，而腾讯的回应则是『读取浏览器数据是为了用户好』。本文将介绍如何使用 Sandboxie Plus 防范 QQ 读取个人隐私，希望能给您一些帮助。"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html&text=QQ 随意读取用户隐私文件？一文为您保驾护航 —— 使用 Sandboxie Plus 运行 QQ 桌面版（无需 QQProtect.exe） - Eric"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/how-to-install-and-secure-redis-on-debian-10.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>在 Debian 10 上 Redis 的安装及其安全配置</p>
+          <p class='content'>Redis 是一种基于内存的键值对存储数据库，其以灵活性、性能和广泛的语言支持而闻名。本教程将会演示如何在 Debian 10 服务器上安装和安全地部署 Redis。
+先决条件要完成本教程，您需...</p>
+        </a>
+      
+      
+        <a class='next' href='/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html'>
+          <p class='title'>V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>先决条件
+在开始操作之前，建议你先了解以下基础知识：
+
+使用 ssh 命令或 ssh 客户端登录远程服务器
+使用 vim 或其他编辑器的最基本的操作
+
+
+
+购买 VPS 购买 VPS 的说明（点...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="gitalk-container"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%B8%E5%85%B3%E8%83%8C%E6%99%AF"><span class="toc-text">相关背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-text">操作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%A7%86%E9%A2%91"><span class="toc-text">操作视频</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%BE%E6%96%87%E6%95%99%E7%A8%8B"><span class="toc-text">图文教程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6"><span class="toc-text">准备相关文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%93%8D%E4%BD%9C%E8%A6%81%E7%82%B9"><span class="toc-text">操作要点</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="一文教您使用 Sandboxie Plus 运行 QQ 桌面版";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/rss.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:ZetaGo@protonmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/ericclose"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://t.me/Soul_Land"
+                class="social fab fa-telegram flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2018-2021 Eric</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+	volantis.pjax.push(pjax_initCopyCode)
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  function pjax_gitalk() {
+    if(!document.querySelectorAll("#gitalk-container")[0])return;
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    if (document.getElementById('gitalk-container') != null) {
+      var gitalk = new Gitalk(Object.assign({"clientID":"41b3f5366c50441cfe71","clientSecret":"884e7079c59b07a70d9236c334507ce89f9cd469","repo":"comments","owner":"ericclose","admin":["ericclose"],"path":null}, {
+	  id: path,
+	  distractionFreeMode: false  // Facebook-like distraction free mode
+    }));
+      gitalk.render('gitalk-container');
+    }
+  }
+  $(function () {
+    pjax_gitalk();
+  });
+  volantis.pjax.push(pjax_gitalk);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- https://github.com/volantis-x/hexo-theme-volantis/issues/63 -->
+<script>
+	setTimeout(function() {
+	  loadScript("https://www.googletagmanager.com/gtag/js?id=UA-127459865-1");
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-127459865-1');
+	}, 5000);
+	// 关于谷歌统计对 SPA 页面的处理：
+	// 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+	// https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+	volantis.pjax.push(()=>{
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('config', 'UA-127459865-1', {'page_path': document.location.pathname});
+	},'google_analytics')
+</script>
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/js/custom.js"></script>
+
+
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

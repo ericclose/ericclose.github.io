@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明 - Eric</title>
+  
+    <meta name="keywords" content="V2Ray, WebSocket, TLS, Web, Cloudflare, CDN, 手动, 配置, 教程, 优选 IP, 搭建, 代理, VPS, 服务器, 域名, 证书, CloudCone, NameSilo">
+  
+
+  
+    <meta name="description" content="先决条件
+在开始操作之前，建议你先了解以下基础知识：
+
+使用 ssh 命令或 ssh 客户端登录远程服务器
+使用 vim 或其他编辑器的最基本的操作
+">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/rss.xml" title="Eric" type="application/rss+xml">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name="google-site-verification" content="KHZIpNl0zlKroVHmAmy-KTT561sBQ1fIp1kC7SKtMCc" />
+    
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-16x16.png">
+  <link rel="manifest" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/site.webmanifest">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Eric's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div class='cover-bg' style='background-image:url(https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg)'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Eric's Blog</p>
+    
+    
+      <p class="subtitle">Never really desperate, only the lost of the soul</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-home fa-fw'></i><p>首页</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/friends/"
+              
+                rel="nofollow"
+              
+              
+                target="_self"
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/img/avatar.jpeg">
+    <p>Eric</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Proxy/">Proxy</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年1月8日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <p><strong>先决条件</strong></p>
+<p>在<strong>开始操作之前</strong>，建议你先了解以下基础知识：</p>
+<ul>
+<li>使用 ssh 命令或 ssh 客户端登录远程服务器</li>
+<li>使用 vim 或其他编辑器的最基本的操作</li>
+</ul>
+<span id="more"></span>
+
+<h2 id="购买-VPS"><a href="#购买-VPS" class="headerlink" title="购买 VPS"></a>购买 VPS</h2><details cyan><summary> 购买 VPS 的说明（点击以展开） </summary>
+              <div class='content'>
+              <p>Hmmm… 本人学生党（穷 ➕ 没有办理国际信用卡），买境外的 VPS 不太方便。我找了相对便宜的（没有活动时的价格最低为 <strong>$3.71 / 月</strong>）且支持使用支付宝的 VPS 提供商 —— <a target="_blank" rel="noopener" href="https://cloudcone.com/"><strong>CloudCone</strong></a>。</p><p>注册登录没太多好说的，唯一的<strong>建议</strong>就是注册的时候填写<strong>国外的邮箱</strong>（Cloudcone 将会通过这个邮箱告知你 VPS 的 <strong>IP 地址</strong>和 <strong>root 用户的初始密码</strong>）。</p><p>这里简单说下如何<strong>通过支付宝</strong>进行充值：</p><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/1.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/2.png"></p>            </div><p>填写完<strong>支付宝关联的邮箱地址</strong>（如支付宝未与任何邮箱关联，请自行搜索相关内容），会跳转至支付宝扫码付款的页面，付款成功就可新建 VPS 实例了。</p><p>新建实例部分，本文以 <strong>Debian 10</strong> 为例，您也可以使用其他 Linux 发行版本。如您使用其他 Linux 发行版本，本教程后续的部分命令或许会有些许差异（如软件包的安装等），当然本文对您仍具有参考意义。</p><p><strong>主机名</strong>按照框内灰色字体的格式填写即可。</p><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/3.png"></p>            </div><p>新建实例成功后，请注意查看你<strong>注册账号时的邮箱</strong>，是否收到包含服务器<strong>公网 IPv4 地址</strong>和 <strong>root 用户初始密码</strong>的电子邮件。</p>
+              </div>
+            </details>
+
+
+<h2 id="初始化-VPS"><a href="#初始化-VPS" class="headerlink" title="初始化 VPS"></a>初始化 VPS</h2><details cyan><summary> 具体步骤 </summary>
+              <div class='content'>
+              <p><strong>ssh 登录到远程服务器的 root 用户</strong>后再完成以下操作：</p><ol><li><strong>更新</strong>系统已知的软件包列表、<strong>升级</strong>系统上的所有软件包、<strong>移除</strong>不再需要的依赖软件包：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt update &amp;&amp; apt upgrade &amp;&amp; apt autoremove</span><br></pre></td></tr></table></figure><hr><blockquote><p>正经的 Linux 用户不会用 root 干所有的事情，如果这么做的话将会很危险。创建一个普通的用户，并让它可以通过 <em>sudo</em> 指令用 root 权限执行命令是一般的解决方案。</p></blockquote><ol start="2"><li>在用 <em>sudo</em> 之前，我们需要先安装 <strong>sudo</strong> 这个软件包：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt install sudo</span><br></pre></td></tr></table></figure><ol start="3"><li><strong>新建</strong>一个普通用户，本文新建名为 <code>eric</code> 的用户（同时创建相应的 home 目录），并将其添加到 sudo 用户组中；最后给 eric 设置一个密码：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">useradd -m -G sudo eric</span><br><span class="line">passwd eric</span><br></pre></td></tr></table></figure><ol start="4"><li><strong>更改</strong> eric 的默认 shell</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/4.png"></p>            </div><ol start="5"><li>相关建议（可选操作）</li></ol><div class="tabs" id="1"><ul class="nav-tabs"><li class="tab active"><a class="#1-1">相关建议</a></li></ul><div class="tab-content"><div class="tab-pane active" id="1-1"><p><strong>为了安全</strong>起见，建议你完成下列操作：</p><ul><li>禁止通过 SSH 登录到 root 用户</li><li>限制 SSH 通过用户密码来登录，并实现 SSH 仅能通过密钥登录服务器</li></ul><p>提一下要点，不知道怎么做的话就 Google 学习一个（</p><details green><summary> 操作要点 </summary>              <div class='content'>              <ul><li><strong>禁止通过 SSH 登录到 root 用户</strong><ul><li>编辑 <code>/etc/ssh/sshd_config</code></li></ul></li></ul><figure class="highlight plaintext"><figcaption><span>/etc/ssh/sshd_config</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PermitRootLogin no</span><br></pre></td></tr></table></figure><ul><li><strong>限制 SSH 通过用户密码来登录</strong><ul><li>编辑 <code>/etc/ssh/sshd_config</code></li></ul></li></ul><figure class="highlight plaintext"><figcaption><span>/etc/ssh/sshd_config</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PasswordAuthentication no</span><br></pre></td></tr></table></figure><ul><li><p><strong>将本机公钥添加到远程服务器</strong></p><ul><li>本机 ssh 公钥路径 (如未生成使用 ssh-keygen 生成)：<code>~/.ssh/id_rsa.pub</code></li><li>然后将 <code>~/.ssh/id_rsa.pub</code> 的内容追加到到服务器用户下的 <code>~/.ssh/authorized_keys</code></li><li>最后重启 <code>sshd</code> 服务</li></ul></li></ul>              </div>            </details></div></div></div>
+              </div>
+            </details>
+
+<h2 id="安装-V2Ray-前的准备"><a href="#安装-V2Ray-前的准备" class="headerlink" title="安装 V2Ray 前的准备"></a>安装 V2Ray 前的准备</h2><blockquote>
+<p>正经的 Linux 用户不会用 root 干所有的事情，如果这么做的话将会很危险。所以<strong>使用普通用户</strong>，再通过 <em>sudo</em> 指令用 root 权限执行命令是坠吼的。</p>
+</blockquote>
+<p><strong>使用普通用户</strong>通过 ssh 登录到你的远程服务器后再完成以下操作：</p>
+<h3 id="时间校准"><a href="#时间校准" class="headerlink" title="时间校准"></a>时间校准</h3><blockquote>
+<p>对于 V2Ray，它的验证方式包含时间，就算是配置没有任何问题，如果时间不正确，也无法连接 V2Ray 服务器的，服务器会认为你这是不合法的请求。所以系统时间一定要正确，只要保证时间误差在 <strong>90 秒</strong> 之内就没问题。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo timedatectl set-ntp <span class="literal">true</span> <span class="comment"># 启用 NTP 服务</span></span><br><span class="line">sudo ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime <span class="comment"># 将时区设为“亚洲/上海”</span></span><br><span class="line">sudo hwclock --systohc <span class="comment"># 将硬件时钟调整到与当前系统时间一致</span></span><br><span class="line">date -R <span class="comment"># 以 RFC 5322 格式输出日期和时间。例如 Mon, 18 Jan 2021 11:04:16 +0800</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完之后，终端显示的时间如果正确，那么就没问题了。</p>
+<h3 id="防火墙初始化"><a href="#防火墙初始化" class="headerlink" title="防火墙初始化"></a>防火墙初始化</h3><ul>
+<li>本文将使用 <em>ufw</em> 来管理系统的防火墙</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install ufw</span><br><span class="line">sudo ufw <span class="built_in">enable</span></span><br><span class="line">sudo ufw allow <span class="string">&#x27;OpenSSH&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装相关软件包"><a href="#安装相关软件包" class="headerlink" title="安装相关软件包"></a>安装相关软件包</h3><ol>
+<li><strong>更新</strong>系统已知的软件包列表、<strong>升级</strong>系统上的所有软件包、<strong>移除</strong>不再需要的依赖软件包：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt update &amp;&amp; sudo apt upgrade &amp;&amp; sudo apt autoremove</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li><strong>安装编辑器</strong> vim（后续编写配配置文件需要，当然你也可以使用其他编辑器）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li><strong>安装</strong>所需要的依赖软件包：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install curl openssl</span><br></pre></td></tr></table></figure>
+
+<h2 id="安装并配置-V2Ray"><a href="#安装并配置-V2Ray" class="headerlink" title="安装并配置 V2Ray"></a>安装并配置 V2Ray</h2><h3 id="下载-V2Ray-安装脚本"><a href="#下载-V2Ray-安装脚本" class="headerlink" title="下载 V2Ray 安装脚本"></a>下载 V2Ray 安装脚本</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh</span><br><span class="line">curl -O https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-dat-release.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装-V2ray-主程序"><a href="#安装-V2ray-主程序" class="headerlink" title="安装 V2ray 主程序"></a>安装 V2ray 主程序</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash install-release.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装最新发行的-geoip-dat-和-geosite-dat"><a href="#安装最新发行的-geoip-dat-和-geosite-dat" class="headerlink" title="安装最新发行的 geoip.dat 和 geosite.dat"></a>安装最新发行的 geoip.dat 和 geosite.dat</h3><ul>
+<li><code>geoip.dat</code>：IP 数据文件</li>
+<li><code>geosite.dat</code>：域名数据文件</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo bash install-dat-release.sh</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-V2Ray"><a href="#配置-V2Ray" class="headerlink" title="配置 V2Ray"></a>配置 V2Ray</h3><p>使用 vim 编辑 V2Ray 的配置文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /usr/<span class="built_in">local</span>/etc/v2ray/config.json</span><br></pre></td></tr></table></figure>
+
+<p>清空文件原有内容，然后输入以下内容：</p>
+<figure class="highlight json"><figcaption><span>/usr/local/etc/v2ray/config.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="attr">&quot;log&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;loglevel&quot;</span>:<span class="string">&quot;warning&quot;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;routing&quot;</span>:&#123;</span><br><span class="line">        <span class="attr">&quot;domainStrategy&quot;</span>:<span class="string">&quot;AsIs&quot;</span>,</span><br><span class="line">        <span class="attr">&quot;rules&quot;</span>:[</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">&quot;type&quot;</span>:<span class="string">&quot;field&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;ip&quot;</span>:[</span><br><span class="line">                    <span class="string">&quot;geoip:private&quot;</span></span><br><span class="line">                ],</span><br><span class="line">                <span class="attr">&quot;outboundTag&quot;</span>:<span class="string">&quot;block&quot;</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">&quot;inbounds&quot;</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;listen&quot;</span>:<span class="string">&quot;127.0.0.1&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;port&quot;</span>:<span class="number">10000</span>,</span><br><span class="line">            <span class="attr">&quot;protocol&quot;</span>:<span class="string">&quot;vmess&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;settings&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;clients&quot;</span>:[</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="attr">&quot;id&quot;</span>:<span class="string">&quot;9dfe7fee-d08f-44f8-ad2d-300d4c9c3a0e&quot;</span>,</span><br><span class="line">                        <span class="attr">&quot;alterId&quot;</span>:<span class="number">64</span></span><br><span class="line">                    &#125;</span><br><span class="line">                ]</span><br><span class="line">            &#125;,</span><br><span class="line">            <span class="attr">&quot;streamSettings&quot;</span>:&#123;</span><br><span class="line">                <span class="attr">&quot;network&quot;</span>:<span class="string">&quot;ws&quot;</span>,</span><br><span class="line">                <span class="attr">&quot;wsSettings&quot;</span>:&#123;</span><br><span class="line">                    <span class="attr">&quot;path&quot;</span>:<span class="string">&quot;/ray&quot;</span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    ],</span><br><span class="line">    <span class="attr">&quot;outbounds&quot;</span>:[</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;protocol&quot;</span>:<span class="string">&quot;freedom&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;tag&quot;</span>:<span class="string">&quot;direct&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="attr">&quot;protocol&quot;</span>:<span class="string">&quot;blackhole&quot;</span>,</span><br><span class="line">            <span class="attr">&quot;tag&quot;</span>:<span class="string">&quot;block&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><code>port</code>：V2Ray 的 <strong>WebSocket 所监听的内网端口</strong>，取值范围是 <strong>1 ~ 65535</strong>，但<strong>为了避免端口占用，所以不能填常用的端口号</strong>（如 22 是 <em>ssh</em> 的端口号，80 是 <em>HTTP</em> 的端口号，443 是 <em>HTTPS</em> 的端口号等），此处设我为 <code>10000</code></li>
+<li> <code>id</code>：<strong>用户的主 ID</strong>。可<strong>通过 <a target="_blank" rel="noopener" href="https://www.v2fly.org/awesome/tools.html#%E5%9C%A8%E7%BA%BF%E5%B7%A5%E5%85%B7">UUID 生成器 - v2fly</a> 或者 <a target="_blank" rel="noopener" href="https://www.uuidgenerator.net/">Online UUID Generator</a> 生成</strong>（任选其中一个网站生成就行），此处我设为 <code>9dfe7fee-d08f-44f8-ad2d-300d4c9c3a0e</code></li>
+<li><code>alterId</code>：<strong>额外 ID 数量</strong>。为了进一步防止被探测，一个用户可以在主 ID 的基础上，再额外生成多个 ID。<code>alterId</code> 就是用来指定额外 ID 数量的，其取值范围是 <strong>0 ~ 65535</strong>，<strong>理论上 alterId 越大越好，但越大就越占内存</strong>(只针对服务器，客户端不占内存)。据<a target="_blank" rel="noopener" href="https://guide.v2fly.org/basics/vmess.html#%E6%9C%8D%E5%8A%A1%E5%99%A8">新 V2Ray 白话文指南</a>所述，<code>alterId</code> 的值设为 <strong>30 ~ 100 之间应该是比较合适的</strong>，这里我直接抄它设置为 <code>64</code> 🤣</li>
+<li><code>network</code>：<strong>传输协议</strong>。设为 <strong>WebSocket</strong>，即 <code>ws</code></li>
+<li><code>path</code>：<strong>WebSocket 所使用的 HTTP 协议路径</strong>。可自定义，例如我设为 <code>/ray</code></li>
+</ul>
+</blockquote>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/5.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/6.png"></p>
+            </div>
+
+<div class="note warning"><p><strong>咳咳，上面的配置文件想要照抄的话至少 id 取不一样的值就好</strong> 🤣</p></div>
+
+<h2 id="注册域名"><a href="#注册域名" class="headerlink" title="注册域名"></a>注册域名</h2><details cyan><summary> 注册域名的说明 </summary>
+              <div class='content'>
+              <p>域名可通过网站 <a target="_blank" rel="noopener" href="https://www.namesilo.com/">NameSilo</a> 进行申请注册，这个站点<strong>最低可花 $0.99</strong> 即可注册申请一年的域名，同时还支持免费启用 <strong>WHOIS privacy</strong>（WHOIS 隐私服务大致的意思是：从 WHOIS 记录中删除您的个人联系信息）。</p><hr><ul><li>在 <strong>NameSilo</strong> 注册完登录账号，然后搜索你想要的域名，<strong>选择域名</strong>。选择<strong>最便宜的就行</strong>（至于<strong>续费域名</strong>的费用比较高，所以建议是<strong>域名过期后再换</strong>就行）：</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/7.png"></p>            </div><hr><ul><li>点击 <strong>Add</strong> 之后，会跳转如下界面（此处注意关掉<strong>自动续费</strong>，打开 <strong>WHOIS 隐私</strong>服务）：</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/8.png"></p>            </div><hr><ul><li>支付方面，NameSilo 也是支持支付宝进行支付的，<strong>填写支付宝相关联的邮箱地址</strong>，然后进行扫码支付。</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/9.png"></p>            </div><hr><ul><li>付款成功后<strong>点击</strong>页面里的「<strong>Account Domains</strong> 账户所属域名」栏里的<strong>数字</strong></li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/10.png"></p>            </div><hr><ul><li>然后跳转到<strong>信息填写页面</strong>，这些信息可以通过<a target="_blank" rel="noopener" href="https://www.haoweichi.com/">美国虚拟信息生成器</a><strong>生成</strong>然后进行填写（<strong>其中带 <code>*</code> 号的为必填项</strong>）</li></ul><div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/11.png" style="height:400px;"/></div></div><hr><ul><li>填写完信息后，<strong>点击 🌏 图标管理域名的 DNS</strong>，然后在 DNS 管理页面<strong>点击 ❌ 删除所有的记录</strong></li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/12.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/13.png"></p>            </div><div class="note warning"><p><strong>注册完域名记得前往您的电子邮箱查收来自 NameSilo 的邮件，必须点击 WHOIS 的邮箱验证链接，否则您的域名可能将被注销。</strong></p></div>
+              </div>
+            </details>
+
+<h2 id="Cloudflare-接管域名解析"><a href="#Cloudflare-接管域名解析" class="headerlink" title="Cloudflare 接管域名解析"></a>Cloudflare 接管域名解析</h2><p>完成前面的步骤后，我们将在这一步使用 Cloudflare 来接管域名的解析。</p>
+<details cyan><summary> 具体步骤 </summary>
+              <div class='content'>
+              <ol><li><strong>注册</strong> Cloudflare 的账号，注册完账号之后，<strong>请前往邮箱查看来自 Cloudflare 的邮件，点击验证链接以验证您的电子邮箱</strong>。</li></ol><ul><li><a target="_blank" rel="noopener" href="https://www.cloudflare.com/">Cloudflare 官网</a></li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/14.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/15.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/16.png"></p>            </div><hr><ol start="2"><li><strong>添加站点</strong>，输入先前注册的域名即可。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/17.png"></p>            </div><hr><ol start="3"><li>选择「<strong>免费计划</strong>」</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/18.png"></p>            </div><hr><ol start="4"><li><strong>暂不</strong>添加 DNS 记录</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/19.png"></p>            </div><hr><ol start="5"><li>前往域名提供商（如前面介绍的 <a target="_blank" rel="noopener" href="https://www.namesilo.com/">NameSilo</a>），点击图示部分进行<strong>域名服务器的管理</strong></li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/20.png"></p>            </div><hr><ol start="6"><li><strong>移除</strong>域名提供商预置的「<strong>域名服务器</strong>」，用 Cloudflare 提供的「<strong>域名服务器</strong>」<strong>替换</strong>之。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/21.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/22.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/23.png"></p>            </div><hr><ol start="7"><li>「<strong>Submit</strong> 提交」完上述变更之后，等待若干分钟后域名的状态转为「<strong>active</strong> 激活」。然后点击「<strong>Done, check nameservers</strong>」。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/24.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/25.png"></p>            </div><hr><ol start="8"><li>点击「<strong>Finish later</strong>」，然后再回到 <a target="_blank" rel="noopener" href="https://www.cloudflare.com/">Cloudflare 首页</a>，等待若干分钟后「<strong>Pending Nameserver Update</strong>」会转为「<strong>active</strong>」，这时<strong>点进去</strong>。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/26.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/27.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/28.png"></p>            </div><hr><ol start="9"><li><strong>添加</strong> DNS 记录</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/29.png"></p>            </div><hr><ol start="10"><li>如下图表<strong>添加</strong> 2 条记录就可以了。</li></ol><overflow><table><thead><tr><th>Type</th><th>Name</th><th>IPv4 address</th><th>Proxy status</th></tr></thead><tbody><tr><td><code>A</code></td><td><code>@</code></td><td><code>x.x.x.x</code></td><td><code>☁ Proxied</code></td></tr><tr><td><code>A</code></td><td><code>www</code></td><td><code>x.x.x.x</code></td><td><code>☁ Proxied</code></td></tr></tbody></table></overflow><ul><li>云朵被点亮（即 <code>☁ Proxied</code>）意味着你的网站流量必须经过 Cloudflare，也可以说使用了 Cloudflare 的 CDN 节点。</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/30.png" alt="添加一条记录的示例"></p>            </div>
+              </div>
+            </details>
+
+<h2 id="安装-Nginx-及其初始配置"><a href="#安装-Nginx-及其初始配置" class="headerlink" title="安装 Nginx 及其初始配置"></a>安装 Nginx 及其初始配置</h2><details cyan open><summary> 具体步骤 </summary>
+              <div class='content'>
+              <div class="note warning"><p><strong>请将本文中的 <code>ericclose.xyz</code> 替换成您注册的域名</strong></p></div><h3 id="安装-Nginx"><a href="#安装-Nginx" class="headerlink" title="安装 Nginx"></a>安装 Nginx</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install nginx</span><br></pre></td></tr></table></figure><h3 id="配置防火墙"><a href="#配置防火墙" class="headerlink" title="配置防火墙"></a>配置防火墙</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw allow <span class="string">&#x27;Nginx Full&#x27;</span></span><br></pre></td></tr></table></figure><h3 id="配置-Nginx"><a href="#配置-Nginx" class="headerlink" title="配置 Nginx"></a>配置 Nginx</h3><ol><li>Nginx 在安装过程中会创建一个<strong>默认的服务器块</strong>。如果它仍然存在，请<strong>将其删除</strong>，因为你后面将<strong>为你注册的域名配置一个自定义服务器块</strong></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo rm /etc/nginx/sites-enabled/default</span><br></pre></td></tr></table></figure><ol start="2"><li>使用如下命令，<strong>为你的域名创建目录</strong></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir -p /var/www/ericclose.xyz/html</span><br></pre></td></tr></table></figure><ol start="3"><li>接下来，用 <code>$USER</code> 环境变量<strong>给当前的系统用户分配目录的所有权</strong></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R <span class="variable">$USER</span>:<span class="variable">$USER</span> /var/www/ericclose.xyz/html</span><br></pre></td></tr></table></figure><ol start="4"><li>使用命令<strong>确保 web root 具有正确的权限</strong></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo chmod -R 755 /var/www/ericclose.xyz</span><br></pre></td></tr></table></figure><ol start="5"><li>接下来，使用 <code>vim</code> 或其他编辑器<strong>创建 <code>index.html</code> 页面文件</strong></li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim /var/www/ericclose.xyz/html/index.html</span><br></pre></td></tr></table></figure><p>文件<strong>写入以下内容</strong>：</p><figure class="highlight html"><figcaption><span>/var/www/ericclose.xyz/html/index.html</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>Welcome<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Success! Your Nginx server is successfully configured. <span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>This is a sample page.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure><ol start="6"><li>我们需要<strong>创建一个服务器块，指向我们自定义的 web root</strong>。我们不直接修改默认的配置文件，而是新建一个文件</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/sites-available/ericclose.xyz</span><br></pre></td></tr></table></figure><p>填写以下内容：</p><figure class="highlight nginx"><figcaption><span>/etc/nginx/sites-available/ericclose.xyz</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">        <span class="attribute">listen</span> <span class="number">80</span>;</span><br><span class="line">        <span class="attribute">listen</span> [::]:<span class="number">80</span>;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">root</span> /var/www/ericclose.xyz/html;</span><br><span class="line">        <span class="attribute">index</span> index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">server_name</span> ericclose.xyz www.ericclose.xyz;</span><br><span class="line"></span><br><span class="line">        <span class="attribute">location</span> / &#123;</span><br><span class="line">                <span class="attribute">try_files</span> $uri $uri/ =<span class="number">404</span>;</span><br><span class="line">        &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><blockquote><ul><li><strong>注意要记得修改配置文件中的 <code>root</code> 项和 <code>server_name</code> 项中的 <code>ericclose.xyz</code>，更改为您的域名即可</strong>。</li></ul></blockquote><ol start="7"><li>接下来，让我们通过在 <code>sites-enabled</code> 目录下<strong>创建一个符号链接</strong>来启用这个服务器块，Nginx 在启动时会在这个目录下读取配置文件：</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ln -s /etc/nginx/sites-available/ericclose.xyz /etc/nginx/sites-enabled/</span><br></pre></td></tr></table></figure><ol start="8"><li>为了<strong>防止可能出现的内存问题</strong>，有必要调整 <code>/etc/nginx/nginx.conf</code> 文件中的一个值。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/nginx.conf</span><br></pre></td></tr></table></figure><p>找到 <code>server_names_hash_bucket_size</code>，将 <code>#</code> 符号去掉，<strong>取消这一行的注释</strong>。</p><figure class="highlight nginx"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="section">http</span> &#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="attribute">server_names_hash_bucket_size</span> <span class="number">64</span>;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line">...</span><br></pre></td></tr></table></figure><ol start="9"><li>接下来，<strong>测试一下 Nginx 文件中是否有语法错误</strong>。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo nginx -t</span><br></pre></td></tr></table></figure><ol start="10"><li>最后，若你的配置测试没有遇到问题，<strong>重启 Nginx 来启用你的更改</strong>。</li></ol><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure><ol start="11"><li>现在可以<strong>访问您注册的域名</strong>了，如下：</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/31.png"></p>            </div>
+              </div>
+            </details>
+
+<h2 id="使用-Cloudflare-生成-TLS-证书和私钥、部署-Authenticated-Origin-Pulls"><a href="#使用-Cloudflare-生成-TLS-证书和私钥、部署-Authenticated-Origin-Pulls" class="headerlink" title="使用 Cloudflare 生成 TLS 证书和私钥、部署 Authenticated Origin Pulls"></a>使用 Cloudflare 生成 TLS 证书和私钥、部署 Authenticated Origin Pulls</h2><h3 id="生成-TLS-证书和私钥"><a href="#生成-TLS-证书和私钥" class="headerlink" title="生成 TLS 证书和私钥"></a>生成 TLS 证书和私钥</h3><p>生成证书的方法有很多，<a target="_blank" rel="noopener" href="https://guide.v2fly.org/advanced/tls.html#%E5%AE%89%E8%A3%85%E8%AF%81%E4%B9%A6%E5%92%8C%E5%AF%86%E9%92%A5">新 V2Ray 白话文指南</a>使用 <a target="_blank" rel="noopener" href="https://github.com/acmesh-official/acme.sh">acme.sh</a> 生成证书，我这里的话则是通过 Cloudflare 网站生成🤣。</p>
+<div class="note warning"><p>注意：「<strong>Cloudflare Origin Certificate</strong>」是一个只被 Cloudflare 信任的证书，不被浏览器所信任，所以使用「<strong>Cloudflare Origin Certificate</strong>」就必须在前面<strong>使用 Cloudflare 添加 DNS 记录时将云朵点亮</strong>，即 <code>☁ Proxied</code>。<strong>如果不点亮云朵，您的网站将无法安全访问，同时代理也会无法正常连接。</strong> – from <a target="_blank" rel="noopener" href="https://community.cloudflare.com/t/https-certificate-not-trusted/3610/12">HTTPS certificate not trusted with Cloudflare Origin Certificate</a></p></div>
+
+<details cyan open><summary> 具体步骤 </summary>
+              <div class='content'>
+              <p>Cloudflare Origin CA 可以让你生成由 Cloudflare 签署的免费 TLS 证书，安装在你的 Nginx 服务器上，以此可以保护 Cloudflare 的服务器和你的 Nginx 服务器之间的连接。</p><ul><li>要使用 Origin CA 生成证书，请在浏览器中登录 <a target="_blank" rel="noopener" href="https://www.cloudflare.com/">Cloudflare</a> 账户。选择您要保护的域名，并导航到 Cloudflare 仪表板的「<strong>SSL/TLS</strong>」部分。然后再从导航到「<strong>Origin Server</strong>」选项卡，然后单击「<strong>Create Certificate</strong> 创建证书」按钮。</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/32.png"></p>            </div><ul><li>保留选择「<strong>Let Cloudflare generate a private key and a CSR</strong>」，「<strong>Private key type</strong> 私钥类型」我们选择「<strong>ECDSA</strong>」，关于 ECDSA 相较于 RSA 的优点请自行搜索。其余选项默认，「<strong>Next</strong> 下一步」即可</li></ul><div class="gallery ">              <div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/33.png" style="height:450px;"/></div></div>            </div><ul><li>然后你会看到一个对话框，里面有「<strong>Origin Certificate</strong> 源证书」和「<strong>Private key</strong> 私钥」。你需要将证书和私钥的内容写到你的服务器上。出于安全考虑，<strong>私钥信息仅显示一次，之后不会再显示</strong>，所以在点击「<strong>OK</strong>」之前，最好先将相关内容<strong>复制后妥善保管</strong>。</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/34.png"></p>            </div><div class="note warning"><p>你将使用服务器上的 <code>/etc/ssl</code> 目录来存放<strong>源证书</strong>和<strong>私钥</strong>文件。</p></div><div class="note warning"><p>关于 Nginx 的相关配置将在后面讲解。</p></div><hr><ul><li>在服务器上，使用用 vim 或其他文本编辑器编辑 <code>/etc/ssl/cert.pem</code>：</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssl/cert.pem</span><br></pre></td></tr></table></figure><p>将先前保存的<strong>证书</strong>内容添加到文件中，然后保存并退出编辑器。</p><hr><ul><li>在服务器上，使用用 vim 或其他文本编辑器编辑 <code>/etc/ssl/key.pem</code>：</li></ul><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssl/key.pem</span><br></pre></td></tr></table></figure><hr><p>将先前保存的<strong>私钥</strong>内容添加到文件中，然后保存并退出编辑器。</p><p>现在进入 Cloudflare 仪表板的「<strong>SSL/TLS</strong>」部分，导航到「<strong>Overview</strong>」选项卡，并将 SSL/TLS 加密模式改为「 <strong>Full (strict)</strong> 」。这将<strong>确保 Cloudflare 始终加密 Cloudflare 和你的 Nginx 服务器之间的连接</strong>。</p><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/35.png"></p>            </div><p>然后 Cloudflare 仪表板的「<strong>SSL/TLS</strong>」部分，导航到「<strong>Edge Certificates</strong>」选项卡，并将「<strong>Minimum TLS Version</strong>」改为「<strong>TLS 1.2</strong>」：</p><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/EdgeCertificates.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/MinimumTLSVersion.png"></p>            </div><hr><h3 id="部署-Authenticated-Origin-Pulls"><a href="#部署-Authenticated-Origin-Pulls" class="headerlink" title="部署 Authenticated Origin Pulls"></a>部署 Authenticated Origin Pulls</h3><p>如果在 Nginx 服务器上设置了「<strong>Authenticated Origin Pulls</strong>」，就可以确保它只接受来自 Cloudflare 服务器的请求，<strong>防止</strong>任何其他人<strong>直接连接到 Nginx 服务器</strong>。</p><p>要使「<strong>Authenticated Origin Pulls</strong>」正常工作，需要在 Cloudflare 中使用完全 SSL，并更新源 Web 服务器 SSL 配置。下载 <a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/article_attachments/360044928032/origin-pull-ca.pem">origin-pull-ca.pem</a>， <strong>并将证书 <code>origin-pull-ca.pem</code> 的内容写入到服务器的 <code>/etc/ssl/cloudflare.crt</code> 中</strong>。关于 Nginx 的相关配置下一节会讲解</p><ol><li>点击 Cloudflare 仪表板中的「<strong>SSL/TLS</strong>」部分，导航到「<strong>Origin Server</strong>」选项卡并打开「<strong>Authenticated Origin Pulls</strong>」选项 。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/36.png"></p>            </div>
+              </div>
+            </details>
+
+<ol start="2">
+<li><strong>将证书 <code>origin-pull-ca.pem</code> 的内容写入到服务器的 <code>/etc/ssl/cloudflare.crt</code> 中</strong></li>
+</ol>
+<p>你可以选择<strong>下载证书</strong> <a target="_blank" rel="noopener" href="https://support.cloudflare.com/hc/en-us/article_attachments/360044928032/origin-pull-ca.pem">origin-pull-ca.pem</a>，或者<strong>直接复制</strong>证书的内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">-----BEGIN CERTIFICATE-----</span><br><span class="line">MIIGCjCCA/KgAwIBAgIIV5G6lVbCLmEwDQYJKoZIhvcNAQENBQAwgZAxCzAJBgNV</span><br><span class="line">BAYTAlVTMRkwFwYDVQQKExBDbG91ZEZsYXJlLCBJbmMuMRQwEgYDVQQLEwtPcmln</span><br><span class="line">aW4gUHVsbDEWMBQGA1UEBxMNU2FuIEZyYW5jaXNjbzETMBEGA1UECBMKQ2FsaWZv</span><br><span class="line">cm5pYTEjMCEGA1UEAxMab3JpZ2luLXB1bGwuY2xvdWRmbGFyZS5uZXQwHhcNMTkx</span><br><span class="line">MDEwMTg0NTAwWhcNMjkxMTAxMTcwMDAwWjCBkDELMAkGA1UEBhMCVVMxGTAXBgNV</span><br><span class="line">BAoTEENsb3VkRmxhcmUsIEluYy4xFDASBgNVBAsTC09yaWdpbiBQdWxsMRYwFAYD</span><br><span class="line">VQQHEw1TYW4gRnJhbmNpc2NvMRMwEQYDVQQIEwpDYWxpZm9ybmlhMSMwIQYDVQQD</span><br><span class="line">ExpvcmlnaW4tcHVsbC5jbG91ZGZsYXJlLm5ldDCCAiIwDQYJKoZIhvcNAQEBBQAD</span><br><span class="line">ggIPADCCAgoCggIBAN2y2zojYfl0bKfhp0AJBFeV+jQqbCw3sHmvEPwLmqDLqynI</span><br><span class="line">42tZXR5y914ZB9ZrwbL/K5O46exd/LujJnV2b3dzcx5rtiQzso0xzljqbnbQT20e</span><br><span class="line">ihx/WrF4OkZKydZzsdaJsWAPuplDH5P7J82q3re88jQdgE5hqjqFZ3clCG7lxoBw</span><br><span class="line">hLaazm3NJJlUfzdk97ouRvnFGAuXd5cQVx8jYOOeU60sWqmMe4QHdOvpqB91bJoY</span><br><span class="line">QSKVFjUgHeTpN8tNpKJfb9LIn3pun3bC9NKNHtRKMNX3Kl/sAPq7q/AlndvA2Kw3</span><br><span class="line">Dkum2mHQUGdzVHqcOgea9BGjLK2h7SuX93zTWL02u799dr6Xkrad/WShHchfjjRn</span><br><span class="line">aL35niJUDr02YJtPgxWObsrfOU63B8juLUphW/4BOjjJyAG5l9j1//aUGEi/sEe5</span><br><span class="line">lqVv0P78QrxoxR+MMXiJwQab5FB8TG/ac6mRHgF9CmkX90uaRh+OC07XjTdfSKGR</span><br><span class="line">PpM9hB2ZhLol/nf8qmoLdoD5HvODZuKu2+muKeVHXgw2/A6wM7OwrinxZiyBk5Hh</span><br><span class="line">CvaADH7PZpU6z/zv5NU5HSvXiKtCzFuDu4/Zfi34RfHXeCUfHAb4KfNRXJwMsxUa</span><br><span class="line">+4ZpSAX2G6RnGU5meuXpU5/V+DQJp/e69XyyY6RXDoMywaEFlIlXBqjRRA2pAgMB</span><br><span class="line">AAGjZjBkMA4GA1UdDwEB/wQEAwIBBjASBgNVHRMBAf8ECDAGAQH/AgECMB0GA1Ud</span><br><span class="line">DgQWBBRDWUsraYuA4REzalfNVzjann3F6zAfBgNVHSMEGDAWgBRDWUsraYuA4REz</span><br><span class="line">alfNVzjann3F6zANBgkqhkiG9w0BAQ0FAAOCAgEAkQ+T9nqcSlAuW/90DeYmQOW1</span><br><span class="line">QhqOor5psBEGvxbNGV2hdLJY8h6QUq48BCevcMChg/L1CkznBNI40i3/6heDn3IS</span><br><span class="line">zVEwXKf34pPFCACWVMZxbQjkNRTiH8iRur9EsaNQ5oXCPJkhwg2+IFyoPAAYURoX</span><br><span class="line">VcI9SCDUa45clmYHJ/XYwV1icGVI8/9b2JUqklnOTa5tugwIUi5sTfipNcJXHhgz</span><br><span class="line">6BKYDl0/UP0lLKbsUETXeTGDiDpxZYIgbcFrRDDkHC6BSvdWVEiH5b9mH2BON60z</span><br><span class="line">0O0j8EEKTwi9jnafVtZQXP/D8yoVowdFDjXcKkOPF/1gIh9qrFR6GdoPVgB3SkLc</span><br><span class="line">5ulBqZaCHm563jsvWb/kXJnlFxW+1bsO9BDD6DweBcGdNurgmH625wBXksSdD7y/</span><br><span class="line">fakk8DagjbjKShYlPEFOAqEcliwjF45eabL0t27MJV61O/jHzHL3dknXeE4BDa2j</span><br><span class="line">bA+JbyJeUMtU7KMsxvx82RmhqBEJJDBCJ3scVptvhDMRrtqDBW5JShxoAOcpFQGm</span><br><span class="line">iYWicn46nPDjgTU0bX1ZPpTpryXbvciVL5RkVBuyX2ntcOLDPlZWgxZCBp96x07F</span><br><span class="line">AnOzKgZk4RzZPNAxCXERVxajn/FLcOhglVAKo5H0ac+AitlQ0ip55D2/mf8o72tM</span><br><span class="line">fVQ6VpyjEXdiIXWUq/o=</span><br><span class="line">-----END CERTIFICATE-----</span><br></pre></td></tr></table></figure>
+
+<p>使用 vim 编辑 <code>/etc/ssl/cloudflare.crt</code>，<strong>将证书内容粘贴进去</strong>即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/ssl/cloudflare.crt</span><br></pre></td></tr></table></figure>
+
+<h2 id="Nginx-证书和密钥、反向代理的配置"><a href="#Nginx-证书和密钥、反向代理的配置" class="headerlink" title="Nginx 证书和密钥、反向代理的配置"></a>Nginx 证书和密钥、反向代理的配置</h2><div class="note warning"><p><strong>请将本文中的 <code>ericclose.xyz</code> 替换成您注册的域名</strong></p></div>
+
+<p>前面只是把证书和私钥的内容写入到服务器，Nginx 的相关配置并没有写，所以这一节就让我们完成它：</p>
+<p>使用 vim 编辑文件 <code>/etc/nginx/sites-available/ericclose.xyz</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/nginx/sites-available/ericclose.xyz</span><br></pre></td></tr></table></figure>
+
+<p>修改后的文件如下：</p>
+<figure class="highlight nginx"><figcaption><span>/etc/nginx/sites-available/ericclose.xyz</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">80</span> default_server;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">80</span> default_server;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> ericclose.xyz www.ericclose.xyz;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">return</span> <span class="number">301</span> https://$host$request_uri;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="section">server</span> &#123;</span><br><span class="line">  <span class="attribute">listen</span> <span class="number">443</span> ssl http2;</span><br><span class="line">  <span class="attribute">listen</span> [::]:<span class="number">443</span> ssl http2;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">ssl_certificate</span> /etc/ssl/cert.pem;</span><br><span class="line">  <span class="attribute">ssl_certificate_key</span> /etc/ssl/key.pem;</span><br><span class="line">  <span class="attribute">ssl_client_certificate</span> /etc/ssl/cloudflare.crt;</span><br><span class="line">  <span class="attribute">ssl_verify_client</span> <span class="literal">on</span>;</span><br><span class="line">  <span class="attribute">ssl_session_timeout</span> <span class="number">1d</span>;</span><br><span class="line">  <span class="attribute">ssl_session_cache</span> shared:MozSSL:<span class="number">10m</span>;  <span class="comment"># about 40000 sessions</span></span><br><span class="line">  <span class="attribute">ssl_session_tickets</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># intermediate configuration</span></span><br><span class="line">  <span class="attribute">ssl_protocols</span> TLSv1.<span class="number">2</span> TLSv1.<span class="number">3</span>;</span><br><span class="line">  <span class="attribute">ssl_ciphers</span> ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384;</span><br><span class="line">  <span class="attribute">ssl_prefer_server_ciphers</span> <span class="literal">off</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment"># HSTS (ngx_http_headers_module is required) (63072000 seconds)</span></span><br><span class="line">  <span class="attribute">add_header</span> Strict-Transport-Security <span class="string">&quot;max-age=63072000&quot;</span> always;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">server_name</span> ericclose.xyz www.ericclose.xyz;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">root</span> /var/www/ericclose.xyz/html;</span><br><span class="line">  <span class="attribute">index</span> index.html index.htm index.nginx-debian.html;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> / &#123;</span><br><span class="line">    <span class="attribute">try_files</span> $uri $uri/ =<span class="number">404</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="attribute">location</span> /ray &#123;</span><br><span class="line">    <span class="attribute">if</span> ($http_upgrade != <span class="string">&quot;websocket&quot;</span>) &#123;</span><br><span class="line">      <span class="attribute">return</span> <span class="number">404</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="attribute">proxy_redirect</span> <span class="literal">off</span>;</span><br><span class="line">    <span class="attribute">proxy_pass</span> http://127.0.0.1:10000;</span><br><span class="line">    <span class="attribute">proxy_http_version</span> <span class="number">1</span>.<span class="number">1</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Upgrade $http_upgrade;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Connection <span class="string">&quot;upgrade&quot;</span>;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> Host $host;</span><br><span class="line"></span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Real-IP $remote_addr;</span><br><span class="line">    <span class="attribute">proxy_set_header</span> X-Forwarded-For $proxy_add_x_forwarded_for;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>注意要记得修改配置文件中的 <code>server_name</code> 项和 <code>root</code> 项的 <code>ericclose.xyz</code>，更改为您的域名即可</strong>。</li>
+<li>配置文件中 <code>proxy_pass http://127.0.0.1:10000;</code> 的 <code>10000</code> 必须和前面 V2Ray 配置文件（<code>/usr/local/etc/v2ray/config.json</code>）中的 <code>port</code> 一致。</li>
+<li><code>location /ray &#123; ... &#125;</code> 这里的 <code>/ray</code> 必须与前面 V2Ray 配置文件中的 <code>path</code> 一致（相互对应）。</li>
+</ul>
+</blockquote>
+<p><strong>然后重启 nginx 服务</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl restart nginx</span><br></pre></td></tr></table></figure>
+
+<div class="note warning"><p><strong>现在您可以再次访问您注册的域名来判断配置是否正确，如无误将会看到您之前访问域名的页面，同时可以注意到浏览器已经显示是 <code>HTTPS</code> 链接了。</strong></p></div>
+
+<ul>
+<li>为了更具真实的网站伪装效果，<strong>您可以自行寻找些前端模板</strong>套上去（本文将不会赘述）</li>
+</ul>
+<div class="note warning"><p><strong>最后你需要在你从本机中的 <code>known_hosts</code> 文件中删除所有属于你服务器的键（否则你下次将无法正常的通过 ssh 登录到你的服务器）：</strong></p></div>
+
+<p><strong>即通过 <em>cmd</em> 或其他终端程序执行命令</strong></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -R 你的服务器_IP_地址</span><br></pre></td></tr></table></figure>
+
+<h2 id="自启并启动相关服务"><a href="#自启并启动相关服务" class="headerlink" title="自启并启动相关服务"></a>自启并启动相关服务</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo systemctl <span class="built_in">enable</span> v2ray nginx --now   <span class="comment"># 自启并启动 V2ray 和 Nginx 的服务</span></span><br><span class="line">sudo systemctl status -l v2ray nginx      <span class="comment"># 查看 V2ray 和 Nginx 服务的状态</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="TCP-BBR"><a href="#TCP-BBR" class="headerlink" title="TCP BBR"></a>TCP BBR</h2><ul>
+<li><strong>TCP BBR</strong>（Bottleneck Bandwidth and Round-trip propagation time）是由 Google 设计的一种<strong>拥塞控制算法</strong>。自从 <em>Linux Kernel 4.9</em> 开始就引入了该算法，但<strong>默认没有启用，所以需要手动开启</strong>。</li>
+</ul>
+<p><strong>启用</strong>该算法仅需在 <code>/etc/sysctl.conf</code> 文件<strong>末尾追加两行内容</strong>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo bash -c <span class="string">&quot;echo &#x27;net.core.default_qdisc=fq&#x27; &gt;&gt; /etc/sysctl.conf&quot;</span></span><br><span class="line">sudo bash -c <span class="string">&quot;echo &#x27;net.ipv4.tcp_congestion_control=bbr&#x27; &gt;&gt; /etc/sysctl.conf&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>接下来你需要重启系统或者直接<strong>使用 <em>systemctl</em> 重载变更</strong>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl --system</span><br></pre></td></tr></table></figure>
+
+<p>您可以使用以下 <em>sysctl</em> 命令<strong>验证配置是否生效</strong>，如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl net.core.default_qdisc</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若输出结果为 <code>net.core.default_qdisc = fq</code>，则配置已生效</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl net.ipv4.tcp_congestion_control</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>若输出结果为 <code>net.ipv4.tcp_congestion_control = bbr</code>，则配置已生效</li>
+</ul>
+<h2 id="客户端配置（懒人方法）"><a href="#客户端配置（懒人方法）" class="headerlink" title="客户端配置（懒人方法）"></a>客户端配置（懒人方法）</h2><details cyan><summary> 关于客户端配置的说明 </summary>
+              <div class='content'>
+              <p>关于客户端配置文件的编写，可以先用 <strong>v2rayN 生成 <code>vmess://</code> 链接</strong>，之后<strong>再通过 <a target="_blank" rel="noopener" href="https://sub-web.netlify.app/">Subscription Converter</a> 进行转换</strong>即可🤣。</p><ol><li>前往 <a target="_blank" rel="noopener" href="https://github.com/2dust/v2rayN/releases/latest">V2RayN 下载页</a> 找到 <code>v2rayN-Core.zip</code> <strong>下载</strong>，然后<strong>解压</strong>后找到<strong>主程序 <code>v2rayN.exe</code></strong> 双击运行。双击 v2rayN 的<strong>托盘图标</strong>，然后就会弹出<strong>主界面窗口</strong>。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/37.png"></p>            </div><ol start="2"><li>「<strong>服务器</strong>」 -&gt; 「<strong>添加 Vmess 服务器</strong>」，然后请<strong>根据服务端的配置</strong>对内容进行填写。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/38.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/39.png"></p>            </div><blockquote><ul><li><strong>地址（<code>address</code>）</strong>：可以填写您<strong>注册的域名</strong>（也可以是 Cloudflare 的 CDN IP，关于这个后面会讲）</li><li><strong>端口（<code>port</code>）</strong>：<strong>HTTPS 端口号</strong>，即填写 <code>443</code></li><li><strong>用户 ID</strong>（<code>id</code>）：<strong>与 V2Ray 服务端的配置一致</strong>，也就是之前生成的 UUID，即 <code>9dfe7fee-d08f-44f8-ad2d-300d4c9c3a0e</code></li><li><strong>额外 ID（<code>alterId</code>）</strong>：<strong>与 V2Ray 服务端的配置一致</strong>，即 <code>64</code></li><li><strong>加密方式（<code>security</code>）</strong>：<strong>自动</strong>，即 <code>auto</code></li><li><strong>别名（<code>remarks</code>）</strong>：<strong>节点名称</strong>，可自定义，这里我取名为 <code>node</code></li><li><strong>传输协议（<code>network</code>）</strong>：<strong>WebSocket</strong>，即 <code>ws</code></li><li><strong>伪装类型（<code>type</code>）</strong>：<code>none</code></li><li><strong>伪装域名（<code>host</code>）</strong>：填写您<strong>注册的域名</strong>，我的是 <code>ericclose.xyz</code></li><li><strong>路径（<code>path</code>）</strong>：<strong>与 V2Ray 服务端的配置一致</strong>，即 <code>/ray</code></li><li><strong>底层传输安全（<code>tls</code>）</strong>：<code>tls</code></li><li><strong>跳过证书验证（<code>allowInsecure</code>）</strong>：<strong>是否允许不安全连接</strong>（用于客户端）。当<strong>值为 <code>true</code> 时，V2Ray 不会检查远端主机所提供的 TLS 证书的有效性</strong>，所以<strong>为了安全起见我们选择 <code>false</code></strong> 。</li></ul></blockquote><p>填写完成确认即可。</p><ol start="3"><li>如果你想要<strong>直接使用 v2rayN 进行代理上网</strong>的话，只需要<strong>鼠标右键点击 v2rayN 的托盘图标</strong>，<strong>启用 HTTP 代理</strong>，可以是<strong>全局或 PAC（<em>proxy auto-config</em>，代理自动配置） 模式</strong>，取决于你个人需求。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/40.png"></p>            </div><p>此时如果你配置没出问题的话，那么你已经能够科学上网了。</p><ol start="4"><li>如果你想<strong>使用其他客户端，如 clash，Quantumult X 等</strong>。那么你需要在 v2rayN 主界面选中节点 <code>node</code>，点击「<strong>分享</strong>」，即可<strong>生成 <code>vmess://</code> 链接</strong>。访问 <a target="_blank" rel="noopener" href="https://sub-web.netlify.app/">Subscription Converter</a> 网站，选择「<strong>基础模式</strong>」，<strong>复制生成的 <code>vmess://</code> 链接到指定位置</strong>，选择<strong>你想要使用的客户端</strong>，最后「<strong>生成订阅链接</strong>」即可。</li></ol><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/41.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/42.png"></p>            </div>
+              </div>
+            </details>
+
+<ul>
+<li><em>关于各个客户端的使用方法，不属于本文讨论的范畴。</em></li>
+</ul>
+<h2 id="优选-Cloudflare-CDN-节点-IP"><a href="#优选-Cloudflare-CDN-节点-IP" class="headerlink" title="优选 Cloudflare CDN 节点 IP"></a>优选 Cloudflare CDN 节点 IP</h2><p>直接通过本地的 DNS <strong>解析您注册域名</strong>得到的 Cloudflare CDN 的 IP，有时可能速度很不理想，尤其是我使用的<strong>中国电信宽带到了晚上高峰期（20:00 ~ 24:00）的时候特别差劲</strong>。通过一个测试工具 <em>CloudflareSpeedTest</em> 优选出几个 Cloudflare 的 CDN 节点 IP，可以相对缓解这种情况。<strong>由于不同的运营商、不同的地域或不同的时间段，相同的 CDN 节点 IP 表现具有差异，所以建议就是各自在自己的网络环境下进行测试</strong>。</p>
+<details cyan><summary> 优选 Cloudflare CDN 节点 IP 的说明 </summary>
+              <div class='content'>
+              <ul><li><a target="_blank" rel="noopener" href="https://github.com/XIU2/CloudflareSpeedTest/releases/latest">CloudflareSpeedTest 项目 latest release 下载页</a></li></ul><ol><li><p>根据您的<strong>操作系统</strong>和<strong>处理器架构</strong>进行选择下载，以我这边 Windows x64 为例子，我下载的是 <code>CloudflareST_windows_amd64.zip</code>，下载后进行解压。</p></li><li><p>首先 <em>cmd</em> 切换到 <code>CloudflareST.exe</code> 所在的目录，如 <code>F:\Downloads\CloudflareST_windows_amd64</code>：</p></li></ol><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /d F:\Downloads\CloudflareST_windows_amd64</span><br></pre></td></tr></table></figure><ol start="3"><li>此处我以我<strong>平常使用的命令加几个选项</strong>为例子：</li></ol><p>如需要找到 <em>20</em> 个平均延迟低于 <em>300 ms</em> 且下载速度高于 <em>5 MB/s</em> 的 IP 才会停止测速。</p><figure class="highlight bat"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CloudflareST.exe -tl <span class="number">300</span> -sl <span class="number">5</span> -dn <span class="number">20</span></span><br></pre></td></tr></table></figure><blockquote><ul><li><code>-tl</code>: <strong>平均延迟上限</strong>，只输出低于指定平均延迟的 IP</li><li><code>-sl</code>: <strong>下载速度下限</strong>，输出高于指定下载速度的 IP</li><li><code>-dn</code>:  <strong>符合条件的 IP 数量</strong>，即指定输出符合<strong>延迟</strong>和<strong>下载速度</strong>要求的 IP 数量</li><li>完整的使用方法请参考<a target="_blank" rel="noopener" href="https://github.com/XIU2/CloudflareSpeedTest/blob/master/README.md">项目 README</a>。</li></ul></blockquote><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/43.png"></p>            </div><p>当我们得到了一组优选 IP 后，如何使用这些 CDN 节点呢？我们只需要在 v2rayN 填写的<strong>地址（<code>address</code>）</strong>处，分别填写<strong>排名靠前的几个 IP 就行</strong>。具体操作：</p><ul><li>v2rayN 主界面<strong>鼠标右键选中原有的节点</strong> <code>node</code>，选择「<strong>克隆所选服务器</strong>」，然后<strong>双击克隆得到的节点</strong>，将<strong>地址（<code>address</code>）</strong>修改为优选得到的 IP，如 <code>104.31.79.91</code>，<strong>别名（<code>remarks</code>）</strong>取自己喜欢的就好，如 <code>node1</code>。</li></ul><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/44.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/45.png"></p>            </div><p>如想添加多几个节点，就多克隆几个。</p><p>至于<strong>其他客户端的配置转换</strong>依然可以使用 <a target="_blank" rel="noopener" href="https://sub-web.netlify.app/">Subscription Converter</a>，将生成得到的数个 <code>vmess://</code> 链接分行粘贴到 <em>Subscription Converter</em> 中，最后再生成订阅链接就完事了。</p><div class="gallery ">              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare/46.png"></p>            </div><p>P.S. <strong>一条一条的生成 <code>vmess://</code> 链接还是挺麻烦的，所以建议各位学会自己编写你所使用的客户端的配置文件</strong> 🤣</p>
+              </div>
+            </details>
+
+  
+  
+    
+    <div class='footer'>
+      
+        <div class='references'>
+          <section class='header'>
+            
+              <i class="fas fa-quote-left fa-fw" aria-hidden="true"></i>
+            
+            <span>参考资料</span>
+          </section>
+          <section class='body'>
+            <ul>
+              
+                <li>
+                  <a href="https://guide.v2fly.org/advanced/wss_and_web.html" rel="external nofollow noopener noreferrer" target="_blank">
+                  新 V2Ray 白话文指南 -- WebSocket + TLS + Web
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://www.digitalocean.com/community/tutorials/how-to-install-nginx-on-debian-10" rel="external nofollow noopener noreferrer" target="_blank">
+                  How to Install Nginx on Debian 10
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://www.digitalocean.com/community/tutorials/how-to-host-a-website-using-cloudflare-and-nginx-on-ubuntu-20-04" rel="external nofollow noopener noreferrer" target="_blank">
+                  How To Host a Website Using Cloudflare and Nginx on Ubuntu 20.04
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://docs.nginx.com/nginx/admin-guide/web-server/reverse-proxy/" rel="external nofollow noopener noreferrer" target="_blank">
+                  NGINX Reverse Proxy
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://www.cyberciti.biz/cloud-computing/increase-your-linux-server-internet-speed-with-tcp-bbr-congestion-control/" rel="external nofollow noopener noreferrer" target="_blank">
+                  Increase Linux Internet speed with TCP BBR congestion control
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://community.cloudflare.com/t/https-certificate-not-trusted/3610/12" rel="external nofollow noopener noreferrer" target="_blank">
+                  HTTPS certificate not trusted with Cloudflare Origin Certificate
+                  </a>
+                </li>
+              
+                <li>
+                  <a href="https://github.com/XIU2/CloudflareSpeedTest" rel="external nofollow noopener noreferrer" target="_blank">
+                  XIU2/CloudflareSpeedTest
+                  </a>
+                </li>
+              
+            </ul>
+          </section>
+        </div>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html>https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>科学上网</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/V2Ray/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>V2Ray</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Cloudflare/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Cloudflare</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html&title=V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明 - Eric&summary=先决条件
+在开始操作之前，建议你先了解以下基础知识：
+
+使用 ssh 命令或 ssh 客户端登录远程服务器
+使用 vim 或其他编辑器的最基本的操作
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html&title=V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明 - Eric&summary=先决条件
+在开始操作之前，建议你先了解以下基础知识：
+
+使用 ssh 命令或 ssh 客户端登录远程服务器
+使用 vim 或其他编辑器的最基本的操作
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html&title=V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明 - Eric&summary=先决条件
+在开始操作之前，建议你先了解以下基础知识：
+
+使用 ssh 命令或 ssh 客户端登录远程服务器
+使用 vim 或其他编辑器的最基本的操作
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html&text=V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明 - Eric"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/run-QQ-with-Sandboxie-Plus.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>一文教您使用 Sandboxie Plus 运行 QQ 桌面版</p>
+          <p class='content'>图片来源：Pixiv
+
+导语：腾讯 QQ/Tim 会获取用户浏览器（Chrome、IE 以及其它 Chromium 内核浏览器）的历史访问记录，在读取后会根据数据对信息情况进行分类。腾讯 QQ/...</p>
+        </a>
+      
+      
+        <a class='next' href='/Pixel-modem-mod-for-China-Telecom.html'>
+          <p class='title'>更改 Pixel / Pixel XL 的 modem 以支持中国电信<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>
+❗️ 注意：本教程仅适用于 Google Pixel (2016) 或 Google Pixel XL (2016)，其他更新的机型并不适用。
+
+高通现代的 SoC 理论上应该是支持众多 LT...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="gitalk-container"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%B4%AD%E4%B9%B0-VPS"><span class="toc-text">购买 VPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96-VPS"><span class="toc-text">初始化 VPS</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-V2Ray-%E5%89%8D%E7%9A%84%E5%87%86%E5%A4%87"><span class="toc-text">安装 V2Ray 前的准备</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E6%A0%A1%E5%87%86"><span class="toc-text">时间校准</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-text">防火墙初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%9B%B8%E5%85%B3%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">安装相关软件包</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%B9%B6%E9%85%8D%E7%BD%AE-V2Ray"><span class="toc-text">安装并配置 V2Ray</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-V2Ray-%E5%AE%89%E8%A3%85%E8%84%9A%E6%9C%AC"><span class="toc-text">下载 V2Ray 安装脚本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-V2ray-%E4%B8%BB%E7%A8%8B%E5%BA%8F"><span class="toc-text">安装 V2ray 主程序</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E5%8F%91%E8%A1%8C%E7%9A%84-geoip-dat-%E5%92%8C-geosite-dat"><span class="toc-text">安装最新发行的 geoip.dat 和 geosite.dat</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-V2Ray"><span class="toc-text">配置 V2Ray</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B3%A8%E5%86%8C%E5%9F%9F%E5%90%8D"><span class="toc-text">注册域名</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cloudflare-%E6%8E%A5%E7%AE%A1%E5%9F%9F%E5%90%8D%E8%A7%A3%E6%9E%90"><span class="toc-text">Cloudflare 接管域名解析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Nginx-%E5%8F%8A%E5%85%B6%E5%88%9D%E5%A7%8B%E9%85%8D%E7%BD%AE"><span class="toc-text">安装 Nginx 及其初始配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Nginx"><span class="toc-text">安装 Nginx</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E9%98%B2%E7%81%AB%E5%A2%99"><span class="toc-text">配置防火墙</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Nginx"><span class="toc-text">配置 Nginx</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8-Cloudflare-%E7%94%9F%E6%88%90-TLS-%E8%AF%81%E4%B9%A6%E5%92%8C%E7%A7%81%E9%92%A5%E3%80%81%E9%83%A8%E7%BD%B2-Authenticated-Origin-Pulls"><span class="toc-text">使用 Cloudflare 生成 TLS 证书和私钥、部署 Authenticated Origin Pulls</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90-TLS-%E8%AF%81%E4%B9%A6%E5%92%8C%E7%A7%81%E9%92%A5"><span class="toc-text">生成 TLS 证书和私钥</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%83%A8%E7%BD%B2-Authenticated-Origin-Pulls"><span class="toc-text">部署 Authenticated Origin Pulls</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Nginx-%E8%AF%81%E4%B9%A6%E5%92%8C%E5%AF%86%E9%92%A5%E3%80%81%E5%8F%8D%E5%90%91%E4%BB%A3%E7%90%86%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="toc-text">Nginx 证书和密钥、反向代理的配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%87%AA%E5%90%AF%E5%B9%B6%E5%90%AF%E5%8A%A8%E7%9B%B8%E5%85%B3%E6%9C%8D%E5%8A%A1"><span class="toc-text">自启并启动相关服务</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP-BBR"><span class="toc-text">TCP BBR</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E9%85%8D%E7%BD%AE%EF%BC%88%E6%87%92%E4%BA%BA%E6%96%B9%E6%B3%95%EF%BC%89"><span class="toc-text">客户端配置（懒人方法）</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BC%98%E9%80%89-Cloudflare-CDN-%E8%8A%82%E7%82%B9-IP"><span class="toc-text">优选 Cloudflare CDN 节点 IP</span></a></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="V2Ray (WebSocket + TLS + Web + Cloudflare) 手动配置详细说明";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/rss.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:ZetaGo@protonmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/ericclose"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://t.me/Soul_Land"
+                class="social fab fa-telegram flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2018-2021 Eric</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+	volantis.pjax.push(pjax_initCopyCode)
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  function pjax_gitalk() {
+    if(!document.querySelectorAll("#gitalk-container")[0])return;
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    if (document.getElementById('gitalk-container') != null) {
+      var gitalk = new Gitalk(Object.assign({"clientID":"41b3f5366c50441cfe71","clientSecret":"884e7079c59b07a70d9236c334507ce89f9cd469","repo":"comments","owner":"ericclose","admin":["ericclose"],"path":null}, {
+	  id: path,
+	  distractionFreeMode: false  // Facebook-like distraction free mode
+    }));
+      gitalk.render('gitalk-container');
+    }
+  }
+  $(function () {
+    pjax_gitalk();
+  });
+  volantis.pjax.push(pjax_gitalk);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- https://github.com/volantis-x/hexo-theme-volantis/issues/63 -->
+<script>
+	setTimeout(function() {
+	  loadScript("https://www.googletagmanager.com/gtag/js?id=UA-127459865-1");
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-127459865-1');
+	}, 5000);
+	// 关于谷歌统计对 SPA 页面的处理：
+	// 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+	// https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+	volantis.pjax.push(()=>{
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('config', 'UA-127459865-1', {'page_path': document.location.pathname});
+	},'google_analytics')
+</script>
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/js/custom.js"></script>
+
+
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

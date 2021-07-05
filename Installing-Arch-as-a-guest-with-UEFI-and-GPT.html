@@ -1,0 +1,2187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1'>
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+    
+  
+  <!-- 渲染优化 -->
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://cdn.jsdelivr.net'>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  
+  <link rel="preload" href="/css/first.css" as="style">
+  
+
+  <!-- 页面元数据 -->
+  
+  <title>在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric</title>
+  
+    <meta name="keywords" content="VMware,Arch">
+  
+
+  
+    <meta name="description" content="
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+">
+  
+
+  <!-- feed -->
+  
+    <link rel="alternate" href="/rss.xml" title="Eric" type="application/rss+xml">
+  
+
+  <!-- import meta -->
+  
+    
+      <meta name="google-site-verification" content="KHZIpNl0zlKroVHmAmy-KTT561sBQ1fIp1kC7SKtMCc" />
+    
+  
+
+  <!-- link -->
+  
+
+  <!-- import link -->
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-16x16.png">
+  <link rel="manifest" href="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/site.webmanifest">
+  
+
+  
+    
+<link rel="stylesheet" href="/css/first.css">
+
+  
+
+  
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+  
+
+  <script id="loadcss"></script>
+
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        '<h1><b>抱歉，您的浏览器无法访问本站</b></h1>'+
+        '<h3>微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>'+
+        '继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</h3><br/>'+
+        '<a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/WindowsForBusiness/End-of-IE-support"><strong>了解详情 ></strong></a>'+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+	</style>
+    <div class="kill-noscript">
+        <h1><b>抱歉，您的浏览器无法访问本站</b></h1>
+        <h3>本页面需要浏览器支持（启用）JavaScript</h3><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+</head>
+
+  <body>
+    
+
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fas fa-comments fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+          <li><a id="s-toc" class="s-toc fas fa-list fa-fw" target="_self" href='javascript:void(0)'></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Eric's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fas fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fas fa-search fa-fw" target="_self" href='javascript:void(0)'></a></li>
+				
+				<li>
+          <a class="s-menu fas fa-bars fa-fw" target="_self" href='javascript:void(0)'></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/
+                  
+                  
+                  
+                    id="home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/categories/
+                  
+                  
+                  
+                    id="categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/tags/
+                  
+                  
+                  
+                    id="tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/archives/
+                  
+                  
+                  
+                    id="archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/friends/
+                  
+                  
+                  
+                    id="friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover" href=/about/
+                  
+                  
+                  
+                    id="about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+        <div id="full" class='cover-wrapper post search' style="display: none;">
+          
+            <div class='cover-bg' style='background-image:url(https://cdn.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg)'></div>
+          
+          <div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Eric's Blog</p>
+    
+    
+      <p class="subtitle">Never really desperate, only the lost of the soul</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fas fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              id="home">
+              <i class='fas fa-home fa-fw'></i><p>首页</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              id="archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/friends/"
+              
+                rel="nofollow"
+              
+              
+                target="_self"
+              
+              id="friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+              id="about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+          <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+        </div>
+    
+  
+  </div>
+
+      <div id="safearea">
+        <div class="body-wrapper" id="pjax-container">
+          
+
+<div class='l_main'>
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title">
+        在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/img/avatar.jpeg">
+    <p>Eric</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/Linux/">Linux</a>
+    </a>
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2019年11月1日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+          
+        
+      </div>
+    
+  </div>
+
+
+  
+  
+  <blockquote>
+<p>以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="下载-Arch-Linux-的镜像文件"><a href="#下载-Arch-Linux-的镜像文件" class="headerlink" title="下载 Arch Linux 的镜像文件"></a>下载 Arch Linux 的镜像文件</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://www.archlinux.org/download/">https://www.archlinux.org/download/</a></p>
+<h2 id="下载-VMware-Workstation"><a href="#下载-VMware-Workstation" class="headerlink" title="下载 VMware Workstation"></a>下载 VMware Workstation</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://download3.vmware.com/software/wkst/file/VMware-workstation-full-15.5.0-14665864.exe">https://download3.vmware.com/software/wkst/file/VMware-workstation-full-15.5.0-14665864.exe</a></p>
+<blockquote>
+<p>注意：该软件为商业付费软件，请自行购买许可。（当然如果没有钱钱的话，去网上搜索 <del>VMware Workstation 15 Pro永久激活密钥</del> 即可。小声~</p>
+</blockquote>
+<blockquote>
+<p>本文假定您已下载完 Arch Linux 的镜像文件以及安装和激活了 VMware Workstation。</p>
+</blockquote>
+<h2 id="VMware-Workstation-配置"><a href="#VMware-Workstation-配置" class="headerlink" title="VMware Workstation 配置"></a>VMware Workstation 配置</h2><ol>
+<li>「 <strong>创建新的虚拟机</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/1.png"/></div></div>
+
+<ol start="2">
+<li>「 <strong>典型安装</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/2.png"/></div></div>
+
+<ol start="3">
+<li>「 <strong>安装光盘映像文件</strong> 」 &gt; 「 <strong>浏览</strong> 」找到下载好的镜像文件 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/3.png"/></div></div>
+
+<ol start="4">
+<li>「 <strong>Linux</strong> 」 &gt; 选择「 <strong>版本</strong> 」，「 <strong>其他Linux 5.x或更高版本内核64位</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/4.png"/></div></div>
+
+<ol start="5">
+<li>修改「 <strong>虚拟机名称</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/5.png"/></div></div>
+
+<ol start="6">
+<li>「 <strong>最大磁盘大小</strong> 」设为 <strong>40 GB</strong> &gt; 「 <strong>将虚拟硬盘存储为单个文件</strong> 」，有助于提高运行性能 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/6.png"/></div></div>
+
+<ol start="7">
+<li>「 <strong>自定义硬件</strong> 」 &gt; 「 <strong>内存</strong> 」 &gt; 「 <strong>虚拟机内存大小</strong> 」设为 <strong>3072 MB</strong> 。 （我实体机内存大小 8 GB，所以虚拟机给个 3 GB还是可以的）</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/7.png"/></div></div>
+
+<ol start="8">
+<li><p>「 <strong>显示</strong> 」 &gt; 「 <strong>加速3D图形</strong> 」</p>
+</li>
+<li><p>「 <strong>处理器数量（number of processors）</strong> 」 和 「 <strong>每个处理器的核心数量（number of cores per processor）</strong> 」的选择。</p>
+</li>
+</ol>
+<ul>
+<li>处理器数量：指 <strong>物理核心数</strong> 。</li>
+<li>每个处理的核心数量：指每个物理核心数所拥有的 <strong>逻辑核心数</strong> 。</li>
+<li>处理器核心总数 (total processor cores)：前面两者之积。</li>
+</ul>
+<p>与平常所说的处理器是x核x线程的关系如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/8.png"/></div></div>
+
+<p>正如我电脑的处理器是 <strong>Intel(R) Core(TM) i5-8250U</strong> ，是4核8线程的。</p>
+<p>那么现在问题来了，「 <strong>处理器数量</strong> 」 和 「 <strong>每个处理器的核心数量</strong> 」该怎么填写呢。</p>
+<blockquote>
+<ol>
+<li>如果配置与物理机相同的总核数，其性能可达到90%左右；</li>
+<li>总核数相同的情况下，处理器数量分配越少，每个处理器的核心数越多，虚拟机的单处理器性能会显著提高，但是总性能会有所下降；</li>
+<li>反之，处理器数量分配越多，每个处理器的核心数越少，虚拟机的单处理器性能会有所下降，但是总性能会有所提升。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>想要看相关细节，请看引用的内容来源：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/da8443f482e9">https://www.jianshu.com/p/da8443f482e9</a></p>
+</blockquote>
+<p>综上所述，只要「 <strong>处理器核心总数</strong> 」与物理机具有相同的总核数就可以达到可观的性能，所以我这里「 <strong>处理器数量</strong> 」 和 「 <strong>每个处理器的核心数量</strong> 」的值分别设置为 <strong>4</strong> 和 <strong>2</strong> 。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/9.png"/></div></div>
+
+<ol start="10">
+<li>「 <strong>虚拟机</strong> 」 &gt; 「 <strong>设置</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/10.png"/></div></div>
+
+<ol start="11">
+<li>「 <strong>选项</strong> 」 &gt; 「 <strong>高级</strong> 」&gt; 「 <strong>UEFI</strong> 」 &gt; 「 <strong>OK</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/11.png"/></div></div>
+
+<ol start="12">
+<li>至此，VMware Workstation 的配置告一段落。</li>
+</ol>
+<h3 id="开启虚拟机"><a href="#开启虚拟机" class="headerlink" title="开启虚拟机"></a>开启虚拟机</h3><ol>
+<li>开机，UEFI 成功启动以后像这样</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/12.png"/></div></div>
+
+<p>直接选择第一项「 <strong>Arch Linux archiso x86_64 UEFI CD</strong> 」，回车即可</p>
+<ol start="2">
+<li>然后等待一会以后，出现</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/13.png"/></div></div>
+
+<p>这就是说已经正常启动到 Arch Linux 的 Live CD 环境啦。</p>
+<h2 id="安装-Arch-Linux-的全过程"><a href="#安装-Arch-Linux-的全过程" class="headerlink" title="安装 Arch Linux 的全过程"></a>安装 Arch Linux 的全过程</h2><h3 id="联网"><a href="#联网" class="headerlink" title="联网"></a>联网</h3><ol>
+<li>确保系统已经启用了网络接口，用 <strong>ip link</strong> 检查</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># ip link</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用 <strong>dhcpcd</strong> 联网</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># dhcpcd</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>确保联网，能 ping 通 <strong>baidu.com</strong> 即可（百度最佳的作用就是测试网络是否可用了，其他的没啥了，ε=ε=ε=┏(゜ロ゜;)┛ 逃）。VMware Workstation 默认使用 NAT，只要宿主机能联网，通常虚拟机内也可以直接联网的。用 ping 检查网络连接</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># ping -c 4 baidu.com</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>-c</strong> 选项：用于指定 ping 的次数</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/14.png"/></div></div>
+
+<h3 id="时间同步"><a href="#时间同步" class="headerlink" title="时间同步"></a>时间同步</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># timedatectl set-ntp true</span></span><br></pre></td></tr></table></figure>
+
+<p>正确的（误差之内的）时间在验证连接或证书的可信程度时非常重要，例如 HTTPS 和 GnuPG 都需要准确的时间来验证证书的有效性。</p>
+<h3 id="准备磁盘分区"><a href="#准备磁盘分区" class="headerlink" title="准备磁盘分区"></a>准备磁盘分区</h3><h4 id="分区示例"><a href="#分区示例" class="headerlink" title="分区示例"></a>分区示例</h4><p>本文只针对 UEFI with GPT 启动方式，并基于最简单的硬盘结构，采用最简单的分区策略。（其中 SWAP 分区可选，我这里 SWAP 的大小就直接是虚拟机内存大小乘以2）</p>
+<p><strong>UEFI with GPT</strong></p>
+<overflow>
+
+<table>
+<thead>
+<tr>
+<th align="center">挂载点</th>
+<th align="center">分区</th>
+<th align="center">分区类型</th>
+<th align="center">大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>/mnt/boot</code></td>
+<td align="center"><code>/dev/sda1</code></td>
+<td align="center">EFI system partition</td>
+<td align="center">512 MiB</td>
+</tr>
+<tr>
+<td align="center">[<code>SWAP</code>]</td>
+<td align="center"><code>/dev/sda2</code></td>
+<td align="center">Linux swap (交换空间)</td>
+<td align="center">6 GiB</td>
+</tr>
+<tr>
+<td align="center"><code>/mnt</code></td>
+<td align="center"><code>/dev/sda3</code></td>
+<td align="center">Linux x86-64 根目录 (<code>/</code>)</td>
+<td align="center">剩余空间</td>
+</tr>
+</tbody></table>
+</overflow>
+
+<h4 id="fdisk-和-分区操作"><a href="#fdisk-和-分区操作" class="headerlink" title="fdisk 和 分区操作"></a>fdisk 和 分区操作</h4><ol>
+<li>显示所有分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk -l</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/15.png"/></div></div>
+
+<p>其中 <strong>/dev/sda</strong> 是虚拟机上的硬盘</p>
+<ol start="2">
+<li>开始分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk /dev/sda</span></span><br></pre></td></tr></table></figure>
+
+<p>进入分区程序。输入 <strong>m</strong> 可以查看 fdisk 的帮助。在决定写入之前，所有的更改都不会被保存。</p>
+<ul>
+<li>按照上面描述的分区示例，我们输入 <strong>g</strong> 新建一个 空的 GPT 分区表；</li>
+<li>输入 <strong>n</strong> 建立第一个分区，首先会问你选择分区号（默认是可用的最小分区号）， <strong>回车</strong> 即可；</li>
+<li>不用填写 first sector（默认值为可用的最小扇区号），直接 <strong>回车</strong> ，在提示输入 last sector 的时候输入 <strong>+512M</strong> 来依据分区大小自动计算终止扇区。</li>
+</ul>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/16.png"/></div></div>
+
+<p>完成上图的操作后即得到一个512 MB 大小的分区。</p>
+<p>重复上面的步骤，再建立一个 6 GB 大小（或你自己决定 SWAP 分区的大小，当然你也可以不创建 SWAP 分区）的分区；最后重复上面的步骤，但最后一次不填写 last sector 从而自动将所有的剩余空间划分给第三个分区。如下图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/17.png"/></div></div>
+
+<ol start="3">
+<li>修改分区类型</li>
+</ol>
+<p>按 <strong>t</strong> ，会询问需要修改的分区号，然后则是询问你要修改的类型（按 L 会列出各个分区类型的编号），编号 <strong>1</strong> 是 <strong>EFI System Partition</strong> ，编号 <strong>19</strong> 是 <strong>swap</strong> ，分区3的类型不做修改（默认的分区类型是 Linux Filesystem）。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/18.png"/></div></div>
+
+<blockquote>
+<p><strong>注意</strong> ：最后要让建立的分区生效，需要输入 <strong>w</strong> 把分区表写入磁盘</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/19.png"/></div></div>
+
+<ol start="4">
+<li>显示 <strong>/dev/sda</strong> 上的分区（确认是否生效 ）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk -l /dev/sda</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/20.png"/></div></div>
+
+<h4 id="格式化分区-和-设置-swap-分区"><a href="#格式化分区-和-设置-swap-分区" class="headerlink" title="格式化分区 和 设置 swap 分区"></a>格式化分区 和 设置 swap 分区</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mkfs.fat -F32 /dev/sda1</span></span><br><span class="line">root@archiso ~ <span class="comment"># mkswap /dev/sda2</span></span><br><span class="line">root@archiso ~ <span class="comment"># mkfs.ext4 /dev/sda3</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/21.png"/></div></div>
+
+<blockquote>
+<p>Linux 对磁盘分区的命名也很直观。设备 <strong>/dev/sda</strong> 上的第一个分区就是 <strong>/dev/sda1</strong> ，第二个分区就是 <strong>/dev/sda2</strong> ，以此类推。</p>
+</blockquote>
+<p>在上面的指令第一句中，我们为 <strong>/dev/sda1</strong> 分区，也就是 sda 磁盘的第一块分区，建立了 fat 文件系统；**-F32** 表明我们建立的是 fat32 而非 fat16 或其它不是我们想要的 fat。</p>
+<blockquote>
+<p>UEFI规范要求对FAT12，FAT16和FAT32文件系统的支持，但是任何符合条件的供应商都可以选择添加对其他文件系统的支持。 例如，Apple macOS 中的固件支持 HFS+  文件系统。</p>
+</blockquote>
+<p>而在第二句中，我们为 /dev/sda2 创建了专用于 swap 的存储系统；这是一个特殊的分区类型，它很难被当作 filesystem，所以建立它的指令是 mkswap 而非 mkfs.* 。</p>
+<h4 id="启用交换分区-和-文件系统的挂载"><a href="#启用交换分区-和-文件系统的挂载" class="headerlink" title="启用交换分区 和 文件系统的挂载"></a>启用交换分区 和 文件系统的挂载</h4><ol>
+<li>启用交换分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># swapon /dev/sda2</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <strong>swapon –show</strong> 来检查交换分区有没有被正确启用。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/22.png"/></div></div>
+
+<ol start="2">
+<li>然后挂载整个新系统的根，这里我们将它挂载到 Arch ISO 环境的 <strong>/mnt</strong> 下。不要担心，Linux 有一个实用工具 chroot，可以将目录结构的任意点作为新的根。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mount /dev/sda3 /mnt</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>按照我们对新系统目录结构的理解，**/dev/sda1** 应该被挂载于新系统的 <strong>/boot</strong> ，也就是 Arch ISO 环境的 <strong>/mnt/boot</strong> 。但是这个目录目前仍不存在，所以我们手动创建这个挂载点，然后再进行挂载。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mkdir /mnt/boot</span></span><br><span class="line">root@archiso ~ <span class="comment"># mount /dev/sda1 /mnt/boot</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="选择镜像源"><a href="#选择镜像源" class="headerlink" title="选择镜像源"></a>选择镜像源</h4><p>文件 <strong>/etc/pacman.d/mirrorlist</strong> 定义了软件包会从哪个 <strong>镜像源</strong> 下载。在 LiveCD 启动的系统上，所有的镜像源都被启用。</p>
+<p>在 <strong>列表中越前</strong> 的镜像源在下载软件包时有 <strong>越高的优先权</strong> 。</p>
+<p>这个文件接下来还会被 <em>pacstrap</em> 复制到新系统里，所以请确保正确设置。</p>
+<blockquote>
+<p><strong>注意</strong> ：以下需要用到 <em>vim</em> 这个编辑器，建议先去自行学习一下 <em>vim</em> 的基本使用，不然我怕新手碰到这个编辑器会一脸懵逼，后面还会涉及到 <em>vim</em> 的相关操作哦。</p>
+</blockquote>
+<ol>
+<li>vim 编辑 <strong>/etc/pacman.d/mirrorlist</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># vim /etc/pacman.d/mirrorlist</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完上行命令后，键入 <strong>:set nu</strong> ，然后 <strong>回车</strong> 即显示行号，如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/23.png"/></div></div>
+
+<p>然后继续键入 <strong>/China</strong> ，然后 <strong>回车</strong> 搜索中国的源，光标会跳到相应字符串的行。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/24.png"/></div></div>
+
+<p>键入 <strong>V</strong> （注意是 <strong>大写</strong> 的 <strong>V</strong> ,后面的相应字母都要认清楚大小写） 并移动光标进行选择，选中上图用红框括起来的2行，然后按 <strong>d</strong> 进行剪切，再按 <strong>6G</strong> 移动到文件的第 6 行，按 <strong>p</strong> 进行粘贴。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/25.png"/></div></div>
+
+<p>继续键入 <strong>:wq</strong> ，然后 <strong>回车</strong> ，即保存并退出。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/26.png"/></div></div>
+
+<h4 id="安装必须的软件包"><a href="#安装必须的软件包" class="headerlink" title="安装必须的软件包"></a>安装必须的软件包</h4><blockquote>
+<p>使用 <em>pacstrap</em> 脚本，安装 <em>base</em> 软件包和 Linux 内核以及常规硬件的固件：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># pacstrap /mnt base linux linux-firmware</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>装完前面的东西，只是装完能做到开机的必须组件而已，但还有一些必备的东西要装，比如说网络管理器 <em>NetworkManager</em> ， <em>NetworkManager</em> 是检测网络、自动连接网络的程序。无论是无线还是有线连接，它都可以令您轻松管理。这一步也是必备的一步：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># pacstrap /mnt networkmanager</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><h4 id="生成-fstab-文件"><a href="#生成-fstab-文件" class="headerlink" title="生成 fstab 文件"></a>生成 fstab 文件</h4><p><strong>fstab</strong> 文件可用于定义磁盘分区，包括各种块设备或者远程文件系统应该如何装入到文件系统。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>-U</strong> 选项指的是 使用UUID作为源标识符</p>
+<h4 id="arch-chroot"><a href="#arch-chroot" class="headerlink" title="arch-chroot"></a>arch-chroot</h4><blockquote>
+<p><strong>arch-chroot</strong> bash 脚本是软件包 <a target="_blank" rel="noopener" href="https://www.archlinux.org/packages/?name=arch-install-scripts">arch-install-scripts</a> 的一部分，在运行 <strong>/usr/bin/chroot</strong> 前，这个脚本会挂载 <strong>/proc</strong> api 文件系统，建立可用的 <strong>/etc/resolv.conf</strong> 。</p>
+</blockquote>
+<p>前文中提到过，<em>chroot</em> 工具能指定目录结构任意的位置为新的根；由于我们需要进行的配置应该在新系统上完成，所以我们应该 <em>chroot</em> 到新系统的根，也就是 /mnt。不过这里我们不是直接就使用 <em>chroot</em> ，而是通过镜像里提供的 <strong>arch-chroot</strong> 来完成额外的配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># arch-chroot /mnt</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h4><blockquote>
+<p>中国的时区是 <em>Asia/Shanghai</em></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>您可以使用以下命令将硬件时钟设置为当前系统时间：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># hwclock --systohc</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="在新安装的系统上安装-vim-编辑器"><a href="#在新安装的系统上安装-vim-编辑器" class="headerlink" title="在新安装的系统上安装 vim 编辑器"></a>在新安装的系统上安装 vim 编辑器</h4><blockquote>
+<p><strong>Vim</strong> 是从 <strong>vi</strong> 发展出来的一个文本编辑器。其代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和 <strong>Emacs</strong> 并列成为类Unix系统用户最喜欢的编辑器。</p>
+</blockquote>
+<p>这里我们安装 <strong>vim</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># pacman -S vim</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>Y</strong> 确认安装即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/27.png"/></div></div>
+
+<h4 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h4><blockquote>
+<p><strong>/etc/locale.gen</strong> 是一个仅包含注释文档的文本文件。指定您需要的本地化类型，去掉对应行前面的注释符号（＃）就可以啦，还是用 vim 来编辑，建议选择 <strong>en_US.UTF-8 UTF-8</strong> 的项：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># vim /etc/locale.gen</span></span><br></pre></td></tr></table></figure>
+
+<p>找到 <strong>#en_US.UTF-8 UTF-8</strong> 这一行，光标移动到开头的 “#” ，然后键入 <strong>x</strong> ，再键入 <strong>:wq</strong> 保存并退出即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/28.png"/></div></div>
+
+<p>接着执行 <strong>locale-gen</strong> 以生成 locale 讯息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># locale-gen</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/29.png"/></div></div>
+
+<p>创建 <strong>locale.conf</strong> 文件，并相应地设置 <em>LANG</em> 变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># echo LANG=en_US.UTF-8 &gt; /etc/locale.conf</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><ol>
+<li>创建 <strong>hostname</strong> 文件:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># echo YourNewHostname &gt; /etc/hostname</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：<em>YourNewHostname</em> 是你要设置的主机名，名字任取。后面如果还出现，也指的是你取的主机名。</p>
+</blockquote>
+<ol start="2">
+<li>添加对应的信息到 <strong>hosts</strong> ：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># vim /etc/hosts</span></span><br></pre></td></tr></table></figure>
+
+<p>键入 <strong>i</strong> 进入插入模式，编辑后得到的内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Static table lookup for hostnames.</span></span><br><span class="line"><span class="comment"># See hosts(5) for details.</span></span><br><span class="line">127.0.0.1   localhost</span><br><span class="line">::1         localhost</span><br><span class="line">127.0.1.1   YourNewHostname.localdomain    YourNewHostname</span><br></pre></td></tr></table></figure>
+
+<p>填写完成后就键入 <strong>Esc</strong> 键，退回命令模式，再键入 <strong>:wq</strong> 保存并退出。</p>
+<ol start="3">
+<li><em>NetworkManager</em> 服务</li>
+</ol>
+<ul>
+<li>将 <em>NetworkManager</em> 服务设为开机自启：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># systemctl enable NetworkManager</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/30.png"/></div></div>
+
+<h4 id="设置-root-用户密码"><a href="#设置-root-用户密码" class="headerlink" title="设置 root 用户密码"></a>设置 root 用户密码</h4><p>执行 passwd 命令修改当前用户（即 root 用户）的密码。</p>
+<blockquote>
+<p><strong>注意</strong> ：密码输入时不可见，反正输入完后只管回车就行，第二次输入密码是系统要你确认密码。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># passwd</span></span><br><span class="line">New password:</span><br><span class="line">Retype new password:</span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装引导程序"><a href="#安装引导程序" class="headerlink" title="安装引导程序"></a>安装引导程序</h4><blockquote>
+<p>启动加载器是 BIOS 或 UEFI 启动的第一个程序。它负责使用正确的内核参数加载内核, 并根据配置文件加载初始化 RAM disk。</p>
+</blockquote>
+<blockquote>
+<p><strong>注意</strong> ：这一步相当重要，如果没有配置正确的话，你重启后将无法正常启动到系统。</p>
+</blockquote>
+<blockquote>
+<p>systemd-boot (以前被称为gummiboot) 是可以执行 EFI 镜像文件的简单 UEFI 启动管理器。启动的内容可以通过一个配置(glob)或者屏幕菜单选择。Arch 默认安装的 systemd 提供了这个功能。配置很简单，但是只能启动 EFI 可执行程。</p>
+</blockquote>
+<ol>
+<li>安装 EFI 启动管理器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># bootctl --path=/boot install</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>–path=</strong> 后面接的就是我们一开始创建的 esp (EFI system partition) 的挂载路径</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/31.png"/></div></div>
+
+<ol start="2">
+<li>基本配置</li>
+</ol>
+<p>基本设置保存在 <strong>/boot/loader/loader.conf</strong> ,有三个选项：</p>
+<ul>
+<li>default – 默认加载的配置文件 (不含 .conf 后缀)。</li>
+<li>timeout – 启动选单的超时时间,如果不设置的话,启动选单只有在按键时才显示。</li>
+<li>editor - 是否允许用户编辑内核参数. yes 是允许, no 是阻止。</li>
+</ul>
+<p>用 vim 编辑 <strong>/boot/loader/loader.conf</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># vim /boot/loader/loader.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>下面是我编辑好的 <strong>/boot/loader/loader.conf</strong> ，内容如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">default  arch</span><br><span class="line">timeout  4</span><br><span class="line">console-mode max</span><br><span class="line">editor   no</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>添加启动选项</li>
+</ol>
+<p>前面我们不是已经在 <strong>/boot/loader/loader.conf</strong> 中的选项指定了一个 default 选项嘛，所以我们现在就来配置一下这个默认启动选项。</p>
+<p>我们要编辑的配置文件是 <strong>/boot/loader/entries/arch.conf</strong> 同样也是用 vim 来编辑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># vim /boot/loader/entries/arch.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>下面是我暂时编辑好的 <strong>/boot/loader/entries/arch.conf</strong> ，内容如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=</span><br></pre></td></tr></table></figure>
+
+<p>保存并退出编辑后，我们执行一下这么一行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># blkid -s PARTUUID -o value /dev/sda3 &gt;&gt; /boot/loader/entries/arch.conf</span></span><br></pre></td></tr></table></figure>
+
+<p>上面的命令将会把根分区的UUID的值追加到 <strong>/boot/loader/entries/arch.conf</strong> 的最后一行。则文件 <strong>/boot/loader/entries/arch.conf</strong> 的内容现在为（<strong>注意</strong> ：PARTUUID的值都是因人而异的）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=</span><br><span class="line">14420948-2cea-4de7-b042-40f67c618660</span><br></pre></td></tr></table></figure>
+
+<p>最后一次用 vim 编辑 <strong>/boot/loader/entries/arch.conf</strong> ，完成编辑后的文件内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=14420948-2cea-4de7-b042-40f67c618660  rw</span><br></pre></td></tr></table></figure>
+
+<h4 id="重启系统"><a href="#重启系统" class="headerlink" title="重启系统"></a>重启系统</h4><p>根据前面所有的步骤走完一遍，也算是配置好了，让我们重启吧：</p>
+<p>首先 <strong>exit</strong> 退回到 Arch ISO 环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]<span class="comment"># exit</span></span><br></pre></td></tr></table></figure>
+
+<p>然后执行命令重启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># systemctl reboot</span></span><br></pre></td></tr></table></figure>
+
+<p>开机后会有个标题为 “Arch Linux” 的启动选项，即是我们之前添加的选项。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/32.png"/></div></div>
+
+<p>成功进入系统后，就会让你登陆了，当然一开始只有root用户，密码也是你之前设置的那个，输入密码的时候依然不会显示出来。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/33.png"/></div></div>
+
+<h3 id="可选配置"><a href="#可选配置" class="headerlink" title="可选配置"></a>可选配置</h3><h4 id="更新系统和软件包"><a href="#更新系统和软件包" class="headerlink" title="更新系统和软件包"></a>更新系统和软件包</h4><p>一个 <em>pacman</em> 命令就可以升级整个系统。花费的时间取决于系统有多老。这个命令会同步非本地(local)软件仓库并升级系统的软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arch ~] <span class="comment"># pacman -Syu</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="用户与权限配置"><a href="#用户与权限配置" class="headerlink" title="用户与权限配置"></a>用户与权限配置</h4><blockquote>
+<p>正经的 Linux 用户不会用 root 干所有的事情，如果这么做的话将会很危险。创建一个普通的用户，并让它可以通过 <em>sudo</em> 指令用 root 权限执行命令是一般的解决方案。</p>
+</blockquote>
+<ol>
+<li>在用 <em>sudo</em> 之前，我们需要先安装 <strong>sudo</strong> 这个软件包：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arch ~] <span class="comment"># pacman -S sudo</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 <strong>sudoers</strong></li>
+</ol>
+<p>执行 visudo 来修改 <strong>/etc/sudoers</strong> 文件。使用它的好处是，它会在保存时作语法检查，以避免错误的更改使 sudo 彻底不可用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arch ~] <span class="comment"># EDITOR=vim visudo</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此处通过环境变量 <em>EDITOR</em> 来声明使用 vim 来编辑文件，默认的情况下 visudo 是用 vi 来编辑的。（vi 和 vim 的用法略有不同）</p>
+</blockquote>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># %wheel ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
+
+<p>去掉找到的那一行开头的注释，即 <strong>#</strong> 和 <strong>空格</strong> ，不要误删掉 <strong>%</strong> 哦。弄完之后保存即可，得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%wheel ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>去掉注释的作用：取消注释以允许 <em>wheel</em> 组成员执行任何命令。</p>
+</blockquote>
+<ol start="3">
+<li>添加一个 wheel 组普通用户</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arch ~] <span class="comment"># useradd -m -G wheel 你想要取的用户名</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>用户名必须是合法的。最简单的就是 <strong>不带空格的字母</strong> 和 <strong>数字</strong> 的组合。 <strong>-m</strong> 参数表示同时创建该用户的家目录，这会被默认置为 /home/用户名。 <strong>-G wheel</strong> 表示同时将该用户加入 wheel 用户组。</p>
+</blockquote>
+<ol start="4">
+<li>设置普通用户的密码</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@arch ~] <span class="comment"># passwd 用户名</span></span><br></pre></td></tr></table></figure>
+
+<p>完成上述操作之后，注销当前用户之后就可以登录我们新建的普通用户了。</p>
+<p><strong>Ctrl</strong> + <strong>d</strong> 退出账户</p>
+<ol start="5">
+<li>重新登陆你新建的普通账户。</li>
+</ol>
+<p>登录完你会发现，之前的用户名不是 <strong>root</strong> 而是我创建的一个叫做 <strong>admin</strong> 的用户， <strong>#</strong> 也变成了 <strong>$</strong> ，这就意味着这是普通用户。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/34.png"/></div></div>
+
+
+<h4 id="VMware-相关软件包和服务"><a href="#VMware-相关软件包和服务" class="headerlink" title="VMware 相关软件包和服务"></a>VMware 相关软件包和服务</h4><blockquote>
+<p>安装 VMware Tools 是创建新的虚拟机过程的一部分，而升级 VMware Tools 是使虚拟机符合最新标准过程的一部分。尽管客户机操作系统在未安装 VMware Tools 的情况下仍可运行，但许多 VMware 功能只有在安装 VMware Tools 后才可用，如虚拟机显示器填满屏幕，宿主机和虚拟机之间拖拽或复制粘贴文件等。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>open-vm-tools</strong> : VMware Tools 的开源实现</li>
+</ul>
+</blockquote>
+<ol>
+<li>安装 <strong>open-vm-tools</strong></li>
+</ol>
+<ul>
+<li><strong>注意</strong> ：如遇安装失败，请再试一次。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S open-vm-tools</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>vmtoolsd</strong> : 负责汇报虚拟机状态的服务</li>
+<li><strong>vmware-vmblock-fuse</strong> : 文件系统实用程序。 通过FUSE（用户空间中的文件系统）实现宿主 / 虚拟机之间拖拽文件。</li>
+</ul>
+</blockquote>
+<ol>
+<li>将 <strong>vmtoolsd</strong> 和 <strong>vmware-vmblock-fuse</strong> 两个服务设为开机自启</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ systemctl <span class="built_in">enable</span> vmtoolsd vmware-vmblock-fuse</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>gtkmm3</strong> : 如要启用客户机的拖拽与复制粘贴功能，则需要安装 gtkmm3</li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>安装 <strong>gtkmm3</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S gtkmm3</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>xf86-input-vmmouse</strong> : VMWare鼠标输入驱动程序</li>
+<li><strong>xf86-video-vmware</strong> : vmware显示驱动程序，如果想要让虚拟机显示器填满屏幕，就必须要安装这个软件包</li>
+<li><strong>mesa</strong> : OpenGL规范的开源实现</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li>安装相关驱动</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S xf86-input-vmmouse xf86-video-vmware mesa</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装桌面环境"><a href="#安装桌面环境" class="headerlink" title="安装桌面环境"></a>安装桌面环境</h4><h5 id="显示服务"><a href="#显示服务" class="headerlink" title="显示服务"></a>显示服务</h5><blockquote>
+<p><strong>X 窗口管理系统</strong> ( X11 或者 X ) 是基于网络的显示协议，提供了窗口功能，包含建立图形用户界面(GUI)的标准工具和协议。 <em>Xorg</em> 是 X 窗口的开源实现，提供图形用户界面。</p>
+</blockquote>
+<blockquote>
+<p><strong>Wayland</strong> 是一种更新的可用显示服务协议， <em>Weston</em> 是其参考实现。</p>
+</blockquote>
+<p>这里我安装 <strong>xorg</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S xorg</span><br></pre></td></tr></table></figure>
+
+<h5 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h5><blockquote>
+<p>尽管 <em>Xorg</em> 提供了用于构建图形环境的基本框架，但是为了获得完整的用户体验，可能还需要其他组件。 GNOME，KDE，LXDE 和 Xfce 等桌面环境将各种 X 客户端捆绑在一起，例如窗口管理器，面板，文件管理器，终端仿真器，文本编辑器，图标和其他实用程序。</p>
+</blockquote>
+<ul>
+<li><strong>plasma-meta</strong> : 用以安装 KDE Plasma 的元软件包</li>
+</ul>
+<p>我个人偏好 kde，所以执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S plasma-meta</span><br></pre></td></tr></table></figure>
+
+<h5 id="显示管理器"><a href="#显示管理器" class="headerlink" title="显示管理器"></a>显示管理器</h5><blockquote>
+<p>大多数桌面环境都包括一个显示管理器，用于自动启动图形环境和管理用户登录。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>sddm</strong> : 基于QML的X11和Wayland显示管理器</li>
+</ul>
+</blockquote>
+<ol>
+<li>安装 <strong>sddm</strong> ：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S sddm</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>将 <strong>sddm</strong> 服务设为开机自启：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>重启虚拟机</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ systemctl reboot</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录图形界面"><a href="#登录图形界面" class="headerlink" title="登录图形界面"></a>登录图形界面</h4><p>就这样，我们开机了，此时虚拟机的显示区域已经能填满我们宿主机的屏幕了：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/35.png"/></div></div>
+
+<p>输入密码登录即可。</p>
+<h4 id="修改系统显示缩放"><a href="#修改系统显示缩放" class="headerlink" title="修改系统显示缩放"></a>修改系统显示缩放</h4><blockquote>
+<p>在较小尺寸下却拥有较高分辨率的显示器，进入桌面环境后，如果你发现系统的字体和图标等等显得非常小，那么你就必须要设置显示缩放了。</p>
+</blockquote>
+<blockquote>
+<p>如何判断大概怎样的缩放比例才合适呢？最简单的方法就是回到你的 Windows 宿主机，在宿主机桌面空白处「鼠标右键」 &gt; 「显示设置」 &gt; 「缩放和布局」，数值为 <strong>150%</strong> ，即缩放比例为 <strong>1.5x</strong> 。</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/36.png"/></div></div>
+
+<p>这时，我们再回到虚拟机这边：</p>
+<blockquote>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Display Configuration</strong> 」 &gt; 「 <strong>Global scale</strong> 」，下面有一个可拖动的条，拖至 <strong>1.5x</strong> 的位置（这里拖拽的位置取决于你 Windows 的「 <strong>缩放和布局</strong> 」的取值），然后我们点击 「 <strong>Apply</strong> 」 应用。</p>
+</blockquote>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/37.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/38.png"></p>
+            </div>
+
+<p>最后我们在 「 <strong>开始菜单</strong> 」 &gt; 「 <strong>Leave</strong> 」 &gt; 「 <strong>Restart</strong> 」 重启一下虚拟机以让显示缩放生效，到这里我们就算是解决完系统显示缩放的问题了。</p>
+<h4 id="安装终端模拟器"><a href="#安装终端模拟器" class="headerlink" title="安装终端模拟器"></a>安装终端模拟器</h4><p>等等，前面我们装完 kDE 是不是忘了安装什么东西，我们在桌面环境里怎么输入命令呢？这就需要我们安装 <strong>终端模拟器（Terminal Emulator）</strong> 了</p>
+<blockquote>
+<p>终端模拟器有很多，这里就举几个经典的例子：</p>
+<ul>
+<li>GNU/Linux：gnome-terminal、Konsole；</li>
+<li>macOS：Terminal.app、iTerm2；</li>
+<li>Windows：Win32 控制台、ConEmu 等等</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>在正式安装之前，建议先去看看这么一篇文章：<a target="_blank" rel="noopener" href="https://printempw.github.io/the-difference-between-cli-terminal-shell-tty/">命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？</a></p>
+</blockquote>
+<p>然后这里我要安装的终端模拟器是 <strong>deepin-terminal</strong> （属于Deepin的默认终端仿真应用程序，源码仓库地址：<a target="_blank" rel="noopener" href="https://github.com/linuxdeepin/deepin-terminal">https://github.com/linuxdeepin/deepin-terminal</a> ，我选择这个的原因是因为它开源，而且无需任何配置就已经很美观了，还有一点就是不会有 <strong>konsole</strong> 在系统显示缩放比例为 <strong>小数倍</strong> 时随机出现横线或竖线的 bug。）在安装终端模拟器之前，我们需要按下 <strong>Ctrl</strong> + <strong>Alt</strong> + <strong>F2</strong> 切换至 <strong>tty2</strong> ，登录，然后输入命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S deepin-terminal</span><br></pre></td></tr></table></figure>
+
+<p>安装完之后，我们按下 <strong>Ctrl</strong> + <strong>Alt</strong> + <strong>F1</strong> 切换回桌面环境。这时我们就可以在「 <strong>开始菜单</strong> 」找到 <strong>deepin-terminal</strong> 了。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/39.png"/></div></div>
+
+<p>由于 deepin-terminal 默认的主题配色（绿色）我不喜欢，所有我换了另一个。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/40.png"/></div></div>
+
+
+<h4 id="安装中文字体"><a href="#安装中文字体" class="headerlink" title="安装中文字体"></a>安装中文字体</h4><blockquote>
+<p>在没安装中文字体之前，系统是无法正常显示中文的，大概就是会显示 <strong>口口口口</strong> 。所以这里推荐安装下 Google Noto Fonts 系列：<strong>noto-fonts-sc</strong> 和 <strong>noto-fonts-emoji</strong></p>
+</blockquote>
+<p>打开终端模拟器，执行下面的命令安装 <strong>noto-fonts-sc</strong> 和 <strong>noto-fonts-emoji</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo pacman -S base-devel git</span><br><span class="line">git <span class="built_in">clone</span> https://aur.archlinux.org/noto-fonts-sc.git</span><br><span class="line"><span class="built_in">cd</span> noto-fonts-sc</span><br><span class="line">makepkg -si</span><br><span class="line">sudo pacman -S noto-fonts-emoji</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h4><blockquote>
+<p>前面系统已经能正常显示中文了，但是我们却仍无法输入中文。因为还没有安装中文输入法。</p>
+</blockquote>
+<blockquote>
+<p>输入法（IM）是一种输入特定字符和符号集的方法，通常是因为键盘不直接输入它们。大多数输入法是输入法框架的一部分，它使用户可以轻松地在多种输入法之间切换。<br>Linux 下有两种主流的输入法框架，<em>ibus</em> 和 <em>fcitx</em> ，对于 KDE 来说， <em>fcitx</em> 是比较好的选择。</p>
+</blockquote>
+<ol>
+<li>使用下面的指令安装 <strong>fcitx</strong> ：</li>
+</ol>
+<ul>
+<li><strong>fcitx-im</strong> ：软件包组，包含 <strong>fcitx</strong> 本身，和让 fcitx 能正常运行在各版本 qt 和 gtk 程序里的组件（ <strong>fcitx-gtk2</strong> 、 <strong>fcitx-gtk3</strong> 、 <strong>fcitx-qt5</strong> ）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S fcitx-im</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>fcitx 提供有一个集成到 KDE 系统设置内的 fcitx 设置程序 ( <strong>kcm-fcitx</strong> )，输入下面的指令安装 fcitx 的 GUI 配置工具：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S kcm-fcitx</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装完 fcitx 输入法框架后，我们来具体安装一个叫做 <strong>rime</strong> 的输入法，输入下面的指令安装即可：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S fcitx-rime</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此时我们仍不能正确输入中文。因为我们还未配置环境变量来让程序们使用 fcitx。创建或修改 <strong>~/.pam_environment</strong> 文件，用它来指定环境变量。</p>
+</blockquote>
+<ol start="4">
+<li>用 vim 编辑 <strong>~/.pam_environment</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ vim ~/.pam_environment</span><br></pre></td></tr></table></figure>
+
+<p>在里面加上如下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br></pre></td></tr></table></figure>
+
+<p>它们会指定 fcitx 为几乎所有程序的 IM。当然某些不听话的程序除外，比如 Sublime，但这类程序几乎遇不到。</p>
+<ol start="5">
+<li>重启系统</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ systemctl reboot</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>添加 rime 输入法</li>
+</ol>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Personalization</strong> 」 一栏下面的 「 <strong>Regional Settings</strong> 」 &gt; 「 <strong>Input Method</strong> 」，取消勾选 「Only Show Current Language」 &gt; 「 <strong>Rime</strong> 」 &gt; 「 <strong>&gt;</strong> 」 &gt; 「 <strong>Apply</strong> 」 应用生效。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/41.png"/></div></div>
+
+<ol start="7">
+<li>移除默认的 <strong>Keyboard - English (US)</strong></li>
+</ol>
+<p>「Keyboard - English (US)」 &gt; 「**&lt;**」 &gt; 「Apply」 应用生效。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/42.png"/></div></div>
+
+<ol start="8">
+<li>等待 Rime 维护至就绪即可使用 rime 输入法了。</li>
+</ol>
+<div class="gallery ">
+              <p><img src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/43.png"><br><img src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/44.png"></p>
+            </div>
+
+<ol start="9">
+<li>修改繁体输入为简体输入。你可以这么做：</li>
+</ol>
+<p>在可输入区域（如 terminal等），按下 <strong>F4</strong> ，然后会有个 <strong>方案选单</strong> 。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/45.png"/></div></div>
+
+<p>我们按 <strong>1</strong> 键</p>
+<p>然后我们再选 <strong>4</strong> 键</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/46.png"/></div></div>
+
+<p>弄完这个以后输入的中文就是简体的了。</p>
+<blockquote>
+<p>如果要中英文的切换，我们只需要通过 <strong>Shift</strong> 键就可了。</p>
+</blockquote>
+<h4 id="安装浏览器"><a href="#安装浏览器" class="headerlink" title="安装浏览器"></a>安装浏览器</h4><p>浏览器我个人喜欢用 <em>Chromium</em> ，直接用 <em>pacman</em> 安装就是了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S chromium</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-shadowsocks-qt5"><a href="#安装-shadowsocks-qt5" class="headerlink" title="安装 shadowsocks-qt5"></a>安装 shadowsocks-qt5</h4><blockquote>
+<ul>
+<li><strong>shadowsocks-qt5</strong> : 快速，可靠且跨平台的 Shadowsocks 的 GUI 客户端。</li>
+</ul>
+</blockquote>
+<ol>
+<li>Arch Linux 的仓库里有 <strong>shadowsocks-qt5</strong> ，直接安装即可：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S shadowsocks-qt5</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>下载机场的 shadowsocks 配置文件：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/47.png"/></div></div>
+
+<ol start="3">
+<li>导入 shadowsocks 配置文件：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/48.png"/></div></div>
+
+<ol start="4">
+<li>连接可用的机场节点，并记住本地的端口号：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/49.png"/></div></div>
+
+<ol start="5">
+<li>设置系统代理</li>
+</ol>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Network</strong> 」 &gt; 「 <strong>Settings</strong> 」 &gt; 勾选 「 <strong>Use manually specified proxy configuration</strong> 」</p>
+<p>在 「 <strong>Socks Proxy</strong> 」 里填写 <strong>socks5://127.0.0.1</strong> ，其中 「Port」 为 <strong>1080</strong> ，就是我之前让你记住的本地端口号。<br>在 「 <strong>Exceptions</strong> 」 里填写 <strong>localhost,127.0.0.0/8,::1</strong> 。<br>最后点击 「 <strong>Apply</strong> 」，应用即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/50.png"/></div></div>
+
+
+<blockquote>
+<p>如果要关掉代理，就勾选 「 <strong>No Proxy</strong> 」 再 「 <strong>Apply</strong> 」 应用即可，然后断开shadowsocks的连接就好了。</p>
+</blockquote>
+<h4 id="安装文件管理器"><a href="#安装文件管理器" class="headerlink" title="安装文件管理器"></a>安装文件管理器</h4><p>这里我就不多赘述了，文件管理器我选择 <em>dolphin</em> ，用 <em>pacman</em> 安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S dolphin</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装归档管理器"><a href="#安装归档管理器" class="headerlink" title="安装归档管理器"></a>安装归档管理器</h4><ul>
+<li>engrampa: 可视化解压缩软件</li>
+<li>其余均为依赖，安装这些软件包后 <em>engrampa</em> 才能解压缩 7z、rar、zip 格式的压缩包</li>
+</ul>
+<p>用 <em>pacman</em> 安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S p7zip unrar zip unzip engrampa</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装完后的-装逼"><a href="#安装完后的-装逼" class="headerlink" title="安装完后的 装逼"></a>安装完后的 <del>装逼</del></h3><p>只需要先安装 <em>neofetch</em> 即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ sudo pacman -S neofetch</span><br></pre></td></tr></table></figure>
+
+<p>然后直接在 terminal 输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@arch ~]$ neofetch</span><br></pre></td></tr></table></figure>
+
+<p>没错，你应该不止一次看到过类似这样的一张图，这就是信仰啊~ （ 😀</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://cdn.jsdelivr.net/gh/ericclose/images/Installing-Arch-as-a-guest-with-UEFI-and-GPT/cover.png"/></div></div>
+  
+  
+    
+    <div class='footer'>
+      
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html>https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html</a></p>
+              
+            
+          </blockquote>
+        </div>
+      
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/VMware/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>VMware</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Arch/" rel="nofollow"><i class="fas fa-hashtag fa-fw" aria-hidden="true"></i><p>Arch</p></a></div>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html&title=在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric&summary=
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html&title=在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric&summary=
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html&title=在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric&summary=
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png">
+          
+        </a>
+      
+    
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html&text=在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/R619AC-OpBoot-and-OpenWrt-flashing.html'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 )</p>
+          <p class='content'>
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 / 已恢复出厂 的竞斗云2.0
+请先给路由器通上电...</p>
+        </a>
+      
+      
+        <a class='next' href='/StarUML-3-registration.html'>
+          <p class='title'>StarUML 3 破解<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>导语：尽管不注册StarUML也不会有使用时间的限制，但是时不时的弹窗请求注册就让人很闹心，而且不注册的话导出的图片会带水印，再加上官网高昂的费用… 于是乎此文就此产生。
+
+
+事先准备
+Star...</p>
+        </a>
+      
+    </div>
+  
+</article>
+
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="gitalk-container"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside class='l_side'>
+  
+  
+    
+    
+
+
+
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
+    
+  <header>
+    
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-Arch-Linux-%E7%9A%84%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-text">下载 Arch Linux 的镜像文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-VMware-Workstation"><span class="toc-text">下载 VMware Workstation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VMware-Workstation-%E9%85%8D%E7%BD%AE"><span class="toc-text">VMware Workstation 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">开启虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Arch-Linux-%E7%9A%84%E5%85%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">安装 Arch Linux 的全过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E7%BD%91"><span class="toc-text">联网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-text">准备磁盘分区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E7%A4%BA%E4%BE%8B"><span class="toc-text">分区示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fdisk-%E5%92%8C-%E5%88%86%E5%8C%BA%E6%93%8D%E4%BD%9C"><span class="toc-text">fdisk 和 分区操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%88%86%E5%8C%BA-%E5%92%8C-%E8%AE%BE%E7%BD%AE-swap-%E5%88%86%E5%8C%BA"><span class="toc-text">格式化分区 和 设置 swap 分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA-%E5%92%8C-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD"><span class="toc-text">启用交换分区 和 文件系统的挂载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F%E6%BA%90"><span class="toc-text">选择镜像源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%A1%BB%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">安装必须的软件包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F"><span class="toc-text">配置系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab-%E6%96%87%E4%BB%B6"><span class="toc-text">生成 fstab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#arch-chroot"><span class="toc-text">arch-chroot</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E6%96%B0%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85-vim-%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-text">在新安装的系统上安装 vim 编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96"><span class="toc-text">本地化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">网络配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-text">设置 root 用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-text">安装引导程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%80%89%E9%85%8D%E7%BD%AE"><span class="toc-text">可选配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">更新系统和软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="toc-text">用户与权限配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VMware-%E7%9B%B8%E5%85%B3%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%92%8C%E6%9C%8D%E5%8A%A1"><span class="toc-text">VMware 相关软件包和服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-text">安装桌面环境</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E6%9C%8D%E5%8A%A1"><span class="toc-text">显示服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-text">桌面环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">显示管理器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-text">登录图形界面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%98%BE%E7%A4%BA%E7%BC%A9%E6%94%BE"><span class="toc-text">修改系统显示缩放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="toc-text">安装终端模拟器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="toc-text">安装中文字体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-text">安装中文输入法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-text">安装浏览器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-shadowsocks-qt5"><span class="toc-text">安装 shadowsocks-qt5</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">安装文件管理器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">安装归档管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E5%90%8E%E7%9A%84-%E8%A3%85%E9%80%BC"><span class="toc-text">安装完后的 装逼</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+
+  
+
+
+</aside>
+
+
+
+		  
+		  <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.postTitle="在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）";
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  // header 这里无论是否开启pjax都需要
+  var l_header=document.getElementById("l_header");
+  
+  l_header.classList.add("show");
+  
+  
+    // cover
+    var cover_wrapper=document.querySelector('.cover-wrapper');
+    
+    cover_wrapper.id="none";
+    cover_wrapper.style.display="none";
+    
+  
+</script>
+
+        </div>
+        
+  
+  <footer class="footer clearfix">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper">
+          
+            
+              <a href="/rss.xml"
+                class="social fas fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:ZetaGo@protonmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/ericclose"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+            
+              <a href="https://t.me/Soul_Land"
+                class="social fab fa-telegram flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer">
+                
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/tree/4.3.1" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2018-2021 Eric</a></p>
+
+        </div>
+      
+    
+  </footer>
+
+
+        <a id="s-top" class="fas fa-arrow-up fa-fw" href="javascript:void(0)"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+/************这个文件存放不需要重载的全局变量和全局函数*********/
+window.volantis={};
+window.volantis.loadcss=document.getElementById("loadcss");
+/******************** Pjax ********************************/
+function VPjax(){
+	this.list=[] // 存放回调函数
+	this.start=()=>{
+	  for(var i=0;i<this.list.length;i++){
+		this.list[i].run();
+	  }
+	}
+	this.push=(fn,name)=>{
+		var f=new PjaxItem(fn,name);
+		this.list.push(f);
+	}
+	// 构造一个可以run的对象
+	function PjaxItem(fn,name){
+		// 函数名称
+		this.name = name || fn.name
+		// run方法
+		this.run=()=>{
+			fn()
+		}
+	}
+}
+volantis.pjax={}
+volantis.pjax.method={
+	complete: new VPjax(),
+	error: new VPjax(),
+	send: new VPjax()
+}
+volantis.pjax={
+	...volantis.pjax,
+	push: volantis.pjax.method.complete.push,
+	error: volantis.pjax.method.error.push,
+	send: volantis.pjax.method.send.push
+}
+/********************脚本懒加载函数********************************/
+// 已经加入了setTimeout
+function loadScript(src, cb) {
+	setTimeout(function() {
+		var HEAD = document.getElementsByTagName('head')[0] || document.documentElement;
+		var script = document.createElement('script');
+		script.setAttribute('type','text/javascript');
+		if (cb) script.onload = cb;
+		script.setAttribute('src', src);
+		HEAD.appendChild(script);
+	});
+}
+//https://github.com/filamentgroup/loadCSS
+var loadCSS = function( href, before, media, attributes ){
+	var doc = window.document;
+	var ss = doc.createElement( "link" );
+	var ref;
+	if( before ){
+		ref = before;
+	}
+	else {
+		var refs = ( doc.body || doc.getElementsByTagName( "head" )[ 0 ] ).childNodes;
+		ref = refs[ refs.length - 1];
+	}
+	var sheets = doc.styleSheets;
+	if( attributes ){
+		for( var attributeName in attributes ){
+			if( attributes.hasOwnProperty( attributeName ) ){
+				ss.setAttribute( attributeName, attributes[attributeName] );
+			}
+		}
+	}
+	ss.rel = "stylesheet";
+	ss.href = href;
+	ss.media = "only x";
+	function ready( cb ){
+		if( doc.body ){
+			return cb();
+		}
+		setTimeout(function(){
+			ready( cb );
+		});
+	}
+	ready( function(){
+		ref.parentNode.insertBefore( ss, ( before ? ref : ref.nextSibling ) );
+	});
+	var onloadcssdefined = function( cb ){
+		var resolvedHref = ss.href;
+		var i = sheets.length;
+		while( i-- ){
+			if( sheets[ i ].href === resolvedHref ){
+				return cb();
+			}
+		}
+		setTimeout(function() {
+			onloadcssdefined( cb );
+		});
+	};
+	function loadCB(){
+		if( ss.addEventListener ){
+			ss.removeEventListener( "load", loadCB );
+		}
+		ss.media = media || "all";
+	}
+	if( ss.addEventListener ){
+		ss.addEventListener( "load", loadCB);
+	}
+	ss.onloadcssdefined = onloadcssdefined;
+	onloadcssdefined( loadCB );
+	return ss;
+};
+</script>
+<script>
+  
+  loadCSS("https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.14/css/all.min.css", window.volantis.loadcss);
+  
+  
+  
+  
+</script>
+<!-- required -->
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5/dist/jquery.min.js"></script>
+
+<script>
+  function pjax_fancybox() {
+    $(".md .gallery").find("img").each(function () { //渲染 fancybox
+      var element = document.createElement("a"); // a 标签
+      $(element).attr("class", "fancybox");
+      $(element).attr("pjax-fancybox", "");  // 过滤 pjax
+      $(element).attr("href", $(this).attr("src"));
+      if ($(this).attr("data-original")) {
+        $(element).attr("href", $(this).attr("data-original"));
+      }
+      $(element).attr("data-fancybox", "images");
+      var caption = "";   // 描述信息
+      if ($(this).attr('alt')) {  // 判断当前页面是否存在描述信息
+        $(element).attr('data-caption', $(this).attr('alt'));
+        caption = $(this).attr('alt');
+      }
+      var div = document.createElement("div");
+      $(div).addClass("fancybox");
+      $(this).wrap(div); // 最外层套 div ，其实主要作用还是 class 样式
+      var span = document.createElement("span");
+      $(span).addClass("image-caption");
+      $(span).text(caption); // 加描述
+      $(this).after(span);  // 再套一层描述
+      $(this).wrap(element);  // 最后套 a 标签
+    })
+    $(".md .gallery").find("img").fancybox({
+      selector: '[data-fancybox="images"]',
+      hash: false,
+      loop: false,
+      closeClick: true,
+      helpers: {
+        overlay: {closeClick: true}
+      },
+      buttons: [
+        "zoom",
+        "close"
+      ]
+    });
+  };
+  function SCload_fancybox() {
+    if ($(".md .gallery").find("img").length == 0) return;
+    loadCSS("https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css", document.getElementById("loadcss"));
+    loadScript('https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js', pjax_fancybox)
+  };
+  $(function () {
+    SCload_fancybox();
+  });
+  function Pjax_SCload_fancybox(){
+	if (typeof $.fancybox == "undefined") {
+	 SCload_fancybox();
+    } else {
+	 pjax_fancybox();
+    }
+  }
+  volantis.pjax.push(Pjax_SCload_fancybox)
+  volantis.pjax.send(()=>{
+      if (typeof $.fancybox != "undefined") {
+        $.fancybox.close();    // 关闭弹窗
+      }
+  },'fancybox')
+</script>
+
+
+<!-- internal -->
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    if ($(".md").find(".issues-api").length == 0) return;
+	
+	  loadScript('/js/issues.js');
+	
+  };
+  $(function () {
+    loadIssuesJS();
+  });
+  volantis.pjax.push(()=>{
+	if (typeof IssuesAPI == "undefined") {
+	  loadIssuesJS();
+	}
+  },"IssuesJS")
+</script>
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: [],
+	maxRPS: 5,
+	hoverDelay: 25
+  };
+</script>
+<script defer src="https://cdn.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"></script>
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js"></script>
+<script>
+    var clipboard = new ClipboardJS('.btn-copy', {
+        target: function (trigger) {
+            return trigger.nextElementSibling
+        }
+    });
+    function wait(callback, seconds) {
+        var timelag = null;
+        timelag = window.setTimeout(callback, seconds)
+    }
+    function pjax_initCopyCode() {
+		if($(".highlight .code pre").length+$(".article pre code").length==0)return;
+        var copyHtml = '';
+        copyHtml += '<button class="btn-copy" data-clipboard-snippet="">';
+        copyHtml += '<i class="fas fa-copy"></i><span>COPY</span>';
+        copyHtml += '</button>';
+        $(".highlight .code pre").before(copyHtml);
+        $(".article pre code").before(copyHtml);
+        clipboard.off('success').on('success', function (e) {
+            let $btn = $(e.trigger);
+            $btn.addClass('copied');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-check-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPIED';
+            wait(function () {
+                $icon.removeClass('fa-check-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        });
+        clipboard.off('error').on('error', function (e) {
+            e.clearSelection();
+            let $btn = $(e.trigger);
+            $btn.addClass('copy-failed');
+            let $icon = $($btn.find('i'));
+            $icon.removeClass('fa-copy');
+            $icon.addClass('fa-times-circle');
+            let $span = $($btn.find('span'));
+            $span[0].innerText = 'COPY FAILED';
+            wait(function () {
+                $icon.removeClass('fa-times-circle');
+                $icon.addClass('fa-copy');
+                $span[0].innerText = 'COPY'
+            }, 2000)
+        })
+    }
+    $(function () {
+        pjax_initCopyCode()
+    });
+	volantis.pjax.push(pjax_initCopyCode)
+</script>
+
+
+
+
+
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+<script type="text/javascript">
+  function pjax_gitalk() {
+    if(!document.querySelectorAll("#gitalk-container")[0])return;
+    let path = pdata.commentPath;
+    if (path.length == 0) {
+      let defaultPath = '';
+      path = defaultPath || decodeURI(window.location.pathname);
+    }
+    if (document.getElementById('gitalk-container') != null) {
+      var gitalk = new Gitalk(Object.assign({"clientID":"41b3f5366c50441cfe71","clientSecret":"884e7079c59b07a70d9236c334507ce89f9cd469","repo":"comments","owner":"ericclose","admin":["ericclose"],"path":null}, {
+	  id: path,
+	  distractionFreeMode: false  // Facebook-like distraction free mode
+    }));
+      gitalk.render('gitalk-container');
+    }
+  }
+  $(function () {
+    pjax_gitalk();
+  });
+  volantis.pjax.push(pjax_gitalk);
+</script>
+
+
+
+
+
+
+  
+<script src="/js/app.js"></script>
+
+
+
+<!-- optional -->
+
+  <script>
+const SearchServiceimagePath="https://cdn.jsdelivr.net/gh/volantis-x/cdn-volantis@master/img/";
+const ROOT =  ("/" || "/").endsWith('/') ? ("/" || "/") : ("//" || "/" );
+
+$('.input.u-search-input').one('focus',function(){
+	
+		loadScript('/js/search/hexo.js',setSearchService);
+	
+})
+
+function listenSearch(){
+  
+    customSearch = new HexoSearch({
+      imagePath: SearchServiceimagePath
+    });
+  
+}
+function setSearchService() {
+	listenSearch();
+	
+		document.addEventListener("pjax:success", listenSearch);
+	
+}
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "user-color-scheme";
+const rootElementDarkModeAttributeName = "data-user-color-scheme";
+
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+
+/**
+ * get target mode
+ */
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+
+/**
+ * bind click event for toggle button
+ */
+var btn=$("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn");
+function bindToggleButton() {
+    btn.on('click',(e) => {
+      const mode = toggleCustomDarkMode();
+      applyCustomDarkModeSettings(mode);
+    });
+}
+
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", bindToggleButton);
+volantis.pjax.push(bindToggleButton);
+volantis.pjax.send(()=>{
+	btn.unbind('click');
+},'toggle-mode-btn-unbind');
+</script>
+
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- https://github.com/volantis-x/hexo-theme-volantis/issues/63 -->
+<script>
+	setTimeout(function() {
+	  loadScript("https://www.googletagmanager.com/gtag/js?id=UA-127459865-1");
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'UA-127459865-1');
+	}, 5000);
+	// 关于谷歌统计对 SPA 页面的处理：
+	// 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+	// https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+	volantis.pjax.push(()=>{
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('config', 'UA-127459865-1', {'page_path': document.location.pathname});
+	},'google_analytics')
+</script>
+
+
+
+
+
+<script>
+function listennSidebarTOC() {
+  const navItems = document.querySelectorAll(".toc li");
+  if (!navItems.length) return;
+  const sections = [...navItems].map((element) => {
+    const link = element.querySelector(".toc-link");
+    const target = document.getElementById(
+      decodeURI(link.getAttribute("href")).replace("#", "")
+    );
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      window.scrollTo({
+		top: target.offsetTop + 100,
+		
+		behavior: "smooth"
+		
+	  });
+    });
+    return target;
+  });
+
+  function activateNavByIndex(target) {
+    if (target.classList.contains("active-current")) return;
+
+    document.querySelectorAll(".toc .active").forEach((element) => {
+      element.classList.remove("active", "active-current");
+    });
+    target.classList.add("active", "active-current");
+    let parent = target.parentNode;
+    while (!parent.matches(".toc")) {
+      if (parent.matches("li")) parent.classList.add("active");
+      parent = parent.parentNode;
+    }
+  }
+
+  function findIndex(entries) {
+    let index = 0;
+    let entry = entries[index];
+    if (entry.boundingClientRect.top > 0) {
+      index = sections.indexOf(entry.target);
+      return index === 0 ? 0 : index - 1;
+    }
+    for (; index < entries.length; index++) {
+      if (entries[index].boundingClientRect.top <= 0) {
+        entry = entries[index];
+      } else {
+        return sections.indexOf(entry.target);
+      }
+    }
+    return sections.indexOf(entry.target);
+  }
+
+  function createIntersectionObserver(marginTop) {
+    marginTop = Math.floor(marginTop + 10000);
+    let intersectionObserver = new IntersectionObserver(
+      (entries, observe) => {
+        let scrollHeight = document.documentElement.scrollHeight + 100;
+        if (scrollHeight > marginTop) {
+          observe.disconnect();
+          createIntersectionObserver(scrollHeight);
+          return;
+        }
+        let index = findIndex(entries);
+        activateNavByIndex(navItems[index]);
+      },
+      {
+        rootMargin: marginTop + "px 0px -100% 0px",
+        threshold: 0,
+      }
+    );
+    sections.forEach((element) => {
+      element && intersectionObserver.observe(element);
+    });
+  }
+  createIntersectionObserver(document.documentElement.scrollHeight);
+}
+
+document.addEventListener("DOMContentLoaded", listennSidebarTOC);
+document.addEventListener("pjax:success", listennSidebarTOC);
+</script>
+
+<!-- more -->
+
+  
+  <script src="https://cdn.jsdelivr.net/gh/ericclose/cdn-assets/js/custom.js"></script>
+
+
+
+ 
+	   
+	    
+
+
+<script src="https://cdn.jsdelivr.net/npm/pjax@0.2.8/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox])',
+        selectors: [
+          "title",
+          
+          "#pjax-container",
+          "#pjax-header-nav-list"
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      window.subData = null; // 移除标题（用于一二级导航栏切换处）
+
+      volantis.$switcher.removeClass('active'); // 关闭移动端激活的搜索框
+      volantis.$header.removeClass('z_search-open'); // 关闭移动端激活的搜索框
+      volantis.$wrapper.removeClass('sub'); // 跳转页面时关闭二级导航
+
+      // 解绑事件 避免重复监听
+      volantis.$topBtn.unbind('click');
+      $('.menu a').unbind('click');
+      $(window).unbind('resize');
+      $(window).unbind('scroll');
+      $(document).unbind('scroll');
+      $(document).unbind('click');
+      $('body').unbind('click');
+	  // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      $('.nav-main').find('.list-v').not('.menu-phone').removeAttr("style",""); // 移除小尾巴的移除
+      $('.menu-phone.list-v').removeAttr("style",""); // 移除小尾巴的移除
+      $('script[data-pjax], .pjax-reload script').each(function () {
+        $(this).parent().append($(this).remove());
+      });
+      try{
+		// 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+		volantis.pjax.method.complete.start();
+      } catch (e) {
+        console.log(e);
+      }
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+	  // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+	  volantis.pjax.method.error.start();
+      window.location.href = e.triggerElement.href;
+    });
+</script>
+ 
+	  
+    </div>
+  </body>
+</html>

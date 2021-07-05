@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="sitemap.xsl"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+    <url>
+        <loc>https://ericclose.github.io/</loc>
+        <changefreq>daily</changefreq>
+        <priority>1</priority>
+    </url>
+
+
+    <url>
+        <loc>https://ericclose.github.io/you-get-tutorial.html</loc>
+        <lastmod>2021-07-05T08:47:16.990Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/upgrade-kernel-version-on-CentOS-7.html</loc>
+        <lastmod>2021-07-05T08:47:16.989Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/use-the-ODT-to-install-VOL-ed-of-Visio-2016.html</loc>
+        <lastmod>2021-07-05T08:47:16.989Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/shadowsocks-client-on-CentOS-7.html</loc>
+        <lastmod>2021-07-05T08:47:16.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/shadowsocks-qt5-for-Fedora-30.html</loc>
+        <lastmod>2021-07-05T08:47:16.988Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/run-QQ-with-Sandboxie-Plus.html</loc>
+        <lastmod>2021-07-05T08:47:16.987Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/libinput-gestures-on-Arch-Linux-with-KDE.html</loc>
+        <lastmod>2021-07-05T08:47:16.986Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/phicomm-k2p-Padavan.html</loc>
+        <lastmod>2021-07-05T08:47:16.986Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/install-macOS-10-13-on-VMware-workstation.html</loc>
+        <lastmod>2021-07-05T08:47:16.985Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/how-to-install-and-secure-redis-on-debian-10.html</loc>
+        <lastmod>2021-07-05T08:47:16.984Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/install-VMware-Workstation-on-Fedora-30.html</loc>
+        <lastmod>2021-07-05T08:47:16.984Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/git-proxy-config.html</loc>
+        <lastmod>2021-07-05T08:47:16.983Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/active-Windows-10-with-digital-license.html</loc>
+        <lastmod>2021-07-05T08:47:16.982Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Windows-diskpart-tutorial.html</loc>
+        <lastmod>2021-07-05T08:47:16.981Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/access-onionland-with-Tor-on-CentOS-7.html</loc>
+        <lastmod>2021-07-05T08:47:16.981Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/V2Ray-TLS-WebSocket-Nginx-with-Cloudflare.html</loc>
+        <lastmod>2021-07-05T08:47:16.980Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/StarUML-3-registration.html</loc>
+        <lastmod>2021-07-05T08:47:16.978Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/R619AC-OpBoot-and-OpenWrt-flashing.html</loc>
+        <lastmod>2021-07-05T08:47:16.977Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Pixel-modem-mod-for-China-Telecom.html</loc>
+        <lastmod>2021-07-05T08:47:16.976Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Pixel-repairs-and-carriers.html</loc>
+        <lastmod>2021-07-05T08:47:16.976Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Navicat.html</loc>
+        <lastmod>2021-07-05T08:47:16.975Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html</loc>
+        <lastmod>2021-07-05T08:47:16.974Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Install-LineageOS-on-sagit.html</loc>
+        <lastmod>2021-07-05T08:47:16.926Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Captive-Portal-Android.html</loc>
+        <lastmod>2021-07-05T08:47:16.925Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Github-Pages-with-Hexo.html</loc>
+        <lastmod>2021-07-05T08:47:16.925Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+    <url>
+        <loc>https://ericclose.github.io/Google-setup-wizard.html</loc>
+        <lastmod>2021-07-05T08:47:16.925Z</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.6</priority>
+
+    </url>
+
+</urlset>
+<!-- XML Sitemap generated by Hexo SEO Friendly Sitemap Generator -->
