@@ -1,0 +1,15 @@
+User-agent: *
+Allow: /
+Allow: /css/
+Allow: /fonts/
+Allow: /img/
+Allow: /js/
+Disallow: /about/
+Disallow: /archives/
+Disallow: /categories/
+Disallow: /friends/
+Disallow: /page/
+Disallow: /tags/
+Disallow: /test/
+
+Sitemap: https://ericclose.github.io/sitemap.xml
