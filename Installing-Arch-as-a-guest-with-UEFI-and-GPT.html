@@ -1,0 +1,4357 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head hexo-theme='https://github.com/volantis-x/hexo-theme-volantis/#5.8.0'>
+  <meta name="generator" content="Hexo 7.3.0">
+  <meta name="Volantis" content="5.8.0">
+  <meta charset="utf-8">
+  <!-- SEO相关 -->
+  
+  <link rel="canonical" href="https://ericclose.github.io/installing-arch-as-a-guest-with-uefi-and-gpt.html"/>
+  <!-- 渲染优化 -->
+    <meta http-equiv='x-dns-prefetch-control' content='on' />
+      <link rel='dns-prefetch' href='https://unpkg.com'>
+      <link rel="preconnect" href="https://unpkg.com" crossorigin>
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+    <meta http-equiv="Content-Security-Policy" content=" default-src 'self' https:; block-all-mixed-content; base-uri 'self' https:; form-action 'self' https:; worker-src 'self' https:; connect-src 'self' https: *; img-src 'self' data: https: *; media-src 'self' https: *; font-src 'self' data: https: *; frame-src 'self' https: *; manifest-src 'self' https: *; child-src https:; script-src 'self' https: 'unsafe-inline' *; style-src 'self' https: 'unsafe-inline' *; ">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5">
+  <meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+  <meta content="telephone=no" name="format-detection">
+  <!-- import head_begin begin -->
+      <meta name="google-site-verification" content="KHZIpNl0zlKroVHmAmy-KTT561sBQ1fIp1kC7SKtMCc" />
+      <link rel="apple-touch-icon" sizes="180x180" href="https://gcore.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/apple-touch-icon.png">
+      <link rel="icon" type="image/png" sizes="32x32" href="https://gcore.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-32x32.png">
+      <link rel="icon" type="image/png" sizes="16x16" href="https://gcore.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/favicon-16x16.png">
+      <link rel="manifest" href="https://gcore.jsdelivr.net/gh/ericclose/cdn-assets@latest/favicon/site.webmanifest">
+  <!-- import head_begin end -->
+  <!-- Custom Files headBegin begin-->
+  
+  <!-- Custom Files headBegin end-->
+  <!-- front-matter head_begin begin -->
+  <!-- front-matter head_begin end -->
+  <link rel="preload" href="/css/style.css" as="style">
+  <link rel="preload" href="https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/VarelaRound/VarelaRound-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+<link rel="preload" href="https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf" as="font" type="font/ttf" crossorigin="anonymous">
+
+  <!-- feed -->
+      <link rel="alternate" href="/rss.xml" title="Eric" type="application/rss+xml">
+  <!-- 页面元数据 -->
+  <title>在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric</title>
+  <meta name="keywords" content="VMware,Arch,null">
+  <meta desc name="description" content="
+以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。
+ - Eric - Eric">
+  
+<meta property="og:type" content="article">
+<meta property="og:title" content="在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）">
+<meta property="og:url" content="https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html">
+<meta property="og:site_name" content="Eric">
+<meta property="og:description" content="以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+<meta property="article:published_time" content="2019-11-01T07:31:02.000Z">
+<meta property="article:modified_time" content="2025-08-03T07:11:36.699Z">
+<meta property="article:author" content="Eric">
+<meta property="article:tag" content="VMware">
+<meta property="article:tag" content="Arch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+  <style>
+    /* 首屏样式 */
+    #safearea {
+  display: none;
+}
+:root {
+  --color-site-body: #f4f4f4;
+  --color-site-bg: #f4f4f4;
+  --color-site-inner: #fff;
+  --color-site-footer: #666;
+  --color-card: #fff;
+  --color-text: #444;
+  --color-block: #f6f6f6;
+  --color-inlinecode: #c74f00;
+  --color-codeblock: #fff7ea;
+  --color-h1: #3a3a3a;
+  --color-h2: #3a3a3a;
+  --color-h3: #333;
+  --color-h4: #444;
+  --color-h5: #555;
+  --color-h6: #666;
+  --color-p: #444;
+  --color-list: #666;
+  --color-list-hl: #1a78c2;
+  --color-meta: #888;
+  --color-read-bkg: #e0d8c8;
+  --color-read-post: #f8f1e2;
+  --color-copyright-bkg: #f5f5f5;
+}
+* {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  outline: none;
+  margin: 0;
+  padding: 0;
+}
+*::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+*::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: #2196f3;
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+*::-webkit-scrollbar-thumb:hover {
+  background: #ff5722;
+}
+html {
+  color: var(--color-text);
+  width: 100%;
+  height: 100%;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  font-size: 16px;
+}
+html >::-webkit-scrollbar {
+  height: 4px;
+  width: 4px;
+}
+html >::-webkit-scrollbar-track-piece {
+  background: transparent;
+}
+html >::-webkit-scrollbar-thumb {
+  background: #54b5a0 linear-gradient(45deg, rgba(255,255,255,0.4) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.4) 75%, transparent 75%, transparent);
+  cursor: pointer;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+}
+html >::-webkit-scrollbar-thumb:hover {
+  background: #54b5a0 linear-gradient(45deg, rgba(255,255,255,0.4) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.4) 75%, transparent 75%, transparent);
+}
+body {
+  background-color: var(--color-site-body);
+  text-rendering: optimizelegibility;
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+  line-height: 1.6;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+}
+body.modal-active {
+  overflow: hidden;
+}
+@media screen and (max-width: 680px) {
+  body.modal-active {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+}
+a {
+  color: #2196f3;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+a:hover {
+  color: #ff5722;
+}
+a:active,
+a:hover {
+  outline: 0;
+}
+ul,
+ol {
+  padding-left: 0;
+}
+ul li,
+ol li {
+  list-style: none;
+}
+header {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+img {
+  border: 0;
+  background: none;
+  max-width: 100%;
+}
+svg:not(:root) {
+  overflow: hidden;
+}
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  height: 0;
+  border: 0;
+  border-radius: 1px;
+  -webkit-border-radius: 1px;
+  border-bottom: 1px solid rgba(68,68,68,0.1);
+}
+button,
+input {
+  color: inherit;
+  font: inherit;
+  margin: 0;
+}
+button {
+  overflow: visible;
+  text-transform: none;
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+@supports (backdrop-filter: blur(20px)) {
+  .blur {
+    background: rgba(255,255,255,0.9) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+  }
+}
+.shadow {
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.shadow.floatable {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.shadow.floatable:hover {
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.1), 0 4px 8px 0px rgba(0,0,0,0.1), 0 8px 16px 0px rgba(0,0,0,0.1);
+}
+#l_cover {
+  min-height: 64px;
+}
+.cover-wrapper {
+  top: 0;
+  left: 0;
+  max-width: 100%;
+  height: 100vh;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  align-self: center;
+  align-content: center;
+  color: var(--color-site-inner);
+  padding: 0 16px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: -100px;
+}
+.cover-wrapper .cover-bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-position: center;
+  background-size: cover;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+}
+.cover-wrapper .cover-bg.lazyload:not(.loaded) {
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+}
+.cover-wrapper .cover-bg.lazyload.loaded {
+  animation-delay: 0s;
+  animation-duration: 0.5s;
+  animation-fill-mode: forwards;
+  animation-timing-function: ease-out;
+  animation-name: fadeIn;
+}
+@-moz-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+    filter: blur(12px);
+    transform: scale(1.02);
+    -webkit-transform: scale(1.02);
+    -khtml-transform: scale(1.02);
+    -moz-transform: scale(1.02);
+    -o-transform: scale(1.02);
+    -ms-transform: scale(1.02);
+  }
+  100% {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  z-index: 1;
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.cover-wrapper#full {
+  height: calc(100vh + 100px);
+  padding-bottom: 100px;
+}
+.cover-wrapper#half {
+  max-height: 640px;
+  min-height: 400px;
+  height: calc(36vh - 64px + 200px);
+}
+.cover-wrapper #scroll-down {
+  width: 100%;
+  height: 64px;
+  position: absolute;
+  bottom: 100px;
+  text-align: center;
+  cursor: pointer;
+}
+.cover-wrapper #scroll-down .scroll-down-effects {
+  color: #fff;
+  font-size: 24px;
+  line-height: 64px;
+  position: absolute;
+  width: 24px;
+  left: calc(50% - 12px);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+  animation: scroll-down-effect 1.5s infinite;
+  -webkit-animation: scroll-down-effect 1.5s infinite;
+  -khtml-animation: scroll-down-effect 1.5s infinite;
+  -moz-animation: scroll-down-effect 1.5s infinite;
+  -o-animation: scroll-down-effect 1.5s infinite;
+  -ms-animation: scroll-down-effect 1.5s infinite;
+}
+@-moz-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-webkit-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@-o-keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@keyframes scroll-down-effect {
+  0% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+  50% {
+    top: -16px;
+    opacity: 0.4;
+    -webkit-opacity: 0.4;
+    -moz-opacity: 0.4;
+  }
+  100% {
+    top: 0;
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.cover-wrapper .cover-body {
+  margin-top: 64px;
+  margin-bottom: 100px;
+}
+.cover-wrapper .cover-body,
+.cover-wrapper .cover-body .top,
+.cover-wrapper .cover-body .bottom {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -webkit-flex-direction: column;
+  -ms-flex-direction: column;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  max-width: 100%;
+}
+.cover-wrapper .cover-body .bottom {
+  margin-top: 32px;
+}
+.cover-wrapper .cover-body .title {
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+  font-size: 3.125rem;
+  line-height: 1.2;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+.cover-wrapper .cover-body .subtitle {
+  font-size: 20px;
+}
+.cover-wrapper .cover-body .logo {
+  max-height: 120px;
+  max-width: calc(100% - 4 * 16px);
+}
+@media screen and (min-height: 1024px) {
+  .cover-wrapper .cover-body .title {
+    font-size: 3rem;
+  }
+  .cover-wrapper .cover-body .subtitle {
+    font-size: 1.05rem;
+  }
+  .cover-wrapper .cover-body .logo {
+    max-height: 150px;
+  }
+}
+.cover-wrapper .cover-body .m_search {
+  position: relative;
+  max-width: calc(100% - 16px);
+  width: 320px;
+  vertical-align: middle;
+}
+.cover-wrapper .cover-body .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  width: 100%;
+}
+.cover-wrapper .cover-body .m_search .icon,
+.cover-wrapper .cover-body .m_search .input {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.cover-wrapper .cover-body .m_search .icon {
+  position: absolute;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  line-height: 2.5rem;
+  width: 32px;
+  top: 0;
+  left: 5px;
+  color: rgba(68,68,68,0.75);
+}
+.cover-wrapper .cover-body .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  height: 2.5rem;
+  width: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  font-size: 0.875rem;
+  -webkit-appearance: none;
+  padding-left: 36px;
+  border-radius: 1.4rem;
+  -webkit-border-radius: 1.4rem;
+  background: rgba(255,255,255,0.6);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: var(--color-text);
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .cover-body .m_search .input {
+    padding-left: 36px;
+  }
+}
+.cover-wrapper .cover-body .m_search .input:hover {
+  background: rgba(255,255,255,0.8);
+}
+.cover-wrapper .cover-body .m_search .input:focus {
+  background: #fff;
+}
+.cover-wrapper .list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+  -webkit-flex-wrap: wrap;
+  -khtml-flex-wrap: wrap;
+  -moz-flex-wrap: wrap;
+  -o-flex-wrap: wrap;
+  -ms-flex-wrap: wrap;
+  align-items: stretch;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.cover-wrapper .list-h a {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 0;
+  -ms-flex: 1 0;
+  flex: 1 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  font-weight: 600;
+}
+.cover-wrapper .list-h a img {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  border-radius: 2px;
+  -webkit-border-radius: 2px;
+  margin: 4px;
+  min-width: 40px;
+  max-width: 44px;
+}
+@media screen and (max-width: 768px) {
+  .cover-wrapper .list-h a img {
+    min-width: 36px;
+    max-width: 40px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .cover-wrapper .list-h a img {
+    margin: 2px 4px;
+    min-width: 32px;
+    max-width: 36px;
+  }
+}
+@media screen and (max-width: 375px) {
+  .cover-wrapper .list-h a img {
+    min-width: 28px;
+    max-width: 32px;
+  }
+}
+.cover-wrapper {
+  max-width: 100%;
+}
+.cover-wrapper.search .bottom .menu {
+  margin-top: 16px;
+}
+.cover-wrapper.search .bottom .menu .list-h a {
+  white-space: nowrap;
+  -webkit-box-direction: normal;
+  -moz-box-direction: normal;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -webkit-flex-direction: row;
+  -ms-flex-direction: row;
+  flex-direction: row;
+  align-items: baseline;
+  padding: 2px;
+  margin: 4px;
+  color: var(--color-site-inner);
+  opacity: 0.75;
+  -webkit-opacity: 0.75;
+  -moz-opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  border-bottom: 2px solid transparent;
+}
+.cover-wrapper.search .bottom .menu .list-h a i {
+  margin-right: 4px;
+}
+.cover-wrapper.search .bottom .menu .list-h a p {
+  font-size: 0.9375rem;
+}
+.cover-wrapper.search .bottom .menu .list-h a:hover,
+.cover-wrapper.search .bottom .menu .list-h a.active,
+.cover-wrapper.search .bottom .menu .list-h a:active {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+  border-bottom: 2px solid var(--color-site-inner);
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-mode: 'dark';
+  }
+  :root:not([color-scheme]) {
+    --color-site-body: #121212;
+    --color-read-bkg: #1f1f1f;
+    --color-read-post: #262626;
+    --color-site-bg: #1f1f1f;
+    --color-site-inner: rgba(238,238,238,0.871);
+    --color-site-footer: rgba(170,170,170,0.871);
+    --color-card: #262626;
+    --color-text: rgba(238,238,238,0.871);
+    --color-block: #434343;
+    --color-codeblock: #1f1f1f;
+    --color-inlinecode: #d56d28;
+    --color-h1: rgba(255,255,255,0.871);
+    --color-h2: rgba(255,255,255,0.871);
+    --color-h3: rgba(255,255,255,0.6);
+    --color-h4: rgba(255,255,255,0.6);
+    --color-h5: rgba(255,255,255,0.6);
+    --color-h6: rgba(255,255,255,0.6);
+    --color-p: rgba(217,217,217,0.871);
+    --color-list: rgba(217,217,217,0.871);
+    --color-list-hl: #4dabf5;
+    --color-meta: rgba(191,191,191,0.871);
+    --color-link: rgba(191,191,191,0.871);
+    --color-copyright-bkg: #21252b;
+  }
+  :root:not([color-scheme]) img {
+    filter: brightness(70%) !important;
+  }
+  :root:not([color-scheme]) .blur {
+    background: rgba(31,31,31,0.9) !important;
+  }
+  :root:not([color-scheme]) .white-box.blur {
+    background: rgba(38,38,38,0.9) !important;
+  }
+  :root:not([color-scheme]) .nav-main .u-search-input {
+    background: var(--color-card) !important;
+  }
+  :root:not([color-scheme]) #l_main .article .prev-next>a {
+    background: var(--color-block) !important;
+  }
+  :root:not([color-scheme]) #l_main .article .prev-next>a:hover {
+    background: var(--color-site-bg) !important;
+  }
+  :root:not([color-scheme]) .article blockquote {
+    background: var(--color-block) !important;
+  }
+  :root:not([color-scheme]) .article-title a {
+    color: var(--color-h1) !important;
+  }
+  :root:not([color-scheme]) details>summary {
+    color: var(--color-p) !important;
+    background: var(--color-site-bg) !important;
+  }
+  :root:not([color-scheme]) details {
+    border: 1px solid var(--color-site-bg) !important;
+    background: var(--color-site-bg) !important;
+  }
+  :root:not([color-scheme]) #u-search .modal,
+  :root:not([color-scheme]) #u-search .modal-header,
+  :root:not([color-scheme]) #u-search .modal-body {
+    background: var(--color-card) !important;
+  }
+  :root:not([color-scheme]) #u-search .modal-body .modal-results .result:hover {
+    background: var(--color-block) !important;
+  }
+  :root:not([color-scheme]) .u-search-input:hover {
+    background: var(--color-block) !important;
+  }
+  :root:not([color-scheme]) .u-search-input:focus {
+    background: var(--color-site-body) !important;
+  }
+}
+[color-scheme='dark'] {
+  --color-site-body: #121212;
+  --color-read-bkg: #1f1f1f;
+  --color-read-post: #262626;
+  --color-site-bg: #1f1f1f;
+  --color-site-inner: rgba(238,238,238,0.871);
+  --color-site-footer: rgba(170,170,170,0.871);
+  --color-card: #262626;
+  --color-text: rgba(238,238,238,0.871);
+  --color-block: #434343;
+  --color-codeblock: #1f1f1f;
+  --color-inlinecode: #d56d28;
+  --color-h1: rgba(255,255,255,0.871);
+  --color-h2: rgba(255,255,255,0.871);
+  --color-h3: rgba(255,255,255,0.6);
+  --color-h4: rgba(255,255,255,0.6);
+  --color-h5: rgba(255,255,255,0.6);
+  --color-h6: rgba(255,255,255,0.6);
+  --color-p: rgba(217,217,217,0.871);
+  --color-list: rgba(217,217,217,0.871);
+  --color-list-hl: #4dabf5;
+  --color-meta: rgba(191,191,191,0.871);
+  --color-link: rgba(191,191,191,0.871);
+  --color-copyright-bkg: #21252b;
+}
+[color-scheme='dark'] img {
+  filter: brightness(70%) !important;
+}
+[color-scheme='dark'] .blur {
+  background: rgba(31,31,31,0.9) !important;
+}
+[color-scheme='dark'] .white-box.blur {
+  background: rgba(38,38,38,0.9) !important;
+}
+[color-scheme='dark'] .nav-main .u-search-input {
+  background: var(--color-card) !important;
+}
+[color-scheme='dark'] #l_main .article .prev-next>a {
+  background: var(--color-block) !important;
+}
+[color-scheme='dark'] #l_main .article .prev-next>a:hover {
+  background: var(--color-site-bg) !important;
+}
+[color-scheme='dark'] .article blockquote {
+  background: var(--color-block) !important;
+}
+[color-scheme='dark'] .article-title a {
+  color: var(--color-h1) !important;
+}
+[color-scheme='dark'] details>summary {
+  color: var(--color-p) !important;
+  background: var(--color-site-bg) !important;
+}
+[color-scheme='dark'] details {
+  border: 1px solid var(--color-site-bg) !important;
+  background: var(--color-site-bg) !important;
+}
+[color-scheme='dark'] #u-search .modal,
+[color-scheme='dark'] #u-search .modal-header,
+[color-scheme='dark'] #u-search .modal-body {
+  background: var(--color-card) !important;
+}
+[color-scheme='dark'] #u-search .modal-body .modal-results .result:hover {
+  background: var(--color-block) !important;
+}
+[color-scheme='dark'] .u-search-input:hover {
+  background: var(--color-block) !important;
+}
+[color-scheme='dark'] .u-search-input:focus {
+  background: var(--color-site-body) !important;
+}
+@media screen and (max-width: 500px) {
+  [color-scheme='dark'] .l_header .m_search {
+    background: var(--color-site-bg) !important;
+  }
+}
+@font-face {
+  font-family: 'UbuntuMono';
+  src: url("https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/UbuntuMono/UbuntuMono-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Varela Round';
+  src: url("https://unpkg.com/volantis-static@0.0.1654736714924/media/fonts/VarelaRound/VarelaRound-Regular.ttf");
+  font-weight: 'normal';
+  font-style: 'normal';
+  font-display: swap;
+}
+.l_header {
+  position: fixed;
+  z-index: 1000;
+  top: 0;
+  width: 100%;
+  height: 64px;
+  background: var(--color-card);
+  box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+  -webkit-box-shadow: 0 1px 2px 0px rgba(0,0,0,0.1);
+}
+.l_header.auto {
+  transition: opacity 0.4s ease;
+  -webkit-transition: opacity 0.4s ease;
+  -khtml-transition: opacity 0.4s ease;
+  -moz-transition: opacity 0.4s ease;
+  -o-transition: opacity 0.4s ease;
+  -ms-transition: opacity 0.4s ease;
+  visibility: hidden;
+}
+.l_header.auto.show {
+  opacity: 1 !important;
+  -webkit-opacity: 1 !important;
+  -moz-opacity: 1 !important;
+  visibility: visible;
+}
+.l_header .container {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+.l_header #wrapper {
+  height: 100%;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+.l_header #wrapper .nav-main,
+.l_header #wrapper .nav-sub {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  flex-wrap: nowrap;
+  -webkit-flex-wrap: nowrap;
+  -khtml-flex-wrap: nowrap;
+  -moz-flex-wrap: nowrap;
+  -o-flex-wrap: nowrap;
+  -ms-flex-wrap: nowrap;
+  justify-content: space-between;
+  -webkit-justify-content: space-between;
+  -khtml-justify-content: space-between;
+  -moz-justify-content: space-between;
+  -o-justify-content: space-between;
+  -ms-justify-content: space-between;
+  align-items: center;
+}
+.l_header #wrapper .nav-main {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.l_header #wrapper.sub .nav-main {
+  transform: translateY(-64px);
+  -webkit-transform: translateY(-64px);
+  -khtml-transform: translateY(-64px);
+  -moz-transform: translateY(-64px);
+  -o-transform: translateY(-64px);
+  -ms-transform: translateY(-64px);
+}
+.l_header #wrapper .nav-sub {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  opacity: 0;
+  -webkit-opacity: 0;
+  -moz-opacity: 0;
+  height: 64px;
+  width: calc(100% - 2 * 16px);
+  position: absolute;
+}
+.l_header #wrapper .nav-sub ::-webkit-scrollbar {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (min-width: 2048px) {
+  .l_header #wrapper .nav-sub {
+    max-width: 55vw;
+    margin: auto;
+  }
+}
+.l_header #wrapper.sub .nav-sub {
+  opacity: 1;
+  -webkit-opacity: 1;
+  -moz-opacity: 1;
+}
+.l_header #wrapper .title {
+  position: relative;
+  color: var(--color-text);
+  padding-left: 24px;
+  max-height: 64px;
+}
+.l_header #wrapper .nav-main .title {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex-shrink: 0;
+  line-height: 64px;
+  padding: 0 24px;
+  font-size: 1.25rem;
+  font-family: "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Helvetica, monospace;
+}
+.l_header #wrapper .nav-main .title img {
+  height: 64px;
+}
+.l_header .nav-sub {
+  max-width: 1080px;
+  margin: auto;
+}
+.l_header .nav-sub .title {
+  font-weight: bold;
+  font-family: UbuntuMono, "Varela Round", "PingFang SC", "Microsoft YaHei", Helvetica, Arial, Menlo, Monaco, monospace, sans-serif;
+  line-height: 1.2;
+  max-height: 64px;
+  white-space: normal;
+  flex-shrink: 1;
+}
+.l_header .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  line-height: 64px;
+  align-items: center;
+}
+.l_header .switcher .s-toc {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .l_header .switcher .s-toc {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+  }
+}
+.l_header .switcher >li {
+  height: 48px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  margin: 2px;
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li {
+    margin: 0 1px;
+    height: 48px;
+  }
+}
+.l_header .switcher >li >a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  align-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0.85em 1.1em;
+  border-radius: 100px;
+  -webkit-border-radius: 100px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  color: #2196f3;
+}
+.l_header .switcher >li >a:hover {
+  border: none;
+}
+.l_header .switcher >li >a.active,
+.l_header .switcher >li >a:active {
+  border: none;
+  background: var(--color-site-bg);
+}
+@media screen and (max-width: 500px) {
+  .l_header .switcher >li >a {
+    width: 36px;
+    height: 48px;
+  }
+}
+.l_header .nav-sub .switcher {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+}
+.l_header .m_search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  height: 64px;
+  width: 240px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (max-width: 1024px) {
+  .l_header .m_search {
+    width: 44px;
+    min-width: 44px;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 0;
+    -webkit-opacity: 0;
+    -moz-opacity: 0;
+  }
+  .l_header .m_search:hover {
+    width: 240px;
+  }
+  .l_header .m_search:hover input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search:hover .input {
+    width: 100%;
+  }
+  .l_header .m_search:hover .input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search {
+    min-width: 0;
+  }
+  .l_header .m_search input::placeholder {
+    opacity: 1;
+    -webkit-opacity: 1;
+    -moz-opacity: 1;
+  }
+}
+.l_header .m_search .form {
+  position: relative;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
+.l_header .m_search .icon {
+  position: absolute;
+  width: 36px;
+  left: 5px;
+  color: var(--color-meta);
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .icon {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+.l_header .m_search .input {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  line-height: 1.3;
+  width: 100%;
+  color: var(--color-text);
+  background: #fafafa;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  padding-left: 40px;
+  font-size: 0.875rem;
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  border: none;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+@media screen and (min-width: 500px) {
+  .l_header .m_search .input:focus {
+    box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0 4px 8px 0px rgba(0,0,0,0.1);
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .m_search .input {
+    background: var(--color-block);
+    padding-left: 8px;
+    border: none;
+  }
+  .l_header .m_search .input:hover,
+  .l_header .m_search .input:focus {
+    border: none;
+  }
+}
+@media (max-width: 500px) {
+  .l_header .m_search {
+    left: 0;
+    width: 0;
+    overflow: hidden;
+    position: absolute;
+    background: #fff;
+    transition: all 0.28s ease;
+    -webkit-transition: all 0.28s ease;
+    -khtml-transition: all 0.28s ease;
+    -moz-transition: all 0.28s ease;
+    -o-transition: all 0.28s ease;
+    -ms-transition: all 0.28s ease;
+  }
+  .l_header .m_search .input {
+    border-radius: 32px;
+    -webkit-border-radius: 32px;
+    margin-left: 16px;
+    padding-left: 16px;
+  }
+  .l_header.z_search-open .m_search {
+    width: 100%;
+  }
+  .l_header.z_search-open .m_search .input {
+    width: calc(100% - 120px);
+  }
+}
+ul.m-pc >li>a {
+  color: inherit;
+  border-bottom: 2px solid transparent;
+}
+ul.m-pc >li>a:active,
+ul.m-pc >li>a.active {
+  border-bottom: 2px solid #2196f3;
+}
+ul.m-pc li:hover >ul.list-v,
+ul.list-v li:hover >ul.list-v {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.nav-list-h {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: -ms-flexbox /* TWEENER - IE 10 */;
+  display: -webkit-flex /* NEW - Chrome */;
+  display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+  display: flex;
+  align-items: stretch;
+}
+ul.nav-list-h>li {
+  position: relative;
+  justify-content: center;
+  -webkit-justify-content: center;
+  -khtml-justify-content: center;
+  -moz-justify-content: center;
+  -o-justify-content: center;
+  -ms-justify-content: center;
+  height: 100%;
+  line-height: 2.4;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+ul.nav-list-h>li >a {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 600;
+}
+ul.list-v {
+  z-index: 1;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: absolute;
+  background: var(--color-card);
+  box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  -webkit-box-shadow: 0 2px 4px 0px rgba(0,0,0,0.08), 0 4px 8px 0px rgba(0,0,0,0.08), 0 8px 16px 0px rgba(0,0,0,0.08);
+  margin-top: -6px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+  padding: 8px 0;
+}
+ul.list-v.show {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+}
+ul.list-v hr {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+ul.list-v >li {
+  white-space: nowrap;
+  word-break: keep-all;
+}
+ul.list-v >li.header {
+  font-size: 0.78125rem;
+  font-weight: bold;
+  line-height: 2em;
+  color: var(--color-meta);
+  margin: 8px 16px 4px;
+}
+ul.list-v >li.header i {
+  margin-right: 8px;
+}
+ul.list-v >li ul {
+  margin-left: 0;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: -40px;
+}
+ul.list-v .aplayer-container {
+  min-height: 64px;
+  padding: 6px 16px;
+}
+ul.list-v >li>a {
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  color: var(--color-list);
+  font-size: 0.875rem;
+  font-weight: bold;
+  line-height: 36px;
+  padding: 0 20px 0 16px;
+  text-overflow: ellipsis;
+  margin: 0 4px;
+  border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+@media screen and (max-width: 1024px) {
+  ul.list-v >li>a {
+    line-height: 40px;
+  }
+}
+ul.list-v >li>a >i {
+  margin-right: 8px;
+}
+ul.list-v >li>a:active,
+ul.list-v >li>a.active {
+  color: var(--color-list-hl);
+}
+ul.list-v >li>a:hover {
+  color: var(--color-list-hl);
+  background: var(--color-site-bg);
+}
+.l_header .menu >ul>li>a {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: block;
+  padding: 0 8px;
+}
+.l_header .menu >ul>li>a >i {
+  margin-right: 4px;
+}
+.l_header ul.nav-list-h>li {
+  color: var(--color-list);
+  line-height: 64px;
+}
+.l_header ul.nav-list-h>li >a {
+  max-height: 64px;
+  overflow: hidden;
+  color: inherit;
+}
+.l_header ul.nav-list-h>li >a:active,
+.l_header ul.nav-list-h>li >a.active {
+  color: #2196f3;
+}
+.l_header ul.nav-list-h>li:hover>a {
+  color: var(--color-list-hl);
+}
+.l_header ul.nav-list-h>li i.music {
+  animation: rotate-effect 1.5s linear infinite;
+  -webkit-animation: rotate-effect 1.5s linear infinite;
+  -khtml-animation: rotate-effect 1.5s linear infinite;
+  -moz-animation: rotate-effect 1.5s linear infinite;
+  -o-animation: rotate-effect 1.5s linear infinite;
+  -ms-animation: rotate-effect 1.5s linear infinite;
+}
+@-moz-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@-o-keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+@keyframes rotate-effect {
+  0% {
+    transform: rotate(0);
+    -webkit-transform: rotate(0);
+    -khtml-transform: rotate(0);
+    -moz-transform: rotate(0);
+    -o-transform: rotate(0);
+    -ms-transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+    -webkit-transform: rotate(90deg);
+    -khtml-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+    -webkit-transform: rotate(180deg);
+    -khtml-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+    -webkit-transform: rotate(270deg);
+    -khtml-transform: rotate(270deg);
+    -moz-transform: rotate(270deg);
+    -o-transform: rotate(270deg);
+    -ms-transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -khtml-transform: rotate(360deg);
+    -moz-transform: rotate(360deg);
+    -o-transform: rotate(360deg);
+    -ms-transform: rotate(360deg);
+  }
+}
+.menu-phone li ul.list-v {
+  right: calc(100% - 0.5 * 16px);
+}
+.menu-phone li ul.list-v ul {
+  right: calc(100% - 0.5 * 16px);
+}
+#wrapper {
+  max-width: 1080px;
+  margin: auto;
+}
+@media screen and (min-width: 2048px) {
+  #wrapper {
+    max-width: 55vw;
+  }
+}
+#wrapper .menu {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -webkit-flex: 1 1;
+  -ms-flex: 1 1;
+  flex: 1 1;
+  margin: 0 16px 0 0;
+}
+#wrapper .menu .list-v ul {
+  left: calc(100% - 0.5 * 16px);
+}
+.menu-phone {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  margin-top: 16px;
+  right: 8px;
+  transition: all 0.28s ease;
+  -webkit-transition: all 0.28s ease;
+  -khtml-transition: all 0.28s ease;
+  -moz-transition: all 0.28s ease;
+  -o-transition: all 0.28s ease;
+  -ms-transition: all 0.28s ease;
+}
+.menu-phone ul {
+  right: calc(100% - 0.5 * 16px);
+}
+@media screen and (max-width: 500px) {
+  .menu-phone {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: block;
+  }
+}
+.l_header {
+  max-width: 65vw;
+  left: calc((100% - 65vw) * 0.5);
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
+}
+@media screen and (max-width: 2048px) {
+  .l_header {
+    max-width: 1112px;
+    left: calc((100% - 1112px) * 0.5);
+  }
+}
+@media screen and (max-width: 1112px) {
+  .l_header {
+    left: 0;
+    border-radius: 0;
+    -webkit-border-radius: 0;
+    max-width: 100%;
+  }
+}
+@media screen and (max-width: 500px) {
+  .l_header .container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+  .l_header #wrapper .nav-main .title {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+  .l_header #wrapper .nav-sub {
+    width: 100%;
+  }
+  .l_header #wrapper .nav-sub .title {
+    overflow-y: scroll;
+    margin-top: 2px;
+    padding: 8px 16px;
+  }
+  .l_header #wrapper .switcher {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: -ms-flexbox /* TWEENER - IE 10 */;
+    display: -webkit-flex /* NEW - Chrome */;
+    display: flex /* NEW, Spec - Opera 12.1, Firefox 20+ */;
+    display: flex;
+    margin-right: 8px;
+  }
+  .l_header .menu {
+    display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+    display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+    display: none;
+  }
+}
+@media screen and (max-width: 500px) {
+  .list-v li {
+    max-width: 270px;
+  }
+}
+#u-search {
+  display: -webkit-box /* OLD - iOS 6-, Safari 3.1-6 */;
+  display: -moz-box /* OLD - Firefox 19- (buggy but mostly works) */;
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding: 60px 20px;
+  z-index: 1001;
+}
+@media screen and (max-width: 680px) {
+  #u-search {
+    padding: 0px;
+  }
+}
+@media screen and (prefers-color-scheme: dark) and (max-width: 500px) {
+  .l_header .m_search {
+    background: var(--color-site-bg) !important;
+  }
+}
+
+  </style>
+  <link rel="stylesheet" href="/css/style.css" media="print" onload="this.media='all';this.onload=null">
+  <noscript><link rel="stylesheet" href="/css/style.css"></noscript>
+    <script>
+      let userColorScheme=localStorage.getItem("color-scheme")
+      if(userColorScheme){
+        document.documentElement.setAttribute("color-scheme", userColorScheme);
+      }
+    </script>
+  
+<script>
+if (/*@cc_on!@*/false || (!!window.MSInputMethodContext && !!document.documentMode))
+    document.write(
+	'<style>'+
+		'html{'+
+			'overflow-x: hidden !important;'+
+			'overflow-y: hidden !important;'+
+		'}'+
+		'.kill-ie{'+
+			'text-align:center;'+
+			'height: 100%;'+
+			'margin-top: 15%;'+
+			'margin-bottom: 5500%;'+
+		'}'+
+    '.kill-t{'+
+      'font-size: 2rem;'+
+    '}'+
+    '.kill-c{'+
+      'font-size: 1.2rem;'+
+    '}'+
+		'#l_header,#l_body{'+
+			'display: none;'+
+		'}'+
+	'</style>'+
+    '<div class="kill-ie">'+
+        `<span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>`+
+        `<span class="kill-c">微软已经于2016年终止了对 Internet Explorer (IE) 10 及更早版本的支持，<br/>继续使用存在极大的安全隐患，请使用当代主流的浏览器进行访问。</span><br/>`+
+        `<a target="_blank" rel="noopener" href="https://blogs.windows.com/windowsexperience/2021/05/19/the-future-of-internet-explorer-on-windows-10-is-in-microsoft-edge/"><strong>了解详情 ></strong></a>`+
+    '</div>');
+</script>
+
+
+<noscript>
+	<style>
+		html{
+			overflow-x: hidden !important;
+			overflow-y: hidden !important;
+		}
+		.kill-noscript{
+			text-align:center;
+			height: 100%;
+			margin-top: 15%;
+			margin-bottom: 5500%;
+		}
+    .kill-t{
+      font-size: 2rem;
+    }
+    .kill-c{
+      font-size: 1.2rem;
+    }
+		#l_header,#l_body{
+			display: none;
+		}
+	</style>
+    <div class="kill-noscript">
+        <span class="kill-t"><b>抱歉，您的浏览器无法访问本站</b></span><br/>
+        <span class="kill-c">本页面需要浏览器支持（启用）JavaScript</span><br/>
+        <a target="_blank" rel="noopener" href="https://www.baidu.com/s?wd=启用JavaScript"><strong>了解详情 ></strong></a>
+    </div>
+</noscript>
+
+
+  <script>
+  /************这个文件存放不需要重载的全局变量和全局函数*********/
+  window.volantis = {}; // volantis 全局变量
+  volantis.debug = "env"; // 调试模式
+  volantis.dom = {}; // 页面Dom see: /source/js/app.js etc.
+
+  volantis.GLOBAL_CONFIG ={
+    debug: "env",
+    cdn: {"js":{"app":"/js/app.js","parallax":"/js/plugins/parallax.js","rightMenu":"/js/plugins/rightMenu.js","rightMenus":"/js/plugins/rightMenus.js","sites":"/js/plugins/tags/sites.js","friends":"/js/plugins/tags/friends.js","contributors":"/js/plugins/tags/contributors.js","search":"/js/search/hexo.js"},"css":{"style":"/css/style.css"}},
+    default: {"avatar":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg","link":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/link/8f277b4ee0ecd.svg","cover":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg","image":"https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/image/2659360.svg"},
+    lastupdate: new Date(1754205970857),
+    sidebar: {
+      for_page: ["blogger","category","tagcloud"],
+      for_post: ["toc"],
+      webinfo: {
+        lastupd: {
+          enable: false,
+          friendlyShow: true
+        },
+        runtime: {
+          data: "2018/10/14",
+          unit: "天"
+        }
+      }
+    },
+    plugins: {
+      message: {"enable":true,"css":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/izitoast/dist/css/iziToast.min.css","js":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/izitoast/dist/js/iziToast.min.js","icon":{"default":"fa-solid fa-info-circle light-blue","quection":"fa-solid fa-question-circle light-blue"},"time":{"default":5000,"quection":20000},"position":"topRight","transitionIn":"bounceInLeft","transitionOut":"fadeOutRight","titleColor":"var(--color-text)","messageColor":"var(--color-text)","backgroundColor":"var(--color-card)","zindex":2147483647,"copyright":{"enable":true,"title":"知识共享许可协议","message":"请遵守 CC BY-NC-SA 4.0 协议。","icon":"far fa-copyright light-blue"},"aplayer":{"enable":true,"play":"fa-solid fa-play","pause":"fa-solid fa-pause"},"rightmenu":{"enable":false,"notice":false}},
+      fancybox: {"css":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fancyapps/ui/dist/fancybox.css","js":"https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fancyapps/ui/dist/fancybox.umd.js"},
+      
+      
+      
+    }
+  }
+
+  /******************** volantis.EventListener ********************************/
+  // 事件监听器 see: /source/js/app.js
+  volantis.EventListener = {}
+  // 这里存放pjax切换页面时将被移除的事件监听器
+  volantis.EventListener.list = []
+  //构造方法
+  function volantisEventListener(type, f, ele) {
+    this.type = type
+    this.f = f
+    this.ele = ele
+  }
+  // 移除事件监听器
+  volantis.EventListener.remove = () => {
+    volantis.EventListener.list.forEach(function (i) {
+      i.ele.removeEventListener(i.type, i.f, false)
+    })
+    volantis.EventListener.list = []
+  }
+  /******************** volantis.dom.$ ********************************/
+  // 注：这里没有选择器，也没有forEach一次只处理一个dom，这里重新封装主题常用的dom方法，返回的是dom对象，对象包含了以下方法，同时保留dom的原生API
+  function volantisDom(ele) {
+    if (!ele) ele = document.createElement("div")
+    this.ele = ele;
+    // ==============================================================
+    this.ele.find = (c) => {
+      let q = this.ele.querySelector(c)
+      if (q)
+        return new volantisDom(q)
+    }
+    // ==============================================================
+    this.ele.hasClass = (c) => {
+      return this.ele.className.match(new RegExp('(\\s|^)' + c + '(\\s|$)'));
+    }
+    this.ele.addClass = (c) => {
+      this.ele.classList.add(c);
+      return this.ele
+    }
+    this.ele.removeClass = (c) => {
+      this.ele.classList.remove(c);
+      return this.ele
+    }
+    this.ele.toggleClass = (c) => {
+      if (this.ele.hasClass(c)) {
+        this.ele.removeClass(c)
+      } else {
+        this.ele.addClass(c)
+      }
+      return this.ele
+    }
+    // ==============================================================
+    // 参数 r 为 true 表示pjax切换页面时事件监听器将被移除，false不移除
+    this.ele.on = (c, f, r = 1) => {
+      this.ele.addEventListener(c, f, false)
+      if (r) {
+        volantis.EventListener.list.push(new volantisEventListener(c, f, this.ele))
+      }
+      return this.ele
+    }
+    this.ele.click = (f, r) => {
+      this.ele.on("click", f, r)
+      return this.ele
+    }
+    this.ele.scroll = (f, r) => {
+      this.ele.on("scroll", f, r)
+      return this.ele
+    }
+    // ==============================================================
+    this.ele.html = (c) => {
+      // if(c=== undefined){
+      //   return this.ele.innerHTML
+      // }else{
+      this.ele.innerHTML = c
+      return this.ele
+      // }
+    }
+    // ==============================================================
+    this.ele.hide = (c) => {
+      this.ele.style.display = "none"
+      return this.ele
+    }
+    this.ele.show = (c) => {
+      this.ele.style.display = "block"
+      return this.ele
+    }
+    // ==============================================================
+    return this.ele
+  }
+  volantis.dom.$ = (ele) => {
+    return !!ele ? new volantisDom(ele) : null;
+  }
+  /******************** RunItem ********************************/
+  function RunItem() {
+    this.list = []; // 存放回调函数
+    this.start = () => {
+      for (var i = 0; i < this.list.length; i++) {
+        this.list[i].run();
+      }
+    };
+    this.push = (fn, name, setRequestAnimationFrame = true) => {
+      let myfn = fn
+      if (setRequestAnimationFrame) {
+        myfn = ()=>{
+          volantis.requestAnimationFrame(fn)
+        }
+      }
+      var f = new Item(myfn, name);
+      this.list.push(f);
+    };
+    this.remove = (name) =>{
+      for (let index = 0; index < this.list.length; index++) {
+        const e = this.list[index];
+        if (e.name == name) {
+          this.list.splice(index,1);
+        }
+      }
+    }
+    // 构造一个可以run的对象
+    function Item(fn, name) {
+      // 函数名称
+      this.name = name || fn.name;
+      // run方法
+      this.run = () => {
+        try {
+          fn()
+        } catch (error) {
+          console.log(error);
+        }
+      };
+    }
+  }
+  /******************** Pjax ********************************/
+  // /layout/_plugins/pjax/index.ejs
+  // volantis.pjax.send(callBack[,"callBackName"]) 传入pjax:send回调函数
+  // volantis.pjax.push(callBack[,"callBackName"]) 传入pjax:complete回调函数
+  // volantis.pjax.error(callBack[,"callBackName"]) 传入pjax:error回调函数
+  volantis.pjax = {};
+  volantis.pjax.method = {
+    complete: new RunItem(),
+    error: new RunItem(),
+    send: new RunItem(),
+  };
+  volantis.pjax = Object.assign(volantis.pjax, {
+    push: volantis.pjax.method.complete.push,
+    error: volantis.pjax.method.error.push,
+    send: volantis.pjax.method.send.push,
+  });
+  /******************** RightMenu ********************************/
+  // volantis.rightmenu.handle(callBack[,"callBackName"]) 外部菜单项控制
+  // 可在 volantis.mouseEvent 处获取右键事件
+  volantis.rightmenu = {};
+  volantis.rightmenu.method = {
+    handle: new RunItem(),
+  }
+  volantis.rightmenu = Object.assign(volantis.rightmenu, {
+    handle: volantis.rightmenu.method.handle.push,
+  });
+  /********************  Dark Mode  ********************************/
+  // /layout/_partial/scripts/darkmode.ejs
+  // volantis.dark.mode 当前模式 dark or light
+  // volantis.dark.toggle() 暗黑模式触发器
+  // volantis.dark.push(callBack[,"callBackName"]) 传入触发器回调函数
+  volantis.dark = {};
+  volantis.dark.method = {
+    toggle: new RunItem(),
+  };
+  volantis.dark = Object.assign(volantis.dark, {
+    push: volantis.dark.method.toggle.push,
+  });
+  /********************  Message  ********************************/
+  // VolantisApp.message
+  /********************  isMobile  ********************************/
+  // /source/js/app.js
+  // volantis.isMobile
+  // volantis.isMobileOld
+  /********************脚本动态加载函数********************************/
+  // volantis.js(src, cb)  cb 可以传入onload回调函数 或者 JSON对象 例如: volantis.js("src", ()=>{}) 或 volantis.js("src", {defer:true,onload:()=>{}})
+  // volantis.css(src)
+
+  // 返回Promise对象，如下方法同步加载资源，这利于处理文件资源之间的依赖关系，例如：APlayer 需要在 MetingJS 之前加载
+  // (async () => {
+  //     await volantis.js("...theme.plugins.aplayer.js.aplayer...")
+  //     await volantis.js("...theme.plugins.aplayer.js.meting...")
+  // })();
+
+  // 已经加入了setTimeout
+  volantis.js = (src, cb) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var HEAD = document.getElementsByTagName("head")[0] || document.documentElement;
+        var script = document.createElement("script");
+        script.setAttribute("type", "text/javascript");
+        if (cb) {
+          if (JSON.stringify(cb)) {
+            for (let p in cb) {
+              if (p == "onload") {
+                script[p] = () => {
+                  cb[p]()
+                  resolve()
+                }
+              } else {
+                script[p] = cb[p]
+                script.onload = resolve
+              }
+            }
+          } else {
+            script.onload = () => {
+              cb()
+              resolve()
+            };
+          }
+        } else {
+          script.onload = resolve
+        }
+        script.setAttribute("src", src);
+        HEAD.appendChild(script);
+      });
+    });
+  }
+  volantis.css = (src) => {
+    return new Promise(resolve => {
+      setTimeout(function () {
+        var link = document.createElement('link');
+        link.rel = "stylesheet";
+        link.href = src;
+        link.onload = resolve;
+        document.getElementsByTagName("head")[0].appendChild(link);
+      });
+    });
+  }
+  /********************按需加载的插件********************************/
+  // volantis.import.jQuery().then(()=>{})
+  volantis.import = {
+    jQuery: () => {
+      if (typeof jQuery == "undefined") {
+        return volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/jquery/dist/jquery.min.js")
+      } else {
+        return new Promise(resolve => {
+          resolve()
+        });
+      }
+    }
+  }
+  /********************** requestAnimationFrame ********************************/
+  // 1、requestAnimationFrame 会把每一帧中的所有 DOM 操作集中起来，在一次重绘或回流中就完成，并且重绘或回流的时间间隔紧紧跟随浏览器的刷新频率，一般来说，这个频率为每秒60帧。
+  // 2、在隐藏或不可见的元素中，requestAnimationFrame 将不会进行重绘或回流，这当然就意味着更少的的 cpu，gpu 和内存使用量。
+  volantis.requestAnimationFrame = (fn)=>{
+    if (!window.requestAnimationFrame) {
+      window.requestAnimationFrame = window.requestAnimationFrame || window.mozRequestAnimationFrame || window.webkitRequestAnimationFrame;
+    }
+    window.requestAnimationFrame(fn)
+  }
+  /************************ layoutHelper *****************************************/
+  volantis.layoutHelper = (helper, html, opt)=>{
+    opt = Object.assign({clean:false, pjax:true}, opt)
+    function myhelper(helper, html, clean) {
+      volantis.tempDiv = document.createElement("div");
+      volantis.tempDiv.innerHTML = html;
+      let layoutHelper = document.querySelector("#layoutHelper-"+helper)
+      if (layoutHelper) {
+        if (clean) {
+          layoutHelper.innerHTML = ""
+        }
+        layoutHelper.append(volantis.tempDiv);
+      }
+    }
+    myhelper(helper, html, opt.clean)
+    if (opt.pjax) {
+      volantis.pjax.push(()=>{
+        myhelper(helper, html, opt.clean)
+      },"layoutHelper-"+helper)
+    }
+  }
+  /****************************** 滚动事件处理 ****************************************/
+  volantis.scroll = {
+    engine: new RunItem(),
+    unengine: new RunItem(),
+  };
+  volantis.scroll = Object.assign(volantis.scroll, {
+    push: volantis.scroll.engine.push,
+  });
+  // 滚动条距离顶部的距离
+  volantis.scroll.getScrollTop = () =>{
+    let scrollPos;
+    if (window.pageYOffset) {
+      scrollPos = window.pageYOffset;
+    } else if (document.compatMode && document.compatMode != 'BackCompat') {
+      scrollPos = document.documentElement.scrollTop;
+    } else if (document.body) {
+      scrollPos = document.body.scrollTop;
+    }
+    return scrollPos;
+  }
+  // 使用 requestAnimationFrame 处理滚动事件
+  // `volantis.scroll.del` 中存储了一个数值, 该数值检测一定时间间隔内滚动条滚动的位移, 数值的检测频率是浏览器的刷新频率. 数值为正数时, 表示向下滚动. 数值为负数时, 表示向上滚动.
+  volantis.scroll.handleScrollEvents = () => {
+    volantis.scroll.lastScrollTop = volantis.scroll.getScrollTop()
+    function loop() {
+      const scrollTop = volantis.scroll.getScrollTop();
+      if (volantis.scroll.lastScrollTop !== scrollTop) {
+        volantis.scroll.del = scrollTop - volantis.scroll.lastScrollTop;
+        volantis.scroll.lastScrollTop = scrollTop;
+        // if (volantis.scroll.del > 0) {
+        //   console.log("向下滚动");
+        // } else {
+        //   console.log("向上滚动");
+        // }
+        // 注销过期的unengine未滚动事件
+        volantis.scroll.unengine.list=[]
+        volantis.scroll.engine.start();
+      }else{
+        volantis.scroll.unengine.start();
+      }
+      volantis.requestAnimationFrame(loop)
+    }
+    volantis.requestAnimationFrame(loop)
+  }
+  volantis.scroll.handleScrollEvents()
+  volantis.scroll.ele = null;
+  // 触发页面滚动至目标元素位置
+  volantis.scroll.to = (ele, option = {}) => {
+    if (!ele) return;
+    volantis.scroll.ele = ele;
+    // 默认配置
+    opt = {
+      top: ele.getBoundingClientRect().top + document.documentElement.scrollTop,
+      behavior: "smooth"
+    }
+    // 定义配置
+    if ("top" in option) {
+      opt.top = option.top
+    }
+    if ("behavior" in option) {
+      opt.behavior = option.behavior
+    }
+    if ("addTop" in option) {
+      opt.top += option.addTop
+    }
+    if (!("observerDic" in option)) {
+      option.observerDic = 100
+    }
+    // 滚动
+    window.scrollTo(opt);
+    // 监视器
+    // 监视并矫正元素滚动到指定位置
+    // 用于处理 lazyload 引起的 cls 导致的定位失败问题
+    // option.observer = false
+    if (option.observer) {
+      setTimeout(() => {
+        if (volantis.scroll.ele != ele) {
+          return
+        }
+        volantis.scroll.unengine.push(() => {
+          let me = ele.getBoundingClientRect().top
+          if(!(me >= -option.observerDic && me <= option.observerDic)){
+            volantis.scroll.to(ele, option)
+          }
+          volantis.scroll.unengine.remove("unengineObserver")
+        },"unengineObserver")
+      },1000)
+    }
+  }
+  /********************** Content Visibility ********************************/
+  // 见 source/css/first.styl 如果遇到任何问题 删除 .post-story 即可
+  // 一个元素被声明 content-visibility 属性后 如果元素不在 viewport 中 浏览器不会计算其后代元素样式和属性 从而节省 Style & Layout 耗时
+  // content-visibility 的副作用: 锚点失效 等等(实验初期 暂不明确), 使用此方法清除样式
+  volantis.cleanContentVisibility = ()=>{
+    if (document.querySelector(".post-story")) {
+      console.log("cleanContentVisibility");
+      document.querySelectorAll(".post-story").forEach(e=>{
+        e.classList.remove("post-story")
+      })
+    }
+  }
+  /******************************************************************************/
+  /******************************************************************************/
+  /******************************************************************************/
+  //图像加载出错时的处理
+  function errorImgAvatar(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/avatar/round/3442075.svg";
+    img.onerror = null;
+  }
+  function errorImgCover(img) {
+    img.src = "https://unpkg.com/volantis-static@0.0.1654736714924/media/placeholder/cover/76b86c0226ffd.svg";
+    img.onerror = null;
+  }
+  /******************************************************************************/
+</script>
+
+  <!-- import head_end begin -->
+  <!-- import head_end end -->
+  <!-- Custom Files headEnd begin-->
+  
+  <!-- Custom Files headEnd end-->
+  <!-- front-matter head_end begin -->
+  <!-- front-matter head_end end -->
+</head>
+  <body itemscope itemtype="http://schema.org/WebPage">
+    <!-- import body_begin begin-->
+    <!-- import body_begin end-->
+    <!-- Custom Files bodyBegin begin-->
+    
+    <!-- Custom Files bodyBegin end-->
+    <!-- front-matter body_begin begin -->
+    <!-- front-matter body_begin end -->
+    <header itemscope itemtype="http://schema.org/WPHeader" id="l_header" class="l_header auto shadow floatable blur show" style='opacity: 0' >
+  <div class='container'>
+  <div id='wrapper'>
+    <div class='nav-sub'>
+      <p class="title"></p>
+      <ul class='switcher nav-list-h m-phone' id="pjax-header-nav-list">
+        <li><a id="s-comment" class="fa-solid fa-comments fa-fw" target="_self"  href="/" onclick="return false;" title="comment"></a></li>
+        
+          <li><a id="s-toc" class="s-toc fa-solid fa-list fa-fw" target="_self"  href="/" onclick="return false;" title="toc"></a></li>
+        
+      </ul>
+    </div>
+		<div class="nav-main">
+      
+        
+        <a class="title flat-box" target="_self" href='/'>
+          
+          
+          
+            Eric's Blog
+          
+        </a>
+      
+
+			<div class='menu navigation'>
+				<ul class='nav-list-h m-pc'>
+          
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="首页"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+          
+            
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+          
+				</ul>
+			</div>
+      
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <i class="icon fa-solid fa-search fa-fw"></i>
+          <input type="text" class="input u-search-input" placeholder="Search..." />
+        </form>
+      </div>
+      
+
+			<ul class='switcher nav-list-h m-phone'>
+				
+					<li><a class="s-search fa-solid fa-search fa-fw" target="_self" href="/" onclick="return false;" title="search"></a></li>
+				
+				<li>
+          <a class="s-menu fa-solid fa-bars fa-fw" target="_self" href="/" onclick="return false;" title="menu"></a>
+          <ul class="menu-phone list-v navigation white-box">
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/" title="首页"
+                  
+                  
+                  
+                    active-action="action-home"
+                  >
+                  <i class='fas fa-home fa-fw'></i>首页
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/categories/" title="分类"
+                  
+                  
+                  
+                    active-action="action-categories"
+                  >
+                  <i class='fas fa-folder-open fa-fw'></i>分类
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/tags/" title="标签"
+                  
+                  
+                  
+                    active-action="action-tags"
+                  >
+                  <i class='fas fa-tags fa-fw'></i>标签
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/archives/" title="归档"
+                  
+                  
+                  
+                    active-action="action-archives"
+                  >
+                  <i class='fas fa-archive fa-fw'></i>归档
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/friends/" title="友链"
+                  
+                  
+                  
+                    active-action="action-friends"
+                  >
+                  <i class='fas fa-link fa-fw'></i>友链
+                </a>
+                
+              </li>
+            
+          
+            
+              
+            
+              <li>
+                <a class="menuitem flat-box faa-parent animated-hover"
+                href="/about/" title="关于"
+                  
+                  
+                  
+                    active-action="action-about"
+                  >
+                  <i class='fas fa-info-circle fa-fw'></i>关于
+                </a>
+                
+              </li>
+            
+          
+            
+          </ul>
+        </li>
+			</ul>
+
+      <!-- Custom Files header begin -->
+      
+      <!-- Custom Files header end -->
+		</div>
+	</div>
+  </div>
+</header>
+
+    <div id="l_body">
+      <div id="l_cover">
+  
+    
+      <!-- see: /layout/_partial/scripts/_ctrl/coverCtrl.ejs -->
+      <div id="none" class='cover-wrapper post search' style="display: none;">
+        
+  <div class='cover-bg' style='background-image:url(https://gcore.jsdelivr.net/gh/volantis-x/cdn-wallpaper-minimalist/2020/001.jpg)'></div>
+
+<div class='cover-body'>
+  <div class='top'>
+    
+    
+      <p class="title">Eric's Blog</p>
+    
+    
+      <p class="subtitle">Never really desperate, only the lost of the soul</p>
+    
+  </div>
+  <div class='bottom'>
+    
+      <div class="m_search">
+        <form name="searchform" class="form u-search-form">
+          <input type="text" class="input u-search-input" placeholder="" />
+          <i class="icon fa-solid fa-search fa-fw"></i>
+        </form>
+      </div>
+    
+    <div class='menu navigation'>
+      <div class='list-h'>
+        
+          
+            <a href="/"
+              
+              
+              active-action="action-home">
+              <i class='fas fa-home fa-fw'></i><p>首页</p>
+            </a>
+          
+            <a href="/archives/"
+              
+              
+              active-action="action-archives">
+              <i class='fas fa-archive fa-fw'></i><p>归档</p>
+            </a>
+          
+            <a href="/friends/"
+              
+                rel="nofollow"
+              
+              
+                target="_self"
+              
+              active-action="action-friends">
+              <i class='fas fa-link fa-fw'></i><p>友链</p>
+            </a>
+          
+            <a href="/about/"
+              
+                rel="nofollow"
+              
+              
+              active-action="action-about">
+              <i class='fas fa-info-circle fa-fw'></i><p>关于</p>
+            </a>
+          
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+        <div id="scroll-down" style="display: none;"><i class="fa fa-chevron-down scroll-down-effects"></i></div>
+      </div>
+    
+  
+</div>
+
+      <div id="safearea">
+        <div class="body-wrapper">
+          
+<div id="l_main" class=''>
+  <article itemscope itemtype="http://schema.org/Article" class="article post white-box reveal md shadow floatable blur article-type-post" id="post" itemscope itemprop="blogPost">
+  <link itemprop="mainEntityOfPage" href="https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html">
+  <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+    <meta itemprop="name" content="Eric">
+  </span>
+  <span hidden itemprop="post" itemscope itemtype="http://schema.org/Post">
+    <meta itemprop="name" content="Eric">
+    <meta itemprop="description" content="Never give up!">
+  </span>
+  
+
+
+  
+    <span hidden>
+      <meta itemprop="image" content="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png">
+    </span>
+  
+  <div class="article-meta" id="top">
+    
+    
+    
+      <h1 class="title" itemprop="name headline">
+        在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author' itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <a itemprop="url" class='author' href="/" rel="nofollow">
+    <img itemprop="image" src="https://gcore.jsdelivr.net/gh/ericclose/cdn-assets/img/avatar.jpeg">
+    <p itemprop="name">Eric</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <i class="fa-solid fa-folder-open fa-fw" aria-hidden="true"></i>
+    <a class="category-link" href="/categories/Linux/">Linux</a>
+    
+      <span hidden itemprop="about" itemscope itemtype="http://schema.org/Thing">
+        <a href="/categories/Linux/" itemprop="url"><span itemprop="name">Linux</span></a>
+      </span>
+    
+  </div>
+
+
+          
+        
+          
+            <div class="new-meta-item date" itemprop="dateCreated datePublished" datetime="2019-11-01T15:31:02+08:00">
+  <a class='notlink'>
+    <i class="fa-solid fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2019年11月1日</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+
+
+
+          
+        
+        <!-- Custom Files topMeta begin-->
+        
+        <!-- Custom Files topMeta end-->
+      </div>
+    
+  </div>
+
+
+  <div id="layoutHelper-page-plugins"></div>
+  <div id="post-body" itemprop="articleBody">
+    <blockquote>
+<p>以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。</p>
+</blockquote>
+<span id="more"></span>
+
+<h2 id="下载-Arch-Linux-的镜像文件"><a href="#下载-Arch-Linux-的镜像文件" class="headerlink" title="下载 Arch Linux 的镜像文件"></a>下载 Arch Linux 的镜像文件</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://archlinux.org/download/">https://archlinux.org/download/</a></p>
+<h2 id="下载-VMware-Workstation"><a href="#下载-VMware-Workstation" class="headerlink" title="下载 VMware Workstation"></a>下载 VMware Workstation</h2><p>下载链接：<a target="_blank" rel="noopener" href="https://download3.vmware.com/software/wkst/file/VMware-workstation-full-15.5.0-14665864.exe">https://download3.vmware.com/software/wkst/file/VMware-workstation-full-15.5.0-14665864.exe</a></p>
+<blockquote>
+<p>注意：该软件为商业付费软件，请自行购买许可。（当然如果没有钱钱的话，去网上搜索 <del>VMware Workstation 15 Pro永久激活密钥</del> 即可。小声~</p>
+</blockquote>
+<blockquote>
+<p>本文假定您已下载完 Arch Linux 的镜像文件以及安装和激活了 VMware Workstation。</p>
+</blockquote>
+<h2 id="VMware-Workstation-配置"><a href="#VMware-Workstation-配置" class="headerlink" title="VMware Workstation 配置"></a>VMware Workstation 配置</h2><ol>
+<li>「 <strong>创建新的虚拟机</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/1.png" alt="image"/></div></div>
+
+<ol start="2">
+<li>「 <strong>典型安装</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/2.png" alt="image"/></div></div>
+
+<ol start="3">
+<li>「 <strong>安装光盘映像文件</strong> 」 &gt; 「 <strong>浏览</strong> 」找到下载好的镜像文件 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/3.png" alt="image"/></div></div>
+
+<ol start="4">
+<li>「 <strong>Linux</strong> 」 &gt; 选择「 <strong>版本</strong> 」，「 <strong>其他Linux 5.x或更高版本内核64位</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/4.png" alt="image"/></div></div>
+
+<ol start="5">
+<li>修改「 <strong>虚拟机名称</strong> 」 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/5.png" alt="image"/></div></div>
+
+<ol start="6">
+<li>「 <strong>最大磁盘大小</strong> 」设为 <strong>40 GB</strong> &gt; 「 <strong>将虚拟硬盘存储为单个文件</strong> 」，有助于提高运行性能 &gt; 「 <strong>下一步</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/6.png" alt="image"/></div></div>
+
+<ol start="7">
+<li>「 <strong>自定义硬件</strong> 」 &gt; 「 <strong>内存</strong> 」 &gt; 「 <strong>虚拟机内存大小</strong> 」设为 <strong>3072 MB</strong> 。 （我实体机内存大小 8 GB，所以虚拟机给个 3 GB还是可以的）</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/7.png" alt="image"/></div></div>
+
+<ol start="8">
+<li><p>「 <strong>显示</strong> 」 &gt; 「 <strong>加速3D图形</strong> 」</p>
+</li>
+<li><p>「 <strong>处理器数量（number of processors）</strong> 」 和 「 <strong>每个处理器的核心数量（number of cores per processor）</strong> 」的选择。</p>
+</li>
+</ol>
+<ul>
+<li>处理器数量：指 <strong>物理核心数</strong> 。</li>
+<li>每个处理的核心数量：指每个物理核心数所拥有的 <strong>逻辑核心数</strong> 。</li>
+<li>处理器核心总数 (total processor cores)：前面两者之积。</li>
+</ul>
+<p>与平常所说的处理器是x核x线程的关系如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/8.png" alt="image"/></div></div>
+
+<p>正如我电脑的处理器是 <strong>Intel(R) Core(TM) i5-8250U</strong> ，是4核8线程的。</p>
+<p>那么现在问题来了，「 <strong>处理器数量</strong> 」 和 「 <strong>每个处理器的核心数量</strong> 」该怎么填写呢。</p>
+<blockquote>
+<ol>
+<li>如果配置与物理机相同的总核数，其性能可达到90%左右；</li>
+<li>总核数相同的情况下，处理器数量分配越少，每个处理器的核心数越多，虚拟机的单处理器性能会显著提高，但是总性能会有所下降；</li>
+<li>反之，处理器数量分配越多，每个处理器的核心数越少，虚拟机的单处理器性能会有所下降，但是总性能会有所提升。</li>
+</ol>
+</blockquote>
+<blockquote>
+<p>想要看相关细节，请看引用的内容来源：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/da8443f482e9">https://www.jianshu.com/p/da8443f482e9</a></p>
+</blockquote>
+<p>综上所述，只要「 <strong>处理器核心总数</strong> 」与物理机具有相同的总核数就可以达到可观的性能，所以我这里「 <strong>处理器数量</strong> 」 和 「 <strong>每个处理器的核心数量</strong> 」的值分别设置为 <strong>4</strong> 和 <strong>2</strong> 。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/9.png" alt="image"/></div></div>
+
+<ol start="10">
+<li>「 <strong>虚拟机</strong> 」 &gt; 「 <strong>设置</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/10.png" alt="image"/></div></div>
+
+<ol start="11">
+<li>「 <strong>选项</strong> 」 &gt; 「 <strong>高级</strong> 」&gt; 「 <strong>UEFI</strong> 」 &gt; 「 <strong>OK</strong> 」</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/11.png" alt="image"/></div></div>
+
+<ol start="12">
+<li>至此，VMware Workstation 的配置告一段落。</li>
+</ol>
+<h3 id="开启虚拟机"><a href="#开启虚拟机" class="headerlink" title="开启虚拟机"></a>开启虚拟机</h3><ol>
+<li>开机，UEFI 成功启动以后像这样</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/12.png" alt="image"/></div></div>
+
+<p>直接选择第一项「 <strong>Arch Linux archiso x86_64 UEFI CD</strong> 」，回车即可</p>
+<ol start="2">
+<li>然后等待一会以后，出现</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/13.png" alt="image"/></div></div>
+
+<p>这就是说已经正常启动到 Arch Linux 的 Live CD 环境啦。</p>
+<h2 id="安装-Arch-Linux-的全过程"><a href="#安装-Arch-Linux-的全过程" class="headerlink" title="安装 Arch Linux 的全过程"></a>安装 Arch Linux 的全过程</h2><h3 id="联网"><a href="#联网" class="headerlink" title="联网"></a>联网</h3><ol>
+<li>确保系统已经启用了网络接口，用 <strong>ip link</strong> 检查</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># ip link</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>使用 <strong>dhcpcd</strong> 联网</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># dhcpcd</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>确保联网，能 ping 通 <strong>baidu.com</strong> 即可（百度最佳的作用就是测试网络是否可用了，其他的没啥了，ε&#x3D;ε&#x3D;ε&#x3D;┏(゜ロ゜;)┛ 逃）。VMware Workstation 默认使用 NAT，只要宿主机能联网，通常虚拟机内也可以直接联网的。用 ping 检查网络连接</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># ping -c 4 baidu.com</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>-c</strong> 选项：用于指定 ping 的次数</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/14.png" alt="image"/></div></div>
+
+<h3 id="时间同步"><a href="#时间同步" class="headerlink" title="时间同步"></a>时间同步</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># timedatectl set-ntp true</span></span><br></pre></td></tr></table></figure>
+
+<p>正确的（误差之内的）时间在验证连接或证书的可信程度时非常重要，例如 HTTPS 和 GnuPG 都需要准确的时间来验证证书的有效性。</p>
+<h3 id="准备磁盘分区"><a href="#准备磁盘分区" class="headerlink" title="准备磁盘分区"></a>准备磁盘分区</h3><h4 id="分区示例"><a href="#分区示例" class="headerlink" title="分区示例"></a>分区示例</h4><p>本文只针对 UEFI with GPT 启动方式，并基于最简单的硬盘结构，采用最简单的分区策略。（其中 SWAP 分区可选，我这里 SWAP 的大小就直接是虚拟机内存大小乘以2）</p>
+<p><strong>UEFI with GPT</strong></p>
+<overflow>
+
+<table>
+<thead>
+<tr>
+<th align="center">挂载点</th>
+<th align="center">分区</th>
+<th align="center">分区类型</th>
+<th align="center">大小</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="center"><code>/mnt/boot</code></td>
+<td align="center"><code>/dev/sda1</code></td>
+<td align="center">EFI system partition</td>
+<td align="center">512 MiB</td>
+</tr>
+<tr>
+<td align="center">[<code>SWAP</code>]</td>
+<td align="center"><code>/dev/sda2</code></td>
+<td align="center">Linux swap (交换空间)</td>
+<td align="center">6 GiB</td>
+</tr>
+<tr>
+<td align="center"><code>/mnt</code></td>
+<td align="center"><code>/dev/sda3</code></td>
+<td align="center">Linux x86-64 根目录 (<code>/</code>)</td>
+<td align="center">剩余空间</td>
+</tr>
+</tbody></table>
+</overflow>
+
+<h4 id="fdisk-和-分区操作"><a href="#fdisk-和-分区操作" class="headerlink" title="fdisk 和 分区操作"></a>fdisk 和 分区操作</h4><ol>
+<li>显示所有分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk -l</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/15.png" alt="image"/></div></div>
+
+<p>其中 <strong>&#x2F;dev&#x2F;sda</strong> 是虚拟机上的硬盘</p>
+<ol start="2">
+<li>开始分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk /dev/sda</span></span><br></pre></td></tr></table></figure>
+
+<p>进入分区程序。输入 <strong>m</strong> 可以查看 fdisk 的帮助。在决定写入之前，所有的更改都不会被保存。</p>
+<ul>
+<li>按照上面描述的分区示例，我们输入 <strong>g</strong> 新建一个 空的 GPT 分区表；</li>
+<li>输入 <strong>n</strong> 建立第一个分区，首先会问你选择分区号（默认是可用的最小分区号）， <strong>回车</strong> 即可；</li>
+<li>不用填写 first sector（默认值为可用的最小扇区号），直接 <strong>回车</strong> ，在提示输入 last sector 的时候输入 <strong>+512M</strong> 来依据分区大小自动计算终止扇区。</li>
+</ul>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/16.png" alt="image"/></div></div>
+
+<p>完成上图的操作后即得到一个512 MB 大小的分区。</p>
+<p>重复上面的步骤，再建立一个 6 GB 大小（或你自己决定 SWAP 分区的大小，当然你也可以不创建 SWAP 分区）的分区；最后重复上面的步骤，但最后一次不填写 last sector 从而自动将所有的剩余空间划分给第三个分区。如下图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/17.png" alt="image"/></div></div>
+
+<ol start="3">
+<li>修改分区类型</li>
+</ol>
+<p>按 <strong>t</strong> ，会询问需要修改的分区号，然后则是询问你要修改的类型（按 L 会列出各个分区类型的编号），编号 <strong>1</strong> 是 <strong>EFI System Partition</strong> ，编号 <strong>19</strong> 是 <strong>swap</strong> ，分区3的类型不做修改（默认的分区类型是 Linux Filesystem）。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/18.png" alt="image"/></div></div>
+
+<blockquote>
+<p><strong>注意</strong> ：最后要让建立的分区生效，需要输入 <strong>w</strong> 把分区表写入磁盘</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/19.png" alt="image"/></div></div>
+
+<ol start="4">
+<li>显示 <strong>&#x2F;dev&#x2F;sda</strong> 上的分区（确认是否生效 ）</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># fdisk -l /dev/sda</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/20.png" alt="image"/></div></div>
+
+<h4 id="格式化分区-和-设置-swap-分区"><a href="#格式化分区-和-设置-swap-分区" class="headerlink" title="格式化分区 和 设置 swap 分区"></a>格式化分区 和 设置 swap 分区</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mkfs.fat -F32 /dev/sda1</span></span><br><span class="line">root@archiso ~ <span class="comment"># mkswap /dev/sda2</span></span><br><span class="line">root@archiso ~ <span class="comment"># mkfs.ext4 /dev/sda3</span></span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/21.png" alt="image"/></div></div>
+
+<blockquote>
+<p>Linux 对磁盘分区的命名也很直观。设备 <strong>&#x2F;dev&#x2F;sda</strong> 上的第一个分区就是 <strong>&#x2F;dev&#x2F;sda1</strong> ，第二个分区就是 <strong>&#x2F;dev&#x2F;sda2</strong> ，以此类推。</p>
+</blockquote>
+<p>在上面的指令第一句中，我们为 <strong>&#x2F;dev&#x2F;sda1</strong> 分区，也就是 sda 磁盘的第一块分区，建立了 fat 文件系统；<strong>-F32</strong> 表明我们建立的是 fat32 而非 fat16 或其它不是我们想要的 fat。</p>
+<blockquote>
+<p>UEFI规范要求对FAT12，FAT16和FAT32文件系统的支持，但是任何符合条件的供应商都可以选择添加对其他文件系统的支持。 例如，Apple macOS 中的固件支持 HFS+  文件系统。</p>
+</blockquote>
+<p>而在第二句中，我们为 &#x2F;dev&#x2F;sda2 创建了专用于 swap 的存储系统；这是一个特殊的分区类型，它很难被当作 filesystem，所以建立它的指令是 mkswap 而非 mkfs.* 。</p>
+<h4 id="启用交换分区-和-文件系统的挂载"><a href="#启用交换分区-和-文件系统的挂载" class="headerlink" title="启用交换分区 和 文件系统的挂载"></a>启用交换分区 和 文件系统的挂载</h4><ol>
+<li>启用交换分区</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># swapon /dev/sda2</span></span><br></pre></td></tr></table></figure>
+
+<p>可以使用 <strong>swapon –show</strong> 来检查交换分区有没有被正确启用。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/22.png" alt="image"/></div></div>
+
+<ol start="2">
+<li>然后挂载整个新系统的根，这里我们将它挂载到 Arch ISO 环境的 <strong>&#x2F;mnt</strong> 下。不要担心，Linux 有一个实用工具 chroot，可以将目录结构的任意点作为新的根。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mount /dev/sda3 /mnt</span></span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>按照我们对新系统目录结构的理解，<strong>&#x2F;dev&#x2F;sda1</strong> 应该被挂载于新系统的 <strong>&#x2F;boot</strong> ，也就是 Arch ISO 环境的 <strong>&#x2F;mnt&#x2F;boot</strong> 。但是这个目录目前仍不存在，所以我们手动创建这个挂载点，然后再进行挂载。</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># mkdir /mnt/boot</span></span><br><span class="line">root@archiso ~ <span class="comment"># mount /dev/sda1 /mnt/boot</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><h4 id="选择镜像源"><a href="#选择镜像源" class="headerlink" title="选择镜像源"></a>选择镜像源</h4><p>文件 <strong>&#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist</strong> 定义了软件包会从哪个 <strong>镜像源</strong> 下载。在 LiveCD 启动的系统上，所有的镜像源都被启用。</p>
+<p>在 <strong>列表中越前</strong> 的镜像源在下载软件包时有 <strong>越高的优先权</strong> 。</p>
+<p>这个文件接下来还会被 <em>pacstrap</em> 复制到新系统里，所以请确保正确设置。</p>
+<blockquote>
+<p><strong>注意</strong> ：以下需要用到 <em>vim</em> 这个编辑器，建议先去自行学习一下 <em>vim</em> 的基本使用，不然我怕新手碰到这个编辑器会一脸懵逼，后面还会涉及到 <em>vim</em> 的相关操作哦。</p>
+</blockquote>
+<ol>
+<li>vim 编辑 <strong>&#x2F;etc&#x2F;pacman.d&#x2F;mirrorlist</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># vim /etc/pacman.d/mirrorlist</span></span><br></pre></td></tr></table></figure>
+
+<p>执行完上行命令后，键入 <strong>:set nu</strong> ，然后 <strong>回车</strong> 即显示行号，如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/23.png" alt="image"/></div></div>
+
+<p>然后继续键入 <strong>&#x2F;China</strong> ，然后 <strong>回车</strong> 搜索中国的源，光标会跳到相应字符串的行。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/24.png" alt="image"/></div></div>
+
+<p>键入 <strong>V</strong> （注意是 <strong>大写</strong> 的 <strong>V</strong> ,后面的相应字母都要认清楚大小写） 并移动光标进行选择，选中上图用红框括起来的2行，然后按 <strong>d</strong> 进行剪切，再按 <strong>6G</strong> 移动到文件的第 6 行，按 <strong>p</strong> 进行粘贴。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/25.png" alt="image"/></div></div>
+
+<p>继续键入 <strong>:wq</strong> ，然后 <strong>回车</strong> ，即保存并退出。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/26.png" alt="image"/></div></div>
+
+<h4 id="安装必须的软件包"><a href="#安装必须的软件包" class="headerlink" title="安装必须的软件包"></a>安装必须的软件包</h4><blockquote>
+<p>使用 <em>pacstrap</em> 脚本，安装 <em>base</em> 软件包和 Linux 内核以及常规硬件的固件：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># pacstrap /mnt base linux linux-firmware</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>装完前面的东西，只是装完能做到开机的必须组件而已，但还有一些必备的东西要装，比如说网络管理器 <em>NetworkManager</em> ， <em>NetworkManager</em> 是检测网络、自动连接网络的程序。无论是无线还是有线连接，它都可以令您轻松管理。这一步也是必备的一步：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># pacstrap /mnt networkmanager</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="配置系统"><a href="#配置系统" class="headerlink" title="配置系统"></a>配置系统</h3><h4 id="生成-fstab-文件"><a href="#生成-fstab-文件" class="headerlink" title="生成 fstab 文件"></a>生成 fstab 文件</h4><p><strong>fstab</strong> 文件可用于定义磁盘分区，包括各种块设备或者远程文件系统应该如何装入到文件系统。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># genfstab -U /mnt &gt;&gt; /mnt/etc/fstab</span></span><br></pre></td></tr></table></figure>
+
+<p><strong>-U</strong> 选项指的是 使用UUID作为源标识符</p>
+<h4 id="arch-chroot"><a href="#arch-chroot" class="headerlink" title="arch-chroot"></a>arch-chroot</h4><blockquote>
+<p><strong>arch-chroot</strong> bash 脚本是软件包 <a target="_blank" rel="noopener" href="https://archlinux.org/packages/?name=arch-install-scripts">arch-install-scripts</a> 的一部分，在运行 <strong>&#x2F;usr&#x2F;bin&#x2F;chroot</strong> 前，这个脚本会挂载 <strong>&#x2F;proc</strong> api 文件系统，建立可用的 <strong>&#x2F;etc&#x2F;resolv.conf</strong> 。</p>
+</blockquote>
+<p>前文中提到过，<em>chroot</em> 工具能指定目录结构任意的位置为新的根；由于我们需要进行的配置应该在新系统上完成，所以我们应该 <em>chroot</em> 到新系统的根，也就是 &#x2F;mnt。不过这里我们不是直接就使用 <em>chroot</em> ，而是通过镜像里提供的 <strong>arch-chroot</strong> 来完成额外的配置。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># arch-chroot /mnt</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h4><blockquote>
+<p>中国的时区是 <em>Asia&#x2F;Shanghai</em></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# <span class="built_in">ln</span> -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>您可以使用以下命令将硬件时钟设置为当前系统时间：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# hwclock --systohc</span><br></pre></td></tr></table></figure>
+
+<h4 id="在新安装的系统上安装-vim-编辑器"><a href="#在新安装的系统上安装-vim-编辑器" class="headerlink" title="在新安装的系统上安装 vim 编辑器"></a>在新安装的系统上安装 vim 编辑器</h4><blockquote>
+<p><strong>Vim</strong> 是从 <strong>vi</strong> 发展出来的一个文本编辑器。其代码补全、编译及错误跳转等方便编程的功能特别丰富，在程序员中被广泛使用。和 <strong>Emacs</strong> 并列成为类Unix系统用户最喜欢的编辑器。</p>
+</blockquote>
+<p>这里我们安装 <strong>vim</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# pacman -S vim</span><br></pre></td></tr></table></figure>
+
+<p><strong>Y</strong> 确认安装即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/27.png" alt="image"/></div></div>
+
+<h4 id="本地化"><a href="#本地化" class="headerlink" title="本地化"></a>本地化</h4><blockquote>
+<p><strong>&#x2F;etc&#x2F;locale.gen</strong> 是一个仅包含注释文档的文本文件。指定您需要的本地化类型，去掉对应行前面的注释符号（＃）就可以啦，还是用 vim 来编辑，建议选择 <strong>en_US.UTF-8 UTF-8</strong> 的项：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# vim /etc/locale.gen</span><br></pre></td></tr></table></figure>
+
+<p>找到 <strong>#en_US.UTF-8 UTF-8</strong> 这一行，光标移动到开头的 “#” ，然后键入 <strong>x</strong> ，再键入 <strong>:wq</strong> 保存并退出即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/28.png" alt="image"/></div></div>
+
+<p>接着执行 <strong>locale-gen</strong> 以生成 locale 讯息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# locale-gen</span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/29.png" alt="image"/></div></div>
+
+<p>创建 <strong>locale.conf</strong> 文件，并相应地设置 <em>LANG</em> 变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# <span class="built_in">echo</span> LANG=en_US.UTF-8 &gt; /etc/locale.conf</span><br></pre></td></tr></table></figure>
+
+<h4 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h4><ol>
+<li>创建 <strong>hostname</strong> 文件:</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# <span class="built_in">echo</span> YourNewHostname &gt; /etc/hostname</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>注意</strong>：<em>YourNewHostname</em> 是你要设置的主机名，名字任取。后面如果还出现，也指的是你取的主机名。</p>
+</blockquote>
+<ol start="2">
+<li>添加对应的信息到 <strong>hosts</strong> ：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# vim /etc/hosts</span><br></pre></td></tr></table></figure>
+
+<p>键入 <strong>i</strong> 进入插入模式，编辑后得到的内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Static table lookup for hostnames.</span></span><br><span class="line"><span class="comment"># See hosts(5) for details.</span></span><br><span class="line">127.0.0.1   localhost</span><br><span class="line">::1         localhost</span><br><span class="line">127.0.1.1   YourNewHostname.localdomain    YourNewHostname</span><br></pre></td></tr></table></figure>
+
+<p>填写完成后就键入 <strong>Esc</strong> 键，退回命令模式，再键入 <strong>:wq</strong> 保存并退出。</p>
+<ol start="3">
+<li><em>NetworkManager</em> 服务</li>
+</ol>
+<ul>
+<li>将 <em>NetworkManager</em> 服务设为开机自启：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# systemctl <span class="built_in">enable</span> NetworkManager</span><br></pre></td></tr></table></figure>
+
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/30.png" alt="image"/></div></div>
+
+<h4 id="设置-root-用户密码"><a href="#设置-root-用户密码" class="headerlink" title="设置 root 用户密码"></a>设置 root 用户密码</h4><p>执行 passwd 命令修改当前用户（即 root 用户）的密码。</p>
+<blockquote>
+<p><strong>注意</strong> ：密码输入时不可见，反正输入完后只管回车就行，第二次输入密码是系统要你确认密码。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# passwd</span><br><span class="line">New password:</span><br><span class="line">Retype new password:</span><br><span class="line">passwd: password updated successfully</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装引导程序"><a href="#安装引导程序" class="headerlink" title="安装引导程序"></a>安装引导程序</h4><blockquote>
+<p>启动加载器是 BIOS 或 UEFI 启动的第一个程序。它负责使用正确的内核参数加载内核, 并根据配置文件加载初始化 RAM disk。</p>
+</blockquote>
+<blockquote>
+<p><strong>注意</strong> ：这一步相当重要，如果没有配置正确的话，你重启后将无法正常启动到系统。</p>
+</blockquote>
+<blockquote>
+<p>systemd-boot (以前被称为gummiboot) 是可以执行 EFI 镜像文件的简单 UEFI 启动管理器。启动的内容可以通过一个配置(glob)或者屏幕菜单选择。Arch 默认安装的 systemd 提供了这个功能。配置很简单，但是只能启动 EFI 可执行程。</p>
+</blockquote>
+<ol>
+<li>安装 EFI 启动管理器</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# bootctl --path=/boot install</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>–path&#x3D;</strong> 后面接的就是我们一开始创建的 esp (EFI system partition) 的挂载路径</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/31.png" alt="image"/></div></div>
+
+<ol start="2">
+<li>基本配置</li>
+</ol>
+<p>基本设置保存在 <strong>&#x2F;boot&#x2F;loader&#x2F;loader.conf</strong> ,有三个选项：</p>
+<ul>
+<li>default – 默认加载的配置文件 (不含 .conf 后缀)。</li>
+<li>timeout – 启动选单的超时时间,如果不设置的话,启动选单只有在按键时才显示。</li>
+<li>editor - 是否允许用户编辑内核参数. yes 是允许, no 是阻止。</li>
+</ul>
+<p>用 vim 编辑 <strong>&#x2F;boot&#x2F;loader&#x2F;loader.conf</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# vim /boot/loader/loader.conf</span><br></pre></td></tr></table></figure>
+
+<p>下面是我编辑好的 <strong>&#x2F;boot&#x2F;loader&#x2F;loader.conf</strong> ，内容如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">default  arch</span><br><span class="line">timeout  4</span><br><span class="line">console-mode max</span><br><span class="line">editor   no</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>添加启动选项</li>
+</ol>
+<p>前面我们不是已经在 <strong>&#x2F;boot&#x2F;loader&#x2F;loader.conf</strong> 中的选项指定了一个 default 选项嘛，所以我们现在就来配置一下这个默认启动选项。</p>
+<p>我们要编辑的配置文件是 <strong>&#x2F;boot&#x2F;loader&#x2F;entries&#x2F;arch.conf</strong> 同样也是用 vim 来编辑：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# vim /boot/loader/entries/arch.conf</span><br></pre></td></tr></table></figure>
+
+<p>下面是我暂时编辑好的 <strong>&#x2F;boot&#x2F;loader&#x2F;entries&#x2F;arch.conf</strong> ，内容如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=</span><br></pre></td></tr></table></figure>
+
+<p>保存并退出编辑后，我们执行一下这么一行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# blkid -s PARTUUID -o value /dev/sda3 &gt;&gt; /boot/loader/entries/arch.conf</span><br></pre></td></tr></table></figure>
+
+<p>上面的命令将会把根分区的UUID的值追加到 <strong>&#x2F;boot&#x2F;loader&#x2F;entries&#x2F;arch.conf</strong> 的最后一行。则文件 <strong>&#x2F;boot&#x2F;loader&#x2F;entries&#x2F;arch.conf</strong> 的内容现在为（<strong>注意</strong> ：PARTUUID的值都是因人而异的）：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=</span><br><span class="line">14420948-2cea-4de7-b042-40f67c618660</span><br></pre></td></tr></table></figure>
+
+<p>最后一次用 vim 编辑 <strong>&#x2F;boot&#x2F;loader&#x2F;entries&#x2F;arch.conf</strong> ，完成编辑后的文件内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">title   Arch Linux</span><br><span class="line">linux   /vmlinuz-linux</span><br><span class="line">initrd  /initramfs-linux.img</span><br><span class="line">options root=PARTUUID=14420948-2cea-4de7-b042-40f67c618660  rw</span><br></pre></td></tr></table></figure>
+
+<h4 id="重启系统"><a href="#重启系统" class="headerlink" title="重启系统"></a>重启系统</h4><p>根据前面所有的步骤走完一遍，也算是配置好了，让我们重启吧：</p>
+<p>首先 <strong>exit</strong> 退回到 Arch ISO 环境：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@archiso /]# <span class="built_in">exit</span></span><br></pre></td></tr></table></figure>
+
+<p>然后执行命令重启：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">root@archiso ~ <span class="comment"># systemctl reboot</span></span><br></pre></td></tr></table></figure>
+
+<p>开机后会有个标题为 “Arch Linux” 的启动选项，即是我们之前添加的选项。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/32.png" alt="image"/></div></div>
+
+<p>成功进入系统后，就会让你登陆了，当然一开始只有root用户，密码也是你之前设置的那个，输入密码的时候依然不会显示出来。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/33.png" alt="image"/></div></div>
+
+<h3 id="可选配置"><a href="#可选配置" class="headerlink" title="可选配置"></a>可选配置</h3><h4 id="更新系统和软件包"><a href="#更新系统和软件包" class="headerlink" title="更新系统和软件包"></a>更新系统和软件包</h4><p>一个 <em>pacman</em> 命令就可以升级整个系统。花费的时间取决于系统有多老。这个命令会同步非本地(local)软件仓库并升级系统的软件包</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">arch</span> ~] <span class="comment"># pacman -Syu</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="用户与权限配置"><a href="#用户与权限配置" class="headerlink" title="用户与权限配置"></a>用户与权限配置</h4><blockquote>
+<p>正经的 Linux 用户不会用 root 干所有的事情，如果这么做的话将会很危险。创建一个普通的用户，并让它可以通过 <em>sudo</em> 指令用 root 权限执行命令是一般的解决方案。</p>
+</blockquote>
+<ol>
+<li>在用 <em>sudo</em> 之前，我们需要先安装 <strong>sudo</strong> 这个软件包：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">arch</span> ~] <span class="comment"># pacman -S sudo</span></span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>配置 <strong>sudoers</strong></li>
+</ol>
+<p>执行 visudo 来修改 <strong>&#x2F;etc&#x2F;sudoers</strong> 文件。使用它的好处是，它会在保存时作语法检查，以避免错误的更改使 sudo 彻底不可用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">arch</span> ~] <span class="comment"># EDITOR=vim visudo</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此处通过环境变量 <em>EDITOR</em> 来声明使用 vim 来编辑文件，默认的情况下 visudo 是用 vi 来编辑的。（vi 和 vim 的用法略有不同）</p>
+</blockquote>
+<p>找到这一行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"># %wheel ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
+
+<p>去掉找到的那一行开头的注释，即 <strong>#</strong> 和 <strong>空格</strong> ，不要误删掉 <strong>%</strong> 哦。弄完之后保存即可，得：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%wheel ALL=(ALL) ALL</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>去掉注释的作用：取消注释以允许 <em>wheel</em> 组成员执行任何命令。</p>
+</blockquote>
+<ol start="3">
+<li>添加一个 wheel 组普通用户</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">arch</span> ~] <span class="comment"># useradd -m -G wheel 你想要取的用户名</span></span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>用户名必须是合法的。最简单的就是 <strong>不带空格的字母</strong> 和 <strong>数字</strong> 的组合。 <strong>-m</strong> 参数表示同时创建该用户的家目录，这会被默认置为 &#x2F;home&#x2F;用户名。 <strong>-G wheel</strong> 表示同时将该用户加入 wheel 用户组。</p>
+</blockquote>
+<ol start="4">
+<li>设置普通用户的密码</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[root@<span class="built_in">arch</span> ~] <span class="comment"># passwd 用户名</span></span><br></pre></td></tr></table></figure>
+
+<p>完成上述操作之后，注销当前用户之后就可以登录我们新建的普通用户了。</p>
+<p><strong>Ctrl</strong> + <strong>d</strong> 退出账户</p>
+<ol start="5">
+<li>重新登陆你新建的普通账户。</li>
+</ol>
+<p>登录完你会发现，之前的用户名不是 <strong>root</strong> 而是我创建的一个叫做 <strong>admin</strong> 的用户， <strong>#</strong> 也变成了 <strong>$</strong> ，这就意味着这是普通用户。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/34.png" alt="image"/></div></div>
+
+
+<h4 id="VMware-相关软件包和服务"><a href="#VMware-相关软件包和服务" class="headerlink" title="VMware 相关软件包和服务"></a>VMware 相关软件包和服务</h4><blockquote>
+<p>安装 VMware Tools 是创建新的虚拟机过程的一部分，而升级 VMware Tools 是使虚拟机符合最新标准过程的一部分。尽管客户机操作系统在未安装 VMware Tools 的情况下仍可运行，但许多 VMware 功能只有在安装 VMware Tools 后才可用，如虚拟机显示器填满屏幕，宿主机和虚拟机之间拖拽或复制粘贴文件等。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>open-vm-tools</strong> : VMware Tools 的开源实现</li>
+</ul>
+</blockquote>
+<ol>
+<li>安装 <strong>open-vm-tools</strong></li>
+</ol>
+<ul>
+<li><strong>注意</strong> ：如遇安装失败，请再试一次。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S open-vm-tools</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>vmtoolsd</strong> : 负责汇报虚拟机状态的服务</li>
+<li><strong>vmware-vmblock-fuse</strong> : 文件系统实用程序。 通过FUSE（用户空间中的文件系统）实现宿主 &#x2F; 虚拟机之间拖拽文件。</li>
+</ul>
+</blockquote>
+<ol>
+<li>将 <strong>vmtoolsd</strong> 和 <strong>vmware-vmblock-fuse</strong> 两个服务设为开机自启</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ systemctl <span class="built_in">enable</span> vmtoolsd vmware-vmblock-fuse</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>gtkmm3</strong> : 如要启用客户机的拖拽与复制粘贴功能，则需要安装 gtkmm3</li>
+</ul>
+</blockquote>
+<ol start="3">
+<li>安装 <strong>gtkmm3</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S gtkmm3</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<ul>
+<li><strong>xf86-input-vmmouse</strong> : VMWare鼠标输入驱动程序</li>
+<li><strong>xf86-video-vmware</strong> : vmware显示驱动程序，如果想要让虚拟机显示器填满屏幕，就必须要安装这个软件包</li>
+<li><strong>mesa</strong> : OpenGL规范的开源实现</li>
+</ul>
+</blockquote>
+<ol start="4">
+<li>安装相关驱动</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S xf86-input-vmmouse xf86-video-vmware mesa</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装桌面环境"><a href="#安装桌面环境" class="headerlink" title="安装桌面环境"></a>安装桌面环境</h4><h5 id="显示服务"><a href="#显示服务" class="headerlink" title="显示服务"></a>显示服务</h5><blockquote>
+<p><strong>X 窗口管理系统</strong> ( X11 或者 X ) 是基于网络的显示协议，提供了窗口功能，包含建立图形用户界面(GUI)的标准工具和协议。 <em>Xorg</em> 是 X 窗口的开源实现，提供图形用户界面。</p>
+</blockquote>
+<blockquote>
+<p><strong>Wayland</strong> 是一种更新的可用显示服务协议， <em>Weston</em> 是其参考实现。</p>
+</blockquote>
+<p>这里我安装 <strong>xorg</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S xorg</span><br></pre></td></tr></table></figure>
+
+<h5 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h5><blockquote>
+<p>尽管 <em>Xorg</em> 提供了用于构建图形环境的基本框架，但是为了获得完整的用户体验，可能还需要其他组件。 GNOME，KDE，LXDE 和 Xfce 等桌面环境将各种 X 客户端捆绑在一起，例如窗口管理器，面板，文件管理器，终端仿真器，文本编辑器，图标和其他实用程序。</p>
+</blockquote>
+<ul>
+<li><strong>plasma-meta</strong> : 用以安装 KDE Plasma 的元软件包</li>
+</ul>
+<p>我个人偏好 kde，所以执行下面的命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S plasma-meta</span><br></pre></td></tr></table></figure>
+
+<h5 id="显示管理器"><a href="#显示管理器" class="headerlink" title="显示管理器"></a>显示管理器</h5><blockquote>
+<p>大多数桌面环境都包括一个显示管理器，用于自动启动图形环境和管理用户登录。</p>
+</blockquote>
+<blockquote>
+<ul>
+<li><strong>sddm</strong> : 基于QML的X11和Wayland显示管理器</li>
+</ul>
+</blockquote>
+<ol>
+<li>安装 <strong>sddm</strong> ：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S sddm</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>将 <strong>sddm</strong> 服务设为开机自启：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ systemctl <span class="built_in">enable</span> sddm</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>重启虚拟机</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ systemctl reboot</span><br></pre></td></tr></table></figure>
+
+<h4 id="登录图形界面"><a href="#登录图形界面" class="headerlink" title="登录图形界面"></a>登录图形界面</h4><p>就这样，我们开机了，此时虚拟机的显示区域已经能填满我们宿主机的屏幕了：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/35.png" alt="image"/></div></div>
+
+<p>输入密码登录即可。</p>
+<h4 id="修改系统显示缩放"><a href="#修改系统显示缩放" class="headerlink" title="修改系统显示缩放"></a>修改系统显示缩放</h4><blockquote>
+<p>在较小尺寸下却拥有较高分辨率的显示器，进入桌面环境后，如果你发现系统的字体和图标等等显得非常小，那么你就必须要设置显示缩放了。</p>
+</blockquote>
+<blockquote>
+<p>如何判断大概怎样的缩放比例才合适呢？最简单的方法就是回到你的 Windows 宿主机，在宿主机桌面空白处「鼠标右键」 &gt; 「显示设置」 &gt; 「缩放和布局」，数值为 <strong>150%</strong> ，即缩放比例为 <strong>1.5x</strong> 。</p>
+</blockquote>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/36.png" alt="image"/></div></div>
+
+<p>这时，我们再回到虚拟机这边：</p>
+<blockquote>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Display Configuration</strong> 」 &gt; 「 <strong>Global scale</strong> 」，下面有一个可拖动的条，拖至 <strong>1.5x</strong> 的位置（这里拖拽的位置取决于你 Windows 的「 <strong>缩放和布局</strong> 」的取值），然后我们点击 「 <strong>Apply</strong> 」 应用。</p>
+</blockquote>
+<div galleryFlag itemscope itemtype="http://schema.org/ImageGallery" class="gallery " data-group='default'><div class='fancybox'><a class='fancybox' pjax-fancybox itemscope itemtype="http://schema.org/ImageObject" itemprop="url" target="_blank" rel="noopener" href='https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/37.png' data-fancybox='default' data-caption='undefined'><img fancybox itemprop="contentUrl" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/37.png"></a><span></span></div><br><div class='fancybox'><a class='fancybox' pjax-fancybox itemscope itemtype="http://schema.org/ImageObject" itemprop="url" target="_blank" rel="noopener" href='https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/38.png' data-fancybox='default' data-caption='undefined'><img fancybox itemprop="contentUrl" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/38.png"></a><span></span></div></div>
+
+<p>最后我们在 「 <strong>开始菜单</strong> 」 &gt; 「 <strong>Leave</strong> 」 &gt; 「 <strong>Restart</strong> 」 重启一下虚拟机以让显示缩放生效，到这里我们就算是解决完系统显示缩放的问题了。</p>
+<h4 id="安装终端模拟器"><a href="#安装终端模拟器" class="headerlink" title="安装终端模拟器"></a>安装终端模拟器</h4><p>等等，前面我们装完 kDE 是不是忘了安装什么东西，我们在桌面环境里怎么输入命令呢？这就需要我们安装 <strong>终端模拟器（Terminal Emulator）</strong> 了</p>
+<blockquote>
+<p>终端模拟器有很多，这里就举几个经典的例子：</p>
+<ul>
+<li>GNU&#x2F;Linux：gnome-terminal、Konsole；</li>
+<li>macOS：Terminal.app、iTerm2；</li>
+<li>Windows：Win32 控制台、ConEmu 等等</li>
+</ul>
+</blockquote>
+<blockquote>
+<p>在正式安装之前，建议先去看看这么一篇文章：<a target="_blank" rel="noopener" href="https://printempw.github.io/the-difference-between-cli-terminal-shell-tty/">命令行界面 (CLI)、终端 (Terminal)、Shell、TTY，傻傻分不清楚？</a></p>
+</blockquote>
+<p>然后这里我要安装的终端模拟器是 <strong>deepin-terminal</strong> （属于Deepin的默认终端仿真应用程序，源码仓库地址：<a target="_blank" rel="noopener" href="https://github.com/linuxdeepin/deepin-terminal">https://github.com/linuxdeepin/deepin-terminal</a> ，我选择这个的原因是因为它开源，而且无需任何配置就已经很美观了，还有一点就是不会有 <strong>konsole</strong> 在系统显示缩放比例为 <strong>小数倍</strong> 时随机出现横线或竖线的 bug。）在安装终端模拟器之前，我们需要按下 <strong>Ctrl</strong> + <strong>Alt</strong> + <strong>F2</strong> 切换至 <strong>tty2</strong> ，登录，然后输入命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S deepin-terminal</span><br></pre></td></tr></table></figure>
+
+<p>安装完之后，我们按下 <strong>Ctrl</strong> + <strong>Alt</strong> + <strong>F1</strong> 切换回桌面环境。这时我们就可以在「 <strong>开始菜单</strong> 」找到 <strong>deepin-terminal</strong> 了。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/39.png" alt="image"/></div></div>
+
+<p>由于 deepin-terminal 默认的主题配色（绿色）我不喜欢，所有我换了另一个。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/40.png" alt="image"/></div></div>
+
+
+<h4 id="安装中文字体"><a href="#安装中文字体" class="headerlink" title="安装中文字体"></a>安装中文字体</h4><blockquote>
+<p>在没安装中文字体之前，系统是无法正常显示中文的，大概就是会显示 <strong>口口口口</strong> 。所以这里推荐安装下 Google Noto Fonts 系列：<strong>noto-fonts-sc</strong> 和 <strong>noto-fonts-emoji</strong></p>
+</blockquote>
+<p>打开终端模拟器，执行下面的命令安装 <strong>noto-fonts-sc</strong> 和 <strong>noto-fonts-emoji</strong> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> pacman -S base-devel git</span><br><span class="line">git <span class="built_in">clone</span> https://aur.archlinux.org/noto-fonts-sc.git</span><br><span class="line"><span class="built_in">cd</span> noto-fonts-sc</span><br><span class="line">makepkg -si</span><br><span class="line"><span class="built_in">sudo</span> pacman -S noto-fonts-emoji</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装中文输入法"><a href="#安装中文输入法" class="headerlink" title="安装中文输入法"></a>安装中文输入法</h4><blockquote>
+<p>前面系统已经能正常显示中文了，但是我们却仍无法输入中文。因为还没有安装中文输入法。</p>
+</blockquote>
+<blockquote>
+<p>输入法（IM）是一种输入特定字符和符号集的方法，通常是因为键盘不直接输入它们。大多数输入法是输入法框架的一部分，它使用户可以轻松地在多种输入法之间切换。<br>Linux 下有两种主流的输入法框架，<em>ibus</em> 和 <em>fcitx</em> ，对于 KDE 来说， <em>fcitx</em> 是比较好的选择。</p>
+</blockquote>
+<ol>
+<li>使用下面的指令安装 <strong>fcitx</strong> ：</li>
+</ol>
+<ul>
+<li><strong>fcitx-im</strong> ：软件包组，包含 <strong>fcitx</strong> 本身，和让 fcitx 能正常运行在各版本 qt 和 gtk 程序里的组件（ <strong>fcitx-gtk2</strong> 、 <strong>fcitx-gtk3</strong> 、 <strong>fcitx-qt5</strong> ）</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S fcitx-im</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>fcitx 提供有一个集成到 KDE 系统设置内的 fcitx 设置程序 ( <strong>kcm-fcitx</strong> )，输入下面的指令安装 fcitx 的 GUI 配置工具：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S kcm-fcitx</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>安装完 fcitx 输入法框架后，我们来具体安装一个叫做 <strong>rime</strong> 的输入法，输入下面的指令安装即可：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S fcitx-rime</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>此时我们仍不能正确输入中文。因为我们还未配置环境变量来让程序们使用 fcitx。创建或修改 <strong>~&#x2F;.pam_environment</strong> 文件，用它来指定环境变量。</p>
+</blockquote>
+<ol start="4">
+<li>用 vim 编辑 <strong>~&#x2F;.pam_environment</strong></li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ vim ~/.pam_environment</span><br></pre></td></tr></table></figure>
+
+<p>在里面加上如下内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">GTK_IM_MODULE=fcitx</span><br><span class="line">QT_IM_MODULE=fcitx</span><br><span class="line">XMODIFIERS=@im=fcitx</span><br></pre></td></tr></table></figure>
+
+<p>它们会指定 fcitx 为几乎所有程序的 IM。当然某些不听话的程序除外，比如 Sublime，但这类程序几乎遇不到。</p>
+<ol start="5">
+<li>重启系统</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ systemctl reboot</span><br></pre></td></tr></table></figure>
+
+<ol start="6">
+<li>添加 rime 输入法</li>
+</ol>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Personalization</strong> 」 一栏下面的 「 <strong>Regional Settings</strong> 」 &gt; 「 <strong>Input Method</strong> 」，取消勾选 「Only Show Current Language」 &gt; 「 <strong>Rime</strong> 」 &gt; 「 <strong>&gt;</strong> 」 &gt; 「 <strong>Apply</strong> 」 应用生效。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/41.png" alt="image"/></div></div>
+
+<ol start="7">
+<li>移除默认的 <strong>Keyboard - English (US)</strong></li>
+</ol>
+<p>「Keyboard - English (US)」 &gt; 「**&lt;**」 &gt; 「Apply」 应用生效。如图：</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/42.png" alt="image"/></div></div>
+
+<ol start="8">
+<li>等待 Rime 维护至就绪即可使用 rime 输入法了。</li>
+</ol>
+<div galleryFlag itemscope itemtype="http://schema.org/ImageGallery" class="gallery " data-group='default'><div class='fancybox'><a class='fancybox' pjax-fancybox itemscope itemtype="http://schema.org/ImageObject" itemprop="url" target="_blank" rel="noopener" href='https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/43.png' data-fancybox='default' data-caption='undefined'><img fancybox itemprop="contentUrl" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/43.png"></a><span></span></div><br><div class='fancybox'><a class='fancybox' pjax-fancybox itemscope itemtype="http://schema.org/ImageObject" itemprop="url" target="_blank" rel="noopener" href='https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/44.png' data-fancybox='default' data-caption='undefined'><img fancybox itemprop="contentUrl" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/44.png"></a><span></span></div></div>
+
+<ol start="9">
+<li>修改繁体输入为简体输入。你可以这么做：</li>
+</ol>
+<p>在可输入区域（如 terminal等），按下 <strong>F4</strong> ，然后会有个 <strong>方案选单</strong> 。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/45.png" alt="image"/></div></div>
+
+<p>我们按 <strong>1</strong> 键</p>
+<p>然后我们再选 <strong>4</strong> 键</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/46.png" alt="image"/></div></div>
+
+<p>弄完这个以后输入的中文就是简体的了。</p>
+<blockquote>
+<p>如果要中英文的切换，我们只需要通过 <strong>Shift</strong> 键就可了。</p>
+</blockquote>
+<h4 id="安装浏览器"><a href="#安装浏览器" class="headerlink" title="安装浏览器"></a>安装浏览器</h4><p>浏览器我个人喜欢用 <em>Chromium</em> ，直接用 <em>pacman</em> 安装就是了：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S chromium</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装-shadowsocks-qt5"><a href="#安装-shadowsocks-qt5" class="headerlink" title="安装 shadowsocks-qt5"></a>安装 shadowsocks-qt5</h4><blockquote>
+<ul>
+<li><strong>shadowsocks-qt5</strong> : 快速，可靠且跨平台的 Shadowsocks 的 GUI 客户端。</li>
+</ul>
+</blockquote>
+<ol>
+<li>Arch Linux 的仓库里有 <strong>shadowsocks-qt5</strong> ，直接安装即可：</li>
+</ol>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S shadowsocks-qt5</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>下载机场的 shadowsocks 配置文件：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/47.png" alt="image"/></div></div>
+
+<ol start="3">
+<li>导入 shadowsocks 配置文件：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/48.png" alt="image"/></div></div>
+
+<ol start="4">
+<li>连接可用的机场节点，并记住本地的端口号：</li>
+</ol>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/49.png" alt="image"/></div></div>
+
+<ol start="5">
+<li>设置系统代理</li>
+</ol>
+<p>「 <strong>开始菜单</strong> 」 &gt; 「 <strong>System Settings</strong> 」 &gt; 「 <strong>Network</strong> 」 &gt; 「 <strong>Settings</strong> 」 &gt; 勾选 「 <strong>Use manually specified proxy configuration</strong> 」</p>
+<p>在 「 <strong>Socks Proxy</strong> 」 里填写 <strong>socks5:&#x2F;&#x2F;127.0.0.1</strong> ，其中 「Port」 为 <strong>1080</strong> ，就是我之前让你记住的本地端口号。<br>在 「 <strong>Exceptions</strong> 」 里填写 <strong>localhost,127.0.0.0&#x2F;8,::1</strong> 。<br>最后点击 「 <strong>Apply</strong> 」，应用即可。</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/50.png" alt="image"/></div></div>
+
+
+<blockquote>
+<p>如果要关掉代理，就勾选 「 <strong>No Proxy</strong> 」 再 「 <strong>Apply</strong> 」 应用即可，然后断开shadowsocks的连接就好了。</p>
+</blockquote>
+<h4 id="安装文件管理器"><a href="#安装文件管理器" class="headerlink" title="安装文件管理器"></a>安装文件管理器</h4><p>这里我就不多赘述了，文件管理器我选择 <em>dolphin</em> ，用 <em>pacman</em> 安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S dolphin</span><br></pre></td></tr></table></figure>
+
+<h4 id="安装归档管理器"><a href="#安装归档管理器" class="headerlink" title="安装归档管理器"></a>安装归档管理器</h4><ul>
+<li>engrampa: 可视化解压缩软件</li>
+<li>其余均为依赖，安装这些软件包后 <em>engrampa</em> 才能解压缩 7z、rar、zip 格式的压缩包</li>
+</ul>
+<p>用 <em>pacman</em> 安装即可：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S p7zip unrar zip unzip engrampa</span><br></pre></td></tr></table></figure>
+
+<h3 id="安装完后的-装逼"><a href="#安装完后的-装逼" class="headerlink" title="安装完后的 装逼"></a>安装完后的 <del>装逼</del></h3><p>只需要先安装 <em>neofetch</em> 即可</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ <span class="built_in">sudo</span> pacman -S neofetch</span><br></pre></td></tr></table></figure>
+
+<p>然后直接在 terminal 输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[admin@<span class="built_in">arch</span> ~]$ neofetch</span><br></pre></td></tr></table></figure>
+
+<p>没错，你应该不止一次看到过类似这样的一张图，这就是信仰啊~ （ 😀</p>
+<div class="img-wrap"><div class="img-bg"><img class="img" src="https://gcore.jsdelivr.net/gh/ericclose/images/installing-arch-as-a-guest-with-uefi-and-gpt/cover.png" alt="image"/></div></div>
+  </div>
+  
+  
+    
+    <div class='footer'>
+       <!-- 参考资料、相关资料等 -->
+      
+       <!-- 相关文章 -->
+      
+      <!-- 版权声明组件 -->
+      
+        
+          <div class='copyright'>
+            <blockquote>
+              
+                
+                  <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+                
+              
+                
+                  <p>本文永久链接是：<a href="https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html">https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html</a></p>
+                
+              
+            </blockquote>
+          </div>
+        
+      
+      <!-- 打赏组件 -->
+      
+    </div>
+  
+  
+    
+
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+      
+        
+          
+  
+  <div class="new-meta-item meta-tags"><a class="tag" href="/tags/VMware/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>VMware</p></a></div> <div class="new-meta-item meta-tags"><a class="tag" href="/tags/Arch/" rel="nofollow"><i class="fa-solid fa-hashtag fa-fw" aria-hidden="true"></i><p>Arch</p></a></div>
+  <span hidden itemprop="keywords">VMware Arch</span>
+
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+        <a class="-mob-share-telegram" title="" rel="external nofollow noopener noreferrer noopener"
+          
+            target="_blank" href="https://t.me/share/url?url=https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html&text=在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ） - Eric"
+          
+          >
+          
+            <img src="https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/logo/128/telegram.png">
+          
+        </a>
+      
+    
+  </div>
+</div>
+
+
+
+        
+      
+    </div>
+    <!-- Custom Files bottomMeta begin -->
+    
+    <!-- Custom Files bottomMeta end -->
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/R619AC-OpBoot-and-OpenWrt-flashing.html'>
+          <p class='title'><i class="fa-solid fa-chevron-left" aria-hidden="true"></i>竞斗云2.0 ( P&W R619AC ) 刷机教程 ( 免拆机 / 免劫持 )</p>
+          <p class='content'>
+目前竞斗云2.0 官方固件版本升级至 2.5.11.82 后可轻松刷入第三方固件，这简化了我们刷机的流程。
+
+事前准备:
+
+电脑、网线、全新 &#x2F; 已恢复出厂 的竞斗云2.0
+请先给路...</p>
+        </a>
+      
+      
+        <a class='next' href='/staruml-3-registration.html'>
+          <p class='title'>StarUML 3 破解<i class="fa-solid fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>导语：尽管不注册StarUML也不会有使用时间的限制，但是时不时的弹窗请求注册就让人很闹心，而且不注册的话导出的图片会带水印，再加上官网高昂的费用… 于是乎此文就此产生。
+
+
+事先准备
+Star...</p>
+        </a>
+      
+    </div>
+  
+  <!-- Custom Files postEnd begin-->
+  
+  <!-- Custom Files postEnd end-->
+</article>
+
+
+  
+
+
+  <article class="post white-box shadow floatable blur" id="comments">
+    <span hidden>
+      <meta itemprop="discussionUrl" content="/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html#comments">
+    </span>
+    <p ct><i class='fa-solid fa-comments'></i> 评论</p>
+    
+
+    <div id="layoutHelper-comments"></div>
+
+  </article>
+
+
+
+
+
+
+</div>
+<aside id='l_side' itemscope itemtype="http://schema.org/WPSideBar">
+  
+
+  
+    
+    
+      
+    
+  
+
+
+<div class="widget-sticky pjax">
+
+  
+  
+
+
+  <section class="widget toc-wrapper desktop mobile " id="toc-div" >
+    
+  <header>
+    
+      <i class="fa-solid fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
+    
+  </header>
+
+
+    <div class='content'>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-Arch-Linux-%E7%9A%84%E9%95%9C%E5%83%8F%E6%96%87%E4%BB%B6"><span class="toc-text">下载 Arch Linux 的镜像文件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BD-VMware-Workstation"><span class="toc-text">下载 VMware Workstation</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#VMware-Workstation-%E9%85%8D%E7%BD%AE"><span class="toc-text">VMware Workstation 配置</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BC%80%E5%90%AF%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-text">开启虚拟机</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Arch-Linux-%E7%9A%84%E5%85%A8%E8%BF%87%E7%A8%8B"><span class="toc-text">安装 Arch Linux 的全过程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%81%94%E7%BD%91"><span class="toc-text">联网</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%97%B6%E9%97%B4%E5%90%8C%E6%AD%A5"><span class="toc-text">时间同步</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E7%A3%81%E7%9B%98%E5%88%86%E5%8C%BA"><span class="toc-text">准备磁盘分区</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%88%86%E5%8C%BA%E7%A4%BA%E4%BE%8B"><span class="toc-text">分区示例</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#fdisk-%E5%92%8C-%E5%88%86%E5%8C%BA%E6%93%8D%E4%BD%9C"><span class="toc-text">fdisk 和 分区操作</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%A0%BC%E5%BC%8F%E5%8C%96%E5%88%86%E5%8C%BA-%E5%92%8C-%E8%AE%BE%E7%BD%AE-swap-%E5%88%86%E5%8C%BA"><span class="toc-text">格式化分区 和 设置 swap 分区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%AF%E7%94%A8%E4%BA%A4%E6%8D%A2%E5%88%86%E5%8C%BA-%E5%92%8C-%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%8C%82%E8%BD%BD"><span class="toc-text">启用交换分区 和 文件系统的挂载</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85"><span class="toc-text">安装</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%80%89%E6%8B%A9%E9%95%9C%E5%83%8F%E6%BA%90"><span class="toc-text">选择镜像源</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BF%85%E9%A1%BB%E7%9A%84%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">安装必须的软件包</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE%E7%B3%BB%E7%BB%9F"><span class="toc-text">配置系统</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%9F%E6%88%90-fstab-%E6%96%87%E4%BB%B6"><span class="toc-text">生成 fstab 文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#arch-chroot"><span class="toc-text">arch-chroot</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE%E6%97%B6%E5%8C%BA"><span class="toc-text">设置时区</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9C%A8%E6%96%B0%E5%AE%89%E8%A3%85%E7%9A%84%E7%B3%BB%E7%BB%9F%E4%B8%8A%E5%AE%89%E8%A3%85-vim-%E7%BC%96%E8%BE%91%E5%99%A8"><span class="toc-text">在新安装的系统上安装 vim 编辑器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9C%AC%E5%9C%B0%E5%8C%96"><span class="toc-text">本地化</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E9%85%8D%E7%BD%AE"><span class="toc-text">网络配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%AE%BE%E7%BD%AE-root-%E7%94%A8%E6%88%B7%E5%AF%86%E7%A0%81"><span class="toc-text">设置 root 用户密码</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BC%95%E5%AF%BC%E7%A8%8B%E5%BA%8F"><span class="toc-text">安装引导程序</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%B3%BB%E7%BB%9F"><span class="toc-text">重启系统</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E9%80%89%E9%85%8D%E7%BD%AE"><span class="toc-text">可选配置</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0%E7%B3%BB%E7%BB%9F%E5%92%8C%E8%BD%AF%E4%BB%B6%E5%8C%85"><span class="toc-text">更新系统和软件包</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%94%A8%E6%88%B7%E4%B8%8E%E6%9D%83%E9%99%90%E9%85%8D%E7%BD%AE"><span class="toc-text">用户与权限配置</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#VMware-%E7%9B%B8%E5%85%B3%E8%BD%AF%E4%BB%B6%E5%8C%85%E5%92%8C%E6%9C%8D%E5%8A%A1"><span class="toc-text">VMware 相关软件包和服务</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-text">安装桌面环境</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E6%9C%8D%E5%8A%A1"><span class="toc-text">显示服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="toc-text">桌面环境</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%98%BE%E7%A4%BA%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">显示管理器</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%99%BB%E5%BD%95%E5%9B%BE%E5%BD%A2%E7%95%8C%E9%9D%A2"><span class="toc-text">登录图形界面</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BF%AE%E6%94%B9%E7%B3%BB%E7%BB%9F%E6%98%BE%E7%A4%BA%E7%BC%A9%E6%94%BE"><span class="toc-text">修改系统显示缩放</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E7%BB%88%E7%AB%AF%E6%A8%A1%E6%8B%9F%E5%99%A8"><span class="toc-text">安装终端模拟器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E5%AD%97%E4%BD%93"><span class="toc-text">安装中文字体</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%B8%AD%E6%96%87%E8%BE%93%E5%85%A5%E6%B3%95"><span class="toc-text">安装中文输入法</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="toc-text">安装浏览器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-shadowsocks-qt5"><span class="toc-text">安装 shadowsocks-qt5</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E6%96%87%E4%BB%B6%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">安装文件管理器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%BD%92%E6%A1%A3%E7%AE%A1%E7%90%86%E5%99%A8"><span class="toc-text">安装归档管理器</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E5%AE%8C%E5%90%8E%E7%9A%84-%E8%A3%85%E9%80%BC"><span class="toc-text">安装完后的 装逼</span></a></li></ol></li></ol>
+    </div>
+  </section>
+
+  
+
+</div>
+
+
+<!-- 没有 pjax 占位会报错 万恶的 pjax -->
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <div class="pjax">
+    <!-- pjax占位 -->
+  </div>
+
+  <!-- Custom Files side begin -->
+  
+  <!-- Custom Files side end -->
+</aside>
+
+
+
+          <!--此文件用来存放一些不方便取值的变量-->
+<!--思路大概是将值藏到重加载的区域内-->
+
+<pjax>
+<script>
+  window.pdata={}
+  pdata.ispage=true;
+  pdata.commentPath="";
+  pdata.commentPlaceholder="";
+  pdata.commentConfig={};
+  //  see: /layout/_partial/scripts/_ctrl/coverCtrl.ejs
+  
+    // header
+    var l_header=document.getElementById("l_header");
+    
+    l_header.classList.add("show");
+    
+    
+      // cover
+      var cover_wrapper=document.querySelector('#l_cover .cover-wrapper');
+      var scroll_down=document.getElementById('scroll-down');
+      cover_wrapper.id="none";
+      cover_wrapper.style.display="none";
+      scroll_down.style.display="none";
+    
+  
+</script>
+</pjax>
+        </div>
+        
+  
+  <footer class="footer clearfix"  itemscope itemtype="http://schema.org/WPFooter">
+    <br><br>
+    
+      
+        <div class="aplayer-container">
+          
+
+
+        </div>
+      
+    
+      
+        <br>
+        <div class="social-wrapper" itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          
+            
+              <a href="/rss.xml"
+                class="social fa-solid fa-rss flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer" itemprop="url">
+                
+              </a>
+            
+          
+            
+              <a href="mailto:ZetaGo@protonmail.com"
+                class="social fas fa-envelope flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer" itemprop="url">
+                
+              </a>
+            
+          
+            
+              <a href="https://github.com/ericclose"
+                class="social fab fa-github flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer" itemprop="url">
+                
+              </a>
+            
+          
+            
+              <a href="https://t.me/fuchsia_distro"
+                class="social fab fa-telegram flat-btn"
+                target="_blank"
+                rel="external nofollow noopener noreferrer" itemprop="url">
+                
+              </a>
+            
+          
+        </div>
+      
+    
+      
+        <div><p>博客内容遵循 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh">署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</a></p>
+</div>
+      
+    
+      
+        
+      
+    
+      
+        本站使用
+        <a href="https://github.com/volantis-x/hexo-theme-volantis/#5.8.0" target="_blank" class="codename">Volantis</a>
+        作为主题
+      
+    
+      
+        <div class='copyright'>
+        <p><a href="/">Copyright © 2018-2023 Eric</a></p>
+
+        </div>
+      
+    
+    <!-- Custom Files footer begin-->
+    
+    <!-- Custom Files footer end-->
+  </footer>
+
+
+        <a id="s-top" class="fa-solid fa-arrow-up fa-fw" href="/" onclick="return false;" title="top"></a>
+      </div>
+    </div>
+    <div>
+      <script>
+  /******************** volantis.dom ********************************/
+  // 页面选择器 将dom对象缓存起来 see: /source/js/app.js etc.
+  volantis.dom.bodyAnchor = volantis.dom.$(document.getElementById("safearea")); // 页面主体
+  volantis.dom.topBtn = volantis.dom.$(document.getElementById('s-top')); // 向上
+  volantis.dom.wrapper = volantis.dom.$(document.getElementById('wrapper')); // 整个导航栏
+  volantis.dom.coverAnchor = volantis.dom.$(document.querySelector('#l_cover .cover-wrapper')); // 1个
+  volantis.dom.switcher = volantis.dom.$(document.querySelector('#l_header .switcher .s-search')); // 搜索按钮   移动端 1个
+  volantis.dom.header = volantis.dom.$(document.getElementById('l_header')); // 移动端导航栏
+  volantis.dom.search = volantis.dom.$(document.querySelector('#l_header .m_search')); // 搜索框 桌面端 移动端 1个
+  volantis.dom.mPhoneList = volantis.dom.$(document.querySelectorAll('#l_header .m-phone .list-v')); //  手机端 子菜单 多个
+</script>
+
+<script>
+  
+  volantis.css("https://unpkg.com/volantis-static@0.0.1654736714924/libs/@fortawesome/fontawesome-free/css/all.min.css");
+  
+  
+  
+</script>
+
+<!-- required -->
+
+
+<!-- internal -->
+
+<script src="/js/app.js"></script>
+
+
+
+
+
+
+<!-- rightmenu要在darkmode之前（ToggleButton） darkmode要在comments之前（volantis.dark.push）-->
+
+  <script>
+const rootElement = document.documentElement;
+const darkModeStorageKey = "color-scheme";
+const rootElementDarkModeAttributeName = "color-scheme";
+const setLS = (k, v) => {
+    localStorage.setItem(k, v);
+};
+const removeLS = (k) => {
+    localStorage.removeItem(k);
+};
+const getLS = (k) => {
+    return localStorage.getItem(k);
+};
+const getModeFromCSSMediaQuery = () => {
+  return window.matchMedia("(prefers-color-scheme: dark)").matches
+    ? "dark"
+    : "light";
+};
+const resetRootDarkModeAttributeAndLS = () => {
+  rootElement.removeAttribute(rootElementDarkModeAttributeName);
+  removeLS(darkModeStorageKey);
+};
+const validColorModeKeys = {
+  dark: true,
+  light: true,
+};
+const applyCustomDarkModeSettings = (mode) => {
+  const currentSetting = mode || getLS(darkModeStorageKey);
+  getCustomDarkMode();
+  if (currentSetting === getModeFromCSSMediaQuery()) {
+    resetRootDarkModeAttributeAndLS();
+  } else if (validColorModeKeys[currentSetting]) {
+    rootElement.setAttribute(rootElementDarkModeAttributeName, currentSetting);
+  } else {
+    resetRootDarkModeAttributeAndLS();
+  }
+};
+const invertDarkModeObj = {
+  dark: "light",
+  light: "dark",
+};
+/**
+ * get target mode
+ */
+ const getCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  if(currentSetting=="dark"){
+    volantis.dark.mode="light";
+  }else{
+    volantis.dark.mode="dark";
+  }
+  // console.log(volantis.dark.mode)
+};
+const toggleCustomDarkMode = () => {
+  let currentSetting = getLS(darkModeStorageKey);
+  if (validColorModeKeys[currentSetting]) {
+    currentSetting = invertDarkModeObj[currentSetting];
+  } else if (currentSetting === null) {
+    currentSetting = invertDarkModeObj[getModeFromCSSMediaQuery()];
+  } else {
+    return;
+  }
+  setLS(darkModeStorageKey, currentSetting);
+  return currentSetting;
+};
+/**
+ * 暗黑模式触发器
+ */
+volantis.dark.toggle=()=>{
+  const mode = toggleCustomDarkMode();
+  applyCustomDarkModeSettings(mode);
+  // 使用 volantis.dark.push 方法传入volantis.dark.toggle回调函数 参见layout/_partial/scripts/global.ejs
+  volantis.dark.method.toggle.start();
+}
+/**
+ * bind event for toggle button
+ */
+
+function bindToggleButton() {
+  var btn= document.querySelectorAll("#wrapper .toggle-mode-btn,#rightmenu-wrapper .toggle-mode-btn")
+  btn.forEach(function (e) {
+    volantis.dom.$(e).on('click',volantis.dark.toggle);
+  })
+}
+applyCustomDarkModeSettings();
+document.addEventListener("DOMContentLoaded", ()=>{
+  volantis.requestAnimationFrame(bindToggleButton)
+});
+volantis.pjax.push(bindToggleButton);
+
+const darkModelListeners={
+  dark:(mediaQueryList )=>{
+    if(mediaQueryList.matches){
+      volantis.dark.mode = "dark";
+    }
+    volantis.dark.method.toggle.start();
+  },
+  light:(mediaQueryList)=>{
+    if(mediaQueryList.matches){
+      volantis.dark.mode = "light";
+    }
+    volantis.dark.method.toggle.start();
+  }
+}
+window.matchMedia('(prefers-color-scheme: dark)').addListener(darkModelListeners.dark)
+window.matchMedia('(prefers-color-scheme: light)').addListener(darkModelListeners.light)
+</script>
+
+
+
+
+<script>
+  function loadIssuesJS() {
+    
+      const sites_api = document.getElementById('sites-api');
+      if (sites_api != undefined && typeof SitesJS === 'undefined') {
+        volantis.js("/js/plugins/tags/sites.js")
+      }
+    
+    
+      const friends_api = document.getElementById('friends-api');
+      if (friends_api != undefined && typeof FriendsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/friends.js")
+      }
+    
+    
+      const contributors_api = document.getElementById('contributors-api');
+      if (contributors_api != undefined && typeof ContributorsJS === 'undefined') {
+        volantis.js("/js/plugins/tags/contributors.js")
+      }
+    
+  };
+  loadIssuesJS()
+  volantis.pjax.push(()=>{
+    loadIssuesJS();
+  })
+
+</script>
+
+
+
+
+
+
+  
+
+<script>
+  window.FPConfig = {
+	delay: 0,
+	ignoreKeywords: ["#"],
+	maxRPS: 6,
+	hoverDelay: 0
+  };
+</script>
+<script defer src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/flying-pages/flying-pages.min.js"></script>
+
+
+
+
+
+
+
+
+
+      <script>
+  volantis.layoutHelper("comments",`<div id="giscus_container"></div>`)
+
+  volantis.giscus = {};
+
+  function check_giscus() {
+    if (volantis.dark.mode === "dark") {
+      volantis.giscus.Theme = 'dark';
+    } else {
+      volantis.giscus.Theme = 'light';
+    }
+
+    return document.getElementById("giscus_container");
+  }
+
+  function pjax_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+    let cfg = Object.assign({"repo":"ericclose/comments","repo-id":"MDEwOlJlcG9zaXRvcnkyNjM4Mjc5OTU=","category":"General","category-id":"DIC_kwDOD7myG84COlXC","mapping":"title","reactions-enabled":"1","emit-metadata":"0","lang":"zh-CN","theme":{"light":"light","dark":"dark"}},pdata.commentConfig)
+    const script = document.createElement('script');
+    script.setAttribute('src', 'https://giscus.app/client.js');
+    Object.keys(cfg).forEach(k=>{
+      if (k != "theme") {
+        script.setAttribute('data-'+k, cfg[k]);
+      }
+    })
+    script.setAttribute('data-theme', volantis.giscus.Theme);
+    script.setAttribute('crossorigin', "anonymous");
+    HEAD.appendChild(script);
+  }
+
+  function dark_giscus() {
+    const HEAD = check_giscus();
+    if (!HEAD) return;
+
+    const message = {
+      setConfig: {
+        theme: volantis.giscus.Theme
+      }
+    };
+    const giscusIframe = document.querySelector('iframe.giscus-frame');
+    giscusIframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+  }
+  pjax_giscus();
+  volantis.pjax.push(pjax_giscus);
+  volantis.dark.push(dark_giscus);
+</script>
+
+    
+
+
+
+
+
+<!-- optional -->
+
+  <script>
+  const SearchServiceDataPathRoot = ("/" || "/").endsWith("/") ?
+    "/" || "/" :
+    "//" || "/";
+  const SearchServiceDataPath = SearchServiceDataPathRoot + "content.json";
+
+  function loadSearchScript() {
+    // see: layout/_partial/scripts/_ctrl/cdnCtrl.ejs
+    return volantis.js("/js/search/hexo.js");
+  }
+
+  function loadSearchService() {
+    loadSearchScript();
+    document.querySelectorAll(".input.u-search-input").forEach((e) => {
+      e.removeEventListener("focus", loadSearchService, false);
+    });
+
+    document.querySelectorAll(".u-search-form").forEach((e) => {
+      e.addEventListener("submit", (event) => {
+        event.preventDefault();
+      }, false);
+    });
+  }
+
+  // 打开并搜索 字符串 s
+  function OpenSearch(s) {
+    if (typeof SearchService === 'undefined')
+      loadSearchScript().then(() => {
+        SearchService.setQueryText(s);
+        SearchService.search();
+      });
+    else {
+      SearchService.setQueryText(s);
+      SearchService.search();
+    }
+  }
+
+  // 访问含有 ?s=xxx  的链接时打开搜索 // 与搜索引擎 structured data 相关: /scripts/helpers/structured-data/lib/config.js
+  if (window.location.search && /^\?s=/g.test(window.location.search)) {
+    let queryText = decodeURI(window.location.search)
+      .replace(/\ /g, "-")
+      .replace(/^\?s=/g, "");
+    OpenSearch(queryText);
+  }
+
+  // 搜索输入框获取焦点时加载搜索
+  document.querySelectorAll(".input.u-search-input").forEach((e) => {
+    e.addEventListener("focus", loadSearchService, false);
+  });
+</script>
+
+
+
+
+
+
+
+  <script>
+
+
+
+  function pjax_highlightjs_copyCode(){
+    if (!(document.querySelector(".highlight .code pre") ||
+      document.querySelector(".article pre code"))) {
+      return;
+    }
+    VolantisApp.utilCopyCode(".highlight .code pre, .article pre code")
+  }
+  volantis.requestAnimationFrame(pjax_highlightjs_copyCode)
+  volantis.pjax.push(pjax_highlightjs_copyCode)
+
+</script>
+
+
+
+
+
+
+  
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<!-- https://github.com/volantis-x/hexo-theme-volantis/issues/63 -->
+<script>
+	setTimeout(function() {
+	  volantis.js("https://www.googletagmanager.com/gtag/js?id=G-ZYLRJPRRYX");
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+	  gtag('config', 'G-ZYLRJPRRYX');
+	}, 1000);
+	// 关于谷歌统计对 SPA 页面的处理：
+	// 当应用以动态方式加载内容并更新地址栏中的网址时，也应该更新通过 gtag.js 存储的网页网址。
+	// https://developers.google.cn/analytics/devguides/collection/gtagjs/single-page-applications?hl=zh-cn
+	volantis.pjax.push(()=>{
+		window.dataLayer = window.dataLayer || [];
+		function gtag(){dataLayer.push(arguments);}
+		gtag('config', 'G-ZYLRJPRRYX', {'page_path': document.location.pathname});
+	},'google_analytics')
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <script>
+  function load_swiper() {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    volantis.css("https://unpkg.com/volantis-static@0.0.1654736714924/libs/swiper/swiper-bundle.min.css");
+    volantis.js("https://unpkg.com/volantis-static@0.0.1654736714924/libs/swiper/swiper-bundle.min.js").then(() => {
+      pjax_swiper();
+    });
+  }
+
+  load_swiper();
+
+  function pjax_swiper() {
+    volantis.swiper = new Swiper('.swiper-container', {
+      slidesPerView: 'auto',
+      spaceBetween: 8,
+      centeredSlides: true,
+      loop: true,
+      pagination: {
+        el: '.swiper-pagination',
+        clickable: true,
+      },
+      navigation: {
+        nextEl: '.swiper-button-next',
+        prevEl: '.swiper-button-prev',
+      },
+    });
+  }
+
+  volantis.pjax.push(() => {
+    if (!document.querySelectorAll(".swiper-container")[0]) return;
+    if (typeof volantis.swiper === "undefined") {
+      load_swiper();
+    } else {
+      pjax_swiper();
+    }
+  });
+</script>
+
+
+<!-- pjax 标签必须存在于所有页面 否则 pjax error -->
+<pjax>
+
+</pjax>
+
+<script>
+  function listennSidebarTOC() {
+    const navItems = document.querySelectorAll(".toc li");
+    if (!navItems.length) return;
+    let targets = []
+    const sections = [...navItems].map((element) => {
+      const link = element.querySelector(".toc-link");
+      const target = document.getElementById(
+        decodeURI(link.getAttribute("href")).replace("#", "")
+      );
+      targets.push(target)
+      // 解除 a 标签 href 的 锚点定位, a 标签 href 的 锚点定位 会随机启用?? 产生错位???
+      link.setAttribute("onclick","return false;")
+      link.setAttribute("toc-action","toc-"+decodeURI(link.getAttribute("href")).replace("#", ""))
+      link.setAttribute("href","/")
+      // 配置 点击 触发新的锚点定位
+      link.addEventListener("click", (event) => {
+        event.preventDefault();
+        // 这里的 addTop 是通过错位使得 toc 自动展开.
+        volantis.scroll.to(target,{addTop: 5, observer:true})
+        // Anchor id
+        history.pushState(null, document.title, "#" + target.id);
+      });
+      return target;
+    });
+
+    function activateNavByIndex(target) {
+      if (target.classList.contains("active-current")) return;
+
+      document.querySelectorAll(".toc .active").forEach((element) => {
+        element.classList.remove("active", "active-current");
+      });
+      target.classList.add("active", "active-current");
+      let parent = target.parentNode;
+      while (!parent.matches(".toc")) {
+        if (parent.matches("li")) parent.classList.add("active");
+        parent = parent.parentNode;
+      }
+    }
+
+    // 方案一：
+    volantis.activateNavIndex=0
+    activateNavByIndex(navItems[volantis.activateNavIndex])
+    volantis.scroll.push(()=>{
+      if (targets[0].getBoundingClientRect().top >= 0) {
+        volantis.activateNavIndex = 0
+      }else if (targets[targets.length-1].getBoundingClientRect().top < 0) {
+        volantis.activateNavIndex = targets.length-1
+      } else {
+        for (let index = 0; index < targets.length; index++) {
+          const target0 = targets[index];
+          const target1 = targets[(index+1)%targets.length];
+          if (target0.getBoundingClientRect().top < 0&&target1.getBoundingClientRect().top >= 0) {
+            volantis.activateNavIndex=index
+            break;
+          }
+        }
+      }
+      activateNavByIndex(navItems[volantis.activateNavIndex])
+    })
+
+    // 方案二：
+    // IntersectionObserver 不是完美精确到像素级别 也不是低延时性的
+    // function findIndex(entries) {
+    //   let index = 0;
+    //   let entry = entries[index];
+    //   if (entry.boundingClientRect.top > 0) {
+    //     index = sections.indexOf(entry.target);
+    //     return index === 0 ? 0 : index - 1;
+    //   }
+    //   for (; index < entries.length; index++) {
+    //     if (entries[index].boundingClientRect.top <= 0) {
+    //       entry = entries[index];
+    //     } else {
+    //       return sections.indexOf(entry.target);
+    //     }
+    //   }
+    //   return sections.indexOf(entry.target);
+    // }
+    // function createIntersectionObserver(marginTop) {
+    //   marginTop = Math.floor(marginTop + 10000);
+    //   let intersectionObserver = new IntersectionObserver(
+    //     (entries, observe) => {
+    //       let scrollHeight = document.documentElement.scrollHeight;
+    //       if (scrollHeight > marginTop) {
+    //         observe.disconnect();
+    //         createIntersectionObserver(scrollHeight);
+    //         return;
+    //       }
+    //       let index = findIndex(entries);
+    //       activateNavByIndex(navItems[index]);
+    //     }, {
+    //       rootMargin: marginTop + "px 0px -100% 0px",
+    //       threshold: 0,
+    //     }
+    //   );
+    //   sections.forEach((element) => {
+    //     element && intersectionObserver.observe(element);
+    //   });
+    // }
+    // createIntersectionObserver(document.documentElement.scrollHeight);
+  }
+
+  document.addEventListener("DOMContentLoaded", ()=>{
+    volantis.requestAnimationFrame(listennSidebarTOC)
+  });
+  document.addEventListener("pjax:success", ()=>{
+    volantis.requestAnimationFrame(listennSidebarTOC)
+  });
+</script>
+
+
+
+<script>
+  document.onreadystatechange = function () {
+    if (document.readyState == 'complete') {
+      // 页面加载完毕 样式加载失败，或是当前网速慢，或是开启了省流模式
+      const { saveData, effectiveType } = navigator.connection || navigator.mozConnection || navigator.webkitConnection || {}
+      if (getComputedStyle(document.querySelector("#safearea"), null)["display"] == "none" || saveData || /2g/.test(effectiveType)) {
+        document.querySelectorAll(".reveal").forEach(function (e) {
+          e.style["opacity"] = "1";
+        });
+        document.querySelector("#safearea").style["display"] = "block";
+      }
+    }
+  }
+</script>
+
+
+  <script type="application/ld+json">[{"@context":"http://schema.org","@type":"Organization","name":"Eric","url":"https://ericclose.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},{"@context":"http://schema.org","@type":"Person","name":"Eric","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://ericclose.github.io/","sameAs":["https://github.com/volantis-x"],"description":"Never give up!"},{"@context":"http://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"item":{"@id":"https://ericclose.github.io/","name":"Eric"}},{"@type":"ListItem","position":2,"item":{"@id":"https://ericclose.github.io/categories/Linux/","name":"Linux"}},{"@type":"ListItem","position":3,"item":{"@id":"https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html","name":"在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）"}}]},{"@context":"http://schema.org","@type":"WebSite","name":"Eric","url":"https://ericclose.github.io/","keywords":null,"description":"Never give up!","author":{"@type":"Person","name":"Eric","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://ericclose.github.io/","description":"Never give up!"},"publisher":{"@type":"Organization","name":"Eric","url":"https://ericclose.github.io/","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"potentialAction":{"@type":"SearchAction","name":"Site Search","target":{"@type":"EntryPoint","urlTemplate":"https://ericclose.github.io?s={search_term_string}"},"query-input":"required name=search_term_string"}},{"@context":"http://schema.org","@type":"BlogPosting","headline":"在 VMware Workstation 上 安装 Arch Linux （ UEFI + GPT ）","description":"\n以下使用 VMware Workstation 来安装 Arch Linux，全程以图解方式来讲解Arch Linux安装的过程。\n","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html"},"author":{"@type":"Person","name":"Eric","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png"},"url":"https://ericclose.github.io/"},"publisher":{"@type":"Organization","name":"Eric","logo":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}},"url":"https://ericclose.github.io/Installing-Arch-as-a-guest-with-UEFI-and-GPT.html","wordCount":67,"datePublished":"2019-11-01T07:31:02.000Z","dateModified":"2025-08-03T07:11:36.699Z","articleSection":"Linux","keywords":"VMware,Arch","image":{"@type":"ImageObject","url":"https://unpkg.com/volantis-static@0.0.1654736714924/media/org.volantis/blog/favicon/android-chrome-192x192.png","width":192,"height":192}}]</script>
+
+
+
+      
+        <!--
+  pjax重载区域接口：
+  1.  <pjax></pjax> 标签 pjax 标签必须存在于所有页面 否则 pjax error
+  2.  script[data-pjax]
+  3.  .pjax-reload script
+  4.  .pjax
+-->
+
+
+
+<script src="https://unpkg.com/volantis-static@0.0.1654736714924/libs/pjax/pjax.min.js"></script>
+
+
+<script>
+    var pjax;
+    document.addEventListener('DOMContentLoaded', function () {
+      pjax = new Pjax({
+        elements: 'a[href]:not([href^="#"]):not([href="javascript:void(0)"]):not([pjax-fancybox]):not([onclick="return false;"]):not([onclick="return!1"]):not([target="_blank"]):not([target="view_window"]):not([href$=".xml"])',
+        selectors: [
+          "head title",
+          "head meta[name=keywords]",
+          "head meta[name=description]",
+          
+          "#l_main",
+          "#pjax-header-nav-list",
+          ".pjax",
+          "pjax", // <pjax></pjax> 标签
+          "script[data-pjax], .pjax-reload script" // script标签添加data-pjax 或 script标签外层添加.pjax-reload 的script代码段重载
+        ],
+        cacheBust: false,   // url 地址追加时间戳，用以避免浏览器缓存
+        timeout: 5000,
+        
+      });
+    });
+
+    document.addEventListener('pjax:send', function (e) {
+      //window.stop(); // 相当于点击了浏览器的停止按钮
+
+      try {
+        var currentUrl = window.location.pathname;
+        var targetUrl = e.triggerElement.href;
+        var banUrl = [""];
+        if (banUrl[0] != "") {
+          banUrl.forEach(item => {
+            if(currentUrl.indexOf(item) != -1 || targetUrl.indexOf(item) != -1) {
+              window.location.href = targetUrl;
+            }
+          });
+        }
+      } catch (error) {}
+
+      // 使用 volantis.pjax.send 方法传入pjax:send回调函数 参见layout/_partial/scripts/global.ejs
+      volantis.pjax.method.send.start();
+    });
+
+    document.addEventListener('pjax:complete', function () {
+      // 使用 volantis.pjax.push 方法传入重载函数 参见layout/_partial/scripts/global.ejs
+      volantis.pjax.method.complete.start();
+    });
+
+    document.addEventListener('pjax:error', function (e) {
+      if(volantis.debug) {
+        console.error(e);
+        console.log('pjax error: \n' + JSON.stringify(e));
+      }else{
+        // 使用 volantis.pjax.error 方法传入pjax:error回调函数 参见layout/_partial/scripts/global.ejs
+        volantis.pjax.method.error.start();
+        window.location.href = e.triggerElement.href;
+      }
+    });
+</script>
+
+      
+    </div>
+    <!-- import body_end begin-->
+    <!-- import body_end end-->
+    <!-- Custom Files bodyEnd begin-->
+    
+    <!-- Custom Files bodyEnd end-->
+    <!-- front-matter body_end begin -->
+    <!-- front-matter body_end end -->
+  </body>
+</html>
